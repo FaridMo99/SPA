@@ -11,13 +11,15 @@ import useAuth from "../stores/authStore";
 const route = createBrowserRouter([
   {
     path: "/",
-    loader: () => {
-      const { authenticated } = useAuth.getState();
-
-      return authenticated ? redirect("/home") : redirect("/login");
-    },
     errorElement: <Error />,
     children: [
+      {
+        index: true,
+        loader: () => {
+          const { authenticated } = useAuth.getState();
+          return authenticated ? redirect("/home") : redirect("/login");
+        },
+      },
       {
         element: <AuthLayout />,
         children: [
@@ -49,3 +51,5 @@ const route = createBrowserRouter([
 ]);
 
 export default route;
+
+//also add redirect when not coming from "/"
