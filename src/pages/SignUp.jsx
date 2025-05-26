@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import ProgressBar from "../components/auth/ProgressBar";
 import SuccessScreen from "../components/auth/SuccessScreen";
 import { CheckCircle2, Loader2 } from "lucide-react";
@@ -11,38 +11,40 @@ import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import signupSchema from "../schemas/signUpSchema";
 import sendUserData from "../utils/sendUserData";
-import useAuth from "../stores/authStore"
+import useAuth from "../stores/authStore";
 
 function SignUp() {
-  const setAuthenticated = useAuth((state) => state.setAuthenticated)
   const [steps, setSteps] = useState(1);
   const { register, handleSubmit, formState } = useForm({
     resolver: zodResolver(signupSchema),
     mode: "onChange",
   });
   const { errors, isSubmitSuccessful } = formState;
-  const navigation = useNavigate()
+  const navigation = useNavigate();
 
   const mutation = useMutation({
     mutationKey: ["send User Data"],
     mutationFn: sendUserData,
   });
 
-  function submitHandler(formData) {
-    // eslint-disable-next-line no-unused-vars
-    const { confirmPassword, ...submitData } = formData;
-    mutation.mutate(submitData);
-  }
-  useEffect(()=>{
-  if (mutation.isSuccess) {
-    setAuthenticated(true)
-    setTimeout(() => navigation("/home",{replace:true}), 800);
-  }
-  },[mutation.isSuccess])
+function submitHandler(formData) {
+// eslint-disable-next-line no-unused-vars
+  const { confirmPassword, ...submitData } = formData;
+  mutation.mutate(submitData, {
+    onSuccess: (data) => {
+      sessionStorage.setItem("user", JSON.stringify(data));
+      useAuth.getState().setUser(); 
+    },
+  });
+}
+  useEffect(() => {
+    if (mutation.isSuccess) {
+      setTimeout(() => navigation("/home", { replace: true }), 800);
+    }
+  }, [mutation.isSuccess]);
 
   return (
-    <section className="w-1/2 h-2/3 md:w-[38vw] font-manrope bg-white rounded-2xl outline-1 outline-gray-200 shadow-md shadow-black/20 z-2 flex flex-col justify-center items-center">
-      <h1 className="font-bold text-4xl mt-4">friendly.</h1>
+    <>
       <form
         noValidate
         onSubmit={handleSubmit(submitHandler)}
@@ -91,7 +93,7 @@ function SignUp() {
       {mutation.isError && (
         <p className="text-red-500">Submission failed, try again</p>
       )}
-    </section>
+    </>
   );
 }
 
