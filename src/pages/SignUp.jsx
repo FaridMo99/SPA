@@ -7,7 +7,7 @@ import { CheckCircle2, Loader2 } from "lucide-react";
 import SignUpStepOne from "../components/auth/SignUpStepOne";
 import SignUpStepTwo from "../components/auth/SignUpStepTwo";
 import SignUpStepThree from "../components/auth/SignUpStepThree";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import signupSchema from "../schemas/signUpSchema";
 import sendUserData from "../utils/sendUserData";
@@ -27,16 +27,16 @@ function SignUp() {
     mutationFn: sendUserData,
   });
 
-function submitHandler(formData) {
-// eslint-disable-next-line no-unused-vars
-  const { confirmPassword, ...submitData } = formData;
-  mutation.mutate(submitData, {
-    onSuccess: (data) => {
-      sessionStorage.setItem("user", JSON.stringify(data));
-      useAuth.getState().setUser(); 
-    },
-  });
-}
+  function submitHandler(formData) {
+    // eslint-disable-next-line no-unused-vars
+    const { confirmPassword, ...submitData } = formData;
+    mutation.mutate(submitData, {
+      onSuccess: (data) => {
+        sessionStorage.setItem("user", JSON.stringify(data));
+        useAuth.getState().setUser();
+      },
+    });
+  }
   useEffect(() => {
     if (mutation.isSuccess) {
       setTimeout(() => navigation("/home", { replace: true }), 800);
@@ -84,6 +84,9 @@ function submitHandler(formData) {
           </SignUpStepThree>
         )}
       </form>
+      <Link to="/login" className="text-green-300 underline">
+        Already have a Account? Log in.
+      </Link>
       {mutation.isLoading && (
         <SuccessScreen animation="animate-spin" Icon={Loader2} />
       )}

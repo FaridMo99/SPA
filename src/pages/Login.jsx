@@ -15,7 +15,7 @@ function Login() {
   const [loginSuccess, setLoginSuccess] = useState(false);
 
   const navigation = useNavigate();
-  const setUser = useAuth((state) => state.setUser); 
+  const setUser = useAuth((state) => state.setUser);
 
   const { formState, register, handleSubmit } = useForm({
     resolver: zodResolver(loginSchema),
@@ -26,12 +26,12 @@ function Login() {
   async function submitHandler(formData) {
     try {
       const user = await getUsers(
-        `?username=${formData.username}&password=${formData.password}`
+        `?username=${formData.username}&password=${formData.password}`,
       );
 
       if (user.length > 0) {
         sessionStorage.setItem("user", JSON.stringify(user));
-        setUser(); 
+        setUser();
         setLoginSuccess(true);
         setLoginError(false);
         setTimeout(() => navigation("/home", { replace: true }), 800);
@@ -88,9 +88,9 @@ function Login() {
 export default Login;
 //check if credentials correct, set cookies
 
-  {
-    /* login should actually be a POST request which sends the credentials
+{
+  /* login should actually be a POST request which sends the credentials
      and if correct answers with a JWT-Token which then get stored in a 
      http-only cookie, but since mockapi.io dont offer this functionality
       and i dont have other ressources im using here a GET methods */
-  }
+}

@@ -6,18 +6,12 @@ const signupSchema = z
       .string()
       .trim()
       .nonempty("Field is required")
-      .regex(
-        /^[A-Z][a-zA-Z'-]*$/,
-        "First name must start with an uppercase letter and no Symbols",
-      ),
+      .regex(/^[A-Z][a-zA-Z'-]*$/, "Must start with Uppercase, no Symbols"),
     lastname: z
       .string()
       .trim()
       .nonempty("Field is required")
-      .regex(
-        /^[A-Z][a-zA-Z'-]*$/,
-        "First name must start with an uppercase letter and no Symbols",
-      ),
+      .regex(/^[A-Z][a-zA-Z'-]*$/, "Must start with Uppercase, no Symbols"),
     username: z
       .string()
       .trim()
