@@ -1,7 +1,25 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import Fieldset from "./Fieldset";
+import Button from "./Button";
 
-function SignUpStepOne({ errors, register }) {
+function SignUpStepOne({ errors, register, formState, setSteps, children }) {
+  const [canProceed, setCanProceed] = useState(false);
+
+  useEffect(() => {
+    const { touchedFields, errors } = formState;
+
+    const allTouched =
+      touchedFields.firstname &&
+      touchedFields.lastname &&
+      touchedFields.email &&
+      touchedFields.birthdate;
+
+    const hasErrors =
+      errors.firstname || errors.lastname || errors.email || errors.birthdate;
+
+    setCanProceed(allTouched && !hasErrors);
+  }, [formState]);
+
   return (
     <>
       <Fieldset
@@ -31,6 +49,14 @@ function SignUpStepOne({ errors, register }) {
         type="date"
         register={register}
         errors={errors}
+      />
+      {children}
+      <Button
+        disabled={!canProceed}
+        text="Next"
+        clickHandler={() => {
+          setSteps(2);
+        }}
       />
     </>
   );
