@@ -17,7 +17,7 @@ const route = createBrowserRouter([
         index: true,
         loader: () => {
           const { authenticated } = useAuth.getState();
-          return authenticated ? redirect("/home") : redirect("/login");
+          return authenticated ? redirect("/home") : redirect("/signup");
         },
       },
       {
