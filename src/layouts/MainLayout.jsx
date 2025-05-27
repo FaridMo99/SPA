@@ -5,11 +5,11 @@ import Aside from "../components/main/Aside";
 import { House, UserRound } from "lucide-react";
 
 function MainLayout() {
-const [asideOpen, setAsideOpen] = useState(() => {
-  const stored = sessionStorage.getItem("aside");
-  return stored !== null ? JSON.parse(stored) : true;
-});
-  
+  const [asideOpen, setAsideOpen] = useState(() => {
+    const stored = sessionStorage.getItem("aside");
+    return stored !== null ? JSON.parse(stored) : true;
+  });
+
   return (
     <>
       <Header />

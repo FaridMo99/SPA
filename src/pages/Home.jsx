@@ -1,7 +1,12 @@
 import React from "react";
+import CreatePostField from "../components/home/CreatePostField";
 
 function Home() {
-  return <></>;
+  return (
+    <>
+      <CreatePostField />
+    </>
+  );
 }
 
 export default Home;

@@ -47,7 +47,7 @@ function Login() {
 
   return (
     <form
-    role="Login"
+      aria-label="Login"
       noValidate
       onSubmit={handleSubmit(submitHandler)}
       className="w-full h-full flex flex-col justify-evenly items-center"
