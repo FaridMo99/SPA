@@ -4,10 +4,25 @@ import UserNavbar from "../components/profile/UserNavbar";
 import ImageSection from "../components/profile/ImageSection";
 
 function ProfileLayout() {
+  const userLinks = [
+    {
+      href: "/profile",
+      name: "Posts",
+    },
+    {
+      href: "/profile/likes",
+      name: "Likes",
+    },
+    {
+      href: "/profile/comments",
+      name: "Comments",
+    },
+  ];
+
   return (
     <>
       <ImageSection />
-      <UserNavbar />
+      <UserNavbar links={userLinks} />
       <Outlet />
     </>
   );

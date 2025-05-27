@@ -34,7 +34,11 @@ function Header() {
       </form>
 
       <div className="w-[20vw] h-full border-l-2 border-green-300 flex justify-center items-center">
-          {user?.img ? <UserImage img={user.img}/> : <UserImage noImg size="20" userSize={60}/>}
+        {user?.img ? (
+          <UserImage img={user.img} />
+        ) : (
+          <UserImage noImg size="20" userSize={60} />
+        )}
       </div>
     </header>
   );
