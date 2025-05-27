@@ -2,8 +2,16 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import UserNavbar from "../components/profile/UserNavbar";
 import ImageSection from "../components/profile/ImageSection";
+import { useQuery } from "@tanstack/react-query";
+import getPosts from "../utils/getPosts";
 
 function ProfileLayout() {
+  const queryString = "?username=Claudia_Dietrich";
+  const { data, isLoading } = useQuery({
+    queryKey: ["get user", queryString],
+    queryFn: () => getPosts(queryString),
+  });
+
   const userLinks = [
     {
       href: "/profile",
@@ -23,7 +31,7 @@ function ProfileLayout() {
     <>
       <ImageSection />
       <UserNavbar links={userLinks} />
-      <Outlet />
+      <Outlet context={[data, isLoading]} />
     </>
   );
 }

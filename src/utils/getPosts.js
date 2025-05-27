@@ -1,4 +1,4 @@
-export default async function getPosts(post) {
+export default async function getPosts(post = "") {
   const response = await fetch(
     `https://6831e441c3f2222a8cb0be24.mockapi.io/api/friendly/posts${post}`,
   );

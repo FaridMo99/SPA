@@ -1,31 +1,29 @@
 import React, { useState } from "react";
 import { Heart, ChartNoAxesColumn, MessageCircle } from "lucide-react";
+import passedTime from "../../utils/passedTime";
 import { useMutation } from "@tanstack/react-query";
 
-function PostCard({ postData }) {
+function PostCard({ postData, editable = false }) {
   const [like, setLike] = useState(false);
   const [hovered, setHovered] = useState(null);
 
   return (
     <section
       aria-label={`Post from ${postData?.username}`}
-      className="w-4/5 h-[20vh] bg-gray-50 outline-2 outline-gray-300 mb-8 rounded-2xl flex flex-col items-center font-bold"
+      className="w-4/5  bg-gray-50 outline-2 outline-gray-300 mb-8 rounded-2xl flex flex-col items-center font-bold"
     >
-      <div className="w-full h-1/4 flex items-center justify-around">
+      <div className="w-full h-1/4 flex items-center justify-between">
         <div className="w-1/2 flex items-center h-full">
           <img
             src={postData?.avatar}
             alt={`${postData?.username} Avatar`}
-            className="mr-4"
+            className="mr-4 w-10 h-10 rounded-full"
           />
-          <h1>{postData?.username}wefe</h1>
+          <h1>{postData?.username}</h1>
         </div>
-        <p className="text-gray-300">{postData?.createdAt}fwe</p>
+        <p className="text-gray-300 mr-2">{passedTime(postData?.createdAt)}</p>
       </div>
-      <p className="h-1/2 w-4/5">
-        nknlefnwnef ewkj jewkfwef jwe fw efle jew ljnwgnf j kgkgr öqr3g gvqj
-        örkknjeknrf kew
-      </p>
+      <p className="h-1/2 w-4/5">{postData?.post}</p>
       <div className="h-1/4 w-full flex items-center justify-evenly">
         <div
           className="flex items-center"
