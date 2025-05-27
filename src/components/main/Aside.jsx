@@ -15,7 +15,10 @@ function Aside({ paths, asideOpen, setAsideOpen }) {
     <aside
       className={`h-[85vh] ${asideOpen ? "w-[20vw]" : "w-[10vw]"} fixed top-[15vh] left-0 border-r-2 border-r-green-300 bg-gray-50`}
     >
-      <nav className="w-full h-full flex flex-col relative justify-evenly items-center font-bold">
+      <nav
+        aria-label="Page Navigation"
+        className="w-full h-full flex flex-col relative justify-evenly items-center font-bold"
+      >
         <button
           aria-label={asideOpen ? "Collapse sidebar" : "Expand sidebar"}
           onClick={clickHandler}
@@ -31,6 +34,7 @@ function Aside({ paths, asideOpen, setAsideOpen }) {
             }
             to={path.href}
             key={path.href}
+            aria-label={path.name}
           >
             {asideOpen ? path.name : path.icon}
           </NavLink>

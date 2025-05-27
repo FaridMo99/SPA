@@ -4,9 +4,12 @@ import AuthLayout from "../layouts/AuthLayout";
 import Error from "../pages/Error";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
-import Profile from "../pages/Profile";
 import SignUp from "../pages/SignUp";
+import Posts from "../pages/Posts";
+import Likes from "../pages/Likes";
+import Comments from "../pages/Comments";
 import useAuth from "../stores/authStore";
+import ProfileLayout from "../layouts/ProfileLayout";
 
 const route = createBrowserRouter([
   {
@@ -43,8 +46,22 @@ const route = createBrowserRouter([
             path: "home",
           },
           {
-            element: <Profile />,
+            element: <ProfileLayout />,
             path: "profile",
+            children: [
+              {
+                element: <Posts />,
+                index: true,
+              },
+              {
+                element: <Likes />,
+                path: "likes",
+              },
+              {
+                element: <Comments />,
+                path: "comments",
+              },
+            ],
           },
         ],
       },

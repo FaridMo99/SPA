@@ -11,6 +11,9 @@ function Home() {
         <PostCard />
         <PostCard />
         <PostCard />
+        <PostCard />
+        <PostCard />
+        <PostCard />
       </div>
     </>
   );
@@ -19,3 +22,5 @@ function Home() {
 export default Home;
 
 //add fetch all users and posts and populate on mount of this component
+//add infinite scrolling, so basically only fetch 10 posts
+//and on scroll 10 more etc.

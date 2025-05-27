@@ -52,3 +52,4 @@ function Header() {
 export default Header;
 
 //add search functionality
+//make button prevent default

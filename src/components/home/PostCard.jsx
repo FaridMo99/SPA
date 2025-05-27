@@ -45,16 +45,18 @@ function PostCard({ postData }) {
           </p>
         </div>
 
-        <div
+        <button
+          type="button"
+          aria-label="Add or Remove Like"
           className="flex items-center"
           onMouseEnter={() => setHovered("heart")}
           onMouseLeave={() => setHovered(null)}
+          onClick={() => {
+            setLike((pre) => !pre);
+          }}
         >
           <Heart
             size={null}
-            onClick={() => {
-              setLike((pre) => !pre);
-            }}
             className={`w-10 rounded-full text-gray-400 p-1 ${
               hovered === "heart" ? "text-red-500 bg-red-300" : ""
             }
@@ -66,9 +68,11 @@ function PostCard({ postData }) {
           >
             {postData?.likes}
           </p>
-        </div>
+        </button>
 
-        <div
+        <button
+          type="button"
+          aria-label="View Comments"
           className="flex items-center"
           onMouseEnter={() => setHovered("message")}
           onMouseLeave={() => setHovered(null)}
@@ -84,7 +88,7 @@ function PostCard({ postData }) {
           >
             {postData?.comments}
           </p>
-        </div>
+        </button>
       </div>
     </section>
   );
@@ -95,3 +99,4 @@ export default PostCard;
 //add like logic so it posts new number to update like count
 // add usestate logic to change state through knowing from database and not setting it in general to false
 // add css for if text too long
+//add like animation
