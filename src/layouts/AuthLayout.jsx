@@ -14,6 +14,7 @@ function AuthLayout() {
           transition={{ duration: 1, ease: "easeInOut" }}
           className="w-1/2 h-[68vh] md:w-[38vw] bg-white rounded-2xl outline-1 outline-gray-200 shadow-md shadow-black/20 z-2 flex flex-col justify-center items-center"
           style={{ transformStyle: "preserve-3d" }}
+          aria-label="Authentication"
         >
           <h1 className="font-bold text-4xl mt-4">friendly.</h1>
           <Outlet />

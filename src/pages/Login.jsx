@@ -47,6 +47,7 @@ function Login() {
 
   return (
     <form
+    role="Login"
       noValidate
       onSubmit={handleSubmit(submitHandler)}
       className="w-full h-full flex flex-col justify-evenly items-center"
