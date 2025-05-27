@@ -1,17 +1,21 @@
 import React, { useState } from "react";
-import {useMutation} from "@tanstack/react-query"
+import { useMutation } from "@tanstack/react-query";
 
-const buttonStyles="bg-green-300 text-white rounded-3xl p-2 w-18 mr-2 font-bold hover:bg-gray-300 hover:text-green-300 disabled:bg-gray-100 disabled:text-gray-400 disabled:hover:bg-gray-100 disabled:hover:text-gray-400"
+const buttonStyles =
+  "bg-green-300 text-white rounded-3xl p-2 w-18 mr-2 font-bold hover:bg-gray-300 hover:text-green-300 disabled:bg-gray-100 disabled:text-gray-400 disabled:hover:bg-gray-100 disabled:hover:text-gray-400";
 
 function CreatePostField() {
   const [text, setText] = useState("");
 
-  function submitHandler(e){
-    e.preventDefault()
+  function submitHandler(e) {
+    e.preventDefault();
   }
 
   return (
-    <section aria-label="Create Post" className="w-full h-1/5 bg-white">
+    <section
+      aria-label="Create Post"
+      className="w-full h-[20vh] bg-white mb-16"
+    >
       <form onSubmit={submitHandler} className="w-full h-full">
         <textarea
           value={text}

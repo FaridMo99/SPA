@@ -21,11 +21,7 @@ function Aside({ paths, asideOpen, setAsideOpen }) {
           onClick={clickHandler}
           className="absolute top-6 hover:bg-gray-300 p-2 rounded-2xl text-green-300"
         >
-          {asideOpen ? (
-            <ArrowLeftToLine/>
-          ) : (
-            <ArrowRightToLine/>
-          )}
+          {asideOpen ? <ArrowLeftToLine /> : <ArrowRightToLine />}
         </button>
 
         {paths?.map((path) => (
