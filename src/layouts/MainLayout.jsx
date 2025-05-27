@@ -22,7 +22,7 @@ function MainLayout() {
         setAsideOpen={setAsideOpen}
       />
       <main
-        className={`${asideOpen ? "w-[80vw] ml-[20vw]" : "w-[90vw] ml-[10vw]"} mt-[15vh] bg-gray-600`}
+        className={`${asideOpen ? "w-[80vw] ml-[20vw]" : "w-[90vw] ml-[10vw]"} mt-[15vh]`}
       >
         <Outlet />
       </main>

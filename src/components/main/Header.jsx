@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { User, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import useAuth from "../../stores/authStore";
+import UserImage from "../UserImage";
 
 function Header() {
   const user = useAuth();
@@ -33,17 +34,7 @@ function Header() {
       </form>
 
       <div className="w-[20vw] h-full border-l-2 border-green-300 flex justify-center items-center">
-        <div className="w-20 h-20 flex justify-center items-center rounded-full border-green-300 border-4 overflow-hidden  bg-gray-600">
-          {user?.img ? (
-            <img
-              src={user.img}
-              alt="User Avatar"
-              className="w-full h-full object-cover"
-            />
-          ) : (
-            <User size={40} className="text-green-300" />
-          )}
-        </div>
+          {user?.img ? <UserImage img={user.img}/> : <UserImage noImg size="20" userSize={60}/>}
       </div>
     </header>
   );
