@@ -10,8 +10,8 @@ function ProfileLayout() {
   const { data, isLoading } = useQuery({
     queryKey: ["get user", queryString],
     queryFn: () => getPosts(queryString),
-    refetchOnMount:true,
-    staleTime:0
+    refetchOnMount: true,
+    staleTime: 0,
   });
 
   const userLinks = [
