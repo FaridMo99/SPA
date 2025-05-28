@@ -5,7 +5,7 @@ function SearchList({ styles, items }) {
   return (
     <ul className={styles}>
       {items?.map((item) => (
-        <li className="w-full hover:bg-gray-300 h-10">{item.username}</li>
+        <li className="w-full hover:bg-gray-300 h-11">{item.username}</li>
       ))}
     </ul>
   );
