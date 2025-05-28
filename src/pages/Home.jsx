@@ -15,7 +15,7 @@ function Home() {
 
   return (
     <>
-      {!isLoading && !isError && <CreatePostField />}
+      <CreatePostField />
       <div className="w-full flex flex-col items-center">
         {isLoading && <CustomLoader styles="mt-[42vh]" />}
         {!isLoading &&

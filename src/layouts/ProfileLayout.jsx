@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import getPosts from "../utils/getPosts";
 
 function ProfileLayout() {
-  const queryString = "?username=Claudia_Dietrich";
+  const queryString = "?username=Alessia_Bergstrom";
   const { data, isLoading } = useQuery({
     queryKey: ["get user", queryString],
     queryFn: () => getPosts(queryString),

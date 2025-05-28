@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Heart, ChartNoAxesColumn, MessageCircle } from "lucide-react";
 import passedTime from "../../utils/passedTime";
 import { useMutation } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
 
 function PostCard({ postData, editable = false }) {
   const [like, setLike] = useState(false);
@@ -19,7 +20,7 @@ function PostCard({ postData, editable = false }) {
             alt={`${postData?.username} Avatar`}
             className="mr-4 w-10 h-10 rounded-full"
           />
-          <h1>{postData?.username}</h1>
+          <Link className="hover:text-black/60" to={`/${postData?.username}`}><h1>{postData?.username}</h1></Link>
         </div>
         <p className="text-gray-300 mr-2">{passedTime(postData?.createdAt)}</p>
       </div>
@@ -96,5 +97,4 @@ export default PostCard;
 
 //add like logic so it posts new number to update like count
 // add usestate logic to change state through knowing from database and not setting it in general to false
-// add css for if text too long
 //add like animation

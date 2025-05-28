@@ -28,3 +28,5 @@ export default Header;
 //add on search that if no users with that name theres no user found with a loop icon
 //add button to completely empty input
 //fix bug that shows line when nothing found
+//make it so if query key changes but not the data no refetch,
+//right now if only one name left it keeps refetching when typing in name

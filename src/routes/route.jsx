@@ -10,6 +10,7 @@ import Likes from "../pages/Likes";
 import Comments from "../pages/Comments";
 import useAuth from "../stores/authStore";
 import ProfileLayout from "../layouts/ProfileLayout";
+import Users from "../pages/Users";
 
 const route = createBrowserRouter([
   {
@@ -46,6 +47,11 @@ const route = createBrowserRouter([
             path: "home",
           },
           {
+            element: <Users />,
+            path: ":username",
+            errorElement: <Error userspage />,
+          },
+          {
             element: <ProfileLayout />,
             path: "profile",
             children: [
@@ -72,3 +78,4 @@ const route = createBrowserRouter([
 export default route;
 
 //also add redirect when not coming from "/"
+//maybe make dynamic route with a loader and not on component mount

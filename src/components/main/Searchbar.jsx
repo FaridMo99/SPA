@@ -13,7 +13,11 @@ function Searchbar() {
   const { data } = useQuery({
     queryKey: ["get users for searchbar", search],
     queryFn: () => getUsers(`?username=${search}`),
+    enabled: search.length > 0,
   });
+
+  console.log(data);
+
   return (
     <form className="w-2/3 h-2/3 flex justify-center items-center relative z-4">
       <input
@@ -26,8 +30,9 @@ function Searchbar() {
         autoComplete="on"
         value={search}
         onChange={(e) => {
-          setSearch(e.target.value);
-          sessionStorage.setItem("search", JSON.stringify(e.target.value));
+          const value = e.target.value;
+          setSearch(value);
+          sessionStorage.setItem("search", JSON.stringify(value));
         }}
       />
       <button
@@ -47,3 +52,6 @@ function Searchbar() {
 }
 
 export default Searchbar;
+
+//add debounce
+//remove refetching when data result is the same
