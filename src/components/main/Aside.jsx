@@ -4,7 +4,7 @@ import { ArrowRightToLine, ArrowLeftToLine, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 function Aside({ paths, asideOpen, setAsideOpen }) {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   function clickHandler() {
     setAsideOpen((pre) => {
       const newVal = !pre;
@@ -14,8 +14,8 @@ function Aside({ paths, asideOpen, setAsideOpen }) {
   }
 
   function logoutHandler() {
-    sessionStorage.removeItem("user")
-    navigate("/login")
+    sessionStorage.removeItem("user");
+    navigate("/login");
   }
 
   return (

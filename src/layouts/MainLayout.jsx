@@ -14,18 +14,18 @@ function MainLayout() {
     return stored !== null ? JSON.parse(stored) : true;
   });
 
-  const user = useAuth(state=> state.user)
+  const user = useAuth((state) => state.user);
 
-  const {data, isLoading} = useQuery({
-    queryKey:["getUserData",user],
-    queryFn:()=>getUsers(`?username=${user.username}`)
-  })
+  const { data, isLoading } = useQuery({
+    queryKey: ["getUserData", user],
+    queryFn: () => getUsers(`?username=${user.username}`),
+  });
 
-  if(isLoading)return <LoadingScreen/>
+  if (isLoading) return <LoadingScreen />;
 
   return (
     <>
-      <Header avatar={data[0].avatar}/>
+      <Header avatar={data[0].avatar} />
       <Aside
         paths={[
           { href: "/home", name: "Home", icon: <House /> },
