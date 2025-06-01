@@ -1,14 +1,19 @@
-import React from "react";
+import { useState } from "react";
 import CreatePostField from "../components/home/CreatePostField";
 import PostCard from "../components/home/PostCard";
 import getPosts from "../utils/getPosts";
 import { useQuery } from "@tanstack/react-query";
 import CustomLoader from "../components/CustomLoader";
+import InfiniteScroll from "react-infinite-scroll-component";
+import SortDropdown from "../components/home/SortDropdown";
+
 
 function Home() {
+    const [sortValue, setSortValue] = useState("desc");
+
   const { isLoading, data, isError, error } = useQuery({
-    queryKey: ["getAllPosts"],
-    queryFn: () => getPosts(),
+    queryKey: ["getAllPosts", sortValue],
+    queryFn: () => getPosts(`?sortBy=createdAt&order=${sortValue}`),
     refetchOnMount: true,
     staleTime: 0,
   });
@@ -16,6 +21,9 @@ function Home() {
   return (
     <>
       <CreatePostField />
+      <div className="absolute right-2 top-[36vh]">
+      <SortDropdown value={sortValue} setSortValue={setSortValue} />
+      </div>
       <div className="w-full flex flex-col items-center">
         {isLoading && <CustomLoader styles="mt-[42vh]" />}
         {!isLoading &&
@@ -29,7 +37,3 @@ function Home() {
 }
 
 export default Home;
-
-//add fetch all users and posts and populate on mount of this component
-//add infinite scrolling, so basically only fetch 10 posts
-//and on scroll 10 more etc.

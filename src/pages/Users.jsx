@@ -33,5 +33,3 @@ function Users() {
 }
 
 export default Users;
-
-//go back button on errorpage dont send back but sends home

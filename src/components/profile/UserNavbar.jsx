@@ -24,5 +24,3 @@ function UserNavbar({ links }) {
 }
 
 export default UserNavbar;
-
-//add fetching on routing
