@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import ProgressBar from "../components/auth/ProgressBar";
 import SuccessScreen from "../components/auth/SuccessScreen";
 import { CheckCircle2, Loader2 } from "lucide-react";
@@ -10,8 +10,7 @@ import SignUpStepThree from "../components/auth/SignUpStepThree";
 import { useNavigate, Link } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import signupSchema from "../schemas/signUpSchema";
-import sendUserData from "../utils/sendUserData";
-import useAuth from "../stores/authStore";
+import signup from "../utils/signup";
 
 function SignUp() {
   const [steps, setSteps] = useState(1);
@@ -24,24 +23,18 @@ function SignUp() {
 
   const mutation = useMutation({
     mutationKey: ["send User Data"],
-    mutationFn: sendUserData,
+    mutationFn: signup,
   });
 
   function submitHandler(formData) {
     // eslint-disable-next-line no-unused-vars
     const { confirmPassword, ...submitData } = formData;
     mutation.mutate(submitData, {
-      onSuccess: (data) => {
-        sessionStorage.setItem("user", JSON.stringify(data));
-        useAuth.getState().setUser();
+      onSuccess: () => {
+        setTimeout(() => navigation("/home", { replace: true }), 800);
       },
     });
   }
-  useEffect(() => {
-    if (mutation.isSuccess) {
-      setTimeout(() => navigation("/home", { replace: true }), 800);
-    }
-  }, [mutation.isSuccess]);
 
   return (
     <>
@@ -102,6 +95,3 @@ function SignUp() {
 }
 
 export default SignUp;
-
-//set cookies because you logged in
-//add functionality for if username already exists

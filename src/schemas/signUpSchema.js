@@ -2,16 +2,8 @@ import { z } from "zod";
 
 const signupSchema = z
   .object({
-    firstname: z
-      .string()
-      .trim()
-      .nonempty("Field is required")
-      .regex(/^[A-Z][a-zA-Z'-]*$/, "Must start with Uppercase, no Symbols"),
-    lastname: z
-      .string()
-      .trim()
-      .nonempty("Field is required")
-      .regex(/^[A-Z][a-zA-Z'-]*$/, "Must start with Uppercase, no Symbols"),
+    firstname: z.string().trim().nonempty("Field is required"),
+    lastname: z.string().trim().nonempty("Field is required"),
     username: z
       .string()
       .trim()

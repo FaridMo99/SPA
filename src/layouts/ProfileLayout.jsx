@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import getPosts from "../utils/getPosts";
 
 function ProfileLayout() {
-  const queryString = "?username=Alessia_Bergstrom";
+  const queryString = "?username=Danyka_Hessel";
   const { data, isLoading } = useQuery({
     queryKey: ["get user", queryString],
     queryFn: () => getPosts(queryString),
@@ -45,3 +45,4 @@ export default ProfileLayout;
 //have a button to edit (update)
 //add a delete button
 //add a when editing and dont wanna submit like a reset button
+//thonk about if you wanna populate through fetching or session storage
