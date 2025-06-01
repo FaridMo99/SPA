@@ -1,6 +1,4 @@
 import { createBrowserRouter } from "react-router-dom";
-import MainLayout from "../layouts/MainLayout";
-import AuthLayout from "../layouts/AuthLayout";
 import Error from "../pages/Error";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
@@ -16,6 +14,10 @@ import {
   authCheckPublic,
   initialAuthCheck,
 } from "../utils/authRedirect";
+import { Suspense, lazy } from "react";
+
+const LazyAuthLayout = lazy(() => import("../layouts/AuthLayout"));
+const LazyMainLayout = lazy(() => import("../layouts/MainLayout"));
 
 const route = createBrowserRouter([
   {
@@ -24,11 +26,15 @@ const route = createBrowserRouter([
     children: [
       {
         index: true,
-        //  loader: initialAuthCheck,
+        loader: initialAuthCheck,
       },
       {
-        element: <AuthLayout />,
-        // loader: authCheckPublic,
+        element: (
+          <Suspense fallback={<LoadingScreen />}>
+            <LazyAuthLayout />
+          </Suspense>
+        ),
+        loader: authCheckPublic,
         children: [
           {
             element: <Login />,
@@ -41,8 +47,12 @@ const route = createBrowserRouter([
         ],
       },
       {
-        element: <MainLayout />,
-        // loader: authCheckPrivate,
+        element: (
+          <Suspense fallback={<LoadingScreen />}>
+            <LazyMainLayout />
+          </Suspense>
+        ),
+        loader: authCheckPrivate,
         children: [
           {
             element: <Home />,
@@ -79,9 +89,4 @@ const route = createBrowserRouter([
 
 export default route;
 
-//put both layouts in suspense boundary and send depending on where you are
-//add loading screen when entering while it checks for auth and after login
-//for the loading state of sending login
-
-//maybe make dynamic route with a loader and not on component mount
 //make this in the beginning question accept all cookies?

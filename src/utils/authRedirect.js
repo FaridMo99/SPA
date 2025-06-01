@@ -8,6 +8,7 @@ export function initialAuthCheck() {
 }
 
 export function authCheckPrivate() {
+    useAuth.getState().setUser();
   const { authenticated } = useAuth.getState();
   if (!authenticated) {
     return redirect("/login");
@@ -15,6 +16,7 @@ export function authCheckPrivate() {
   return null;
 }
 export function authCheckPublic() {
+    useAuth.getState().setUser();
   const { authenticated } = useAuth.getState();
 
   if (authenticated) {

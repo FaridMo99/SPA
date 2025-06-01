@@ -16,7 +16,7 @@ function Login() {
   const [loginSuccess, setLoginSuccess] = useState(false);
   const { data, isLoading } = useQuery({
     queryKey: ["getAllUsers for login"],
-    queryFn:()=>getUsers(),
+    queryFn: () => getUsers(),
   });
 
   const navigation = useNavigate();
