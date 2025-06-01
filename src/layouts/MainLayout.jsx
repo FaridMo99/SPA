@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import Header from "../components/main/Header";
 import Aside from "../components/main/Aside";
 import { House, UserRound } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import getUsers from "../utils/getUsers";
+import useAuth from "../stores/authStore";
+import LoadingScreen from "../components/LoadingScreen";
 
 function MainLayout() {
   const [asideOpen, setAsideOpen] = useState(() => {
@@ -10,9 +14,18 @@ function MainLayout() {
     return stored !== null ? JSON.parse(stored) : true;
   });
 
+  const user = useAuth(state=> state.user)
+
+  const {data, isLoading} = useQuery({
+    queryKey:["getUserData",user],
+    queryFn:()=>getUsers(`?username=${user.username}`)
+  })
+
+  if(isLoading)return <LoadingScreen/>
+
   return (
     <>
-      <Header />
+      <Header avatar={data[0].avatar}/>
       <Aside
         paths={[
           { href: "/home", name: "Home", icon: <House /> },

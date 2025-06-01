@@ -13,5 +13,4 @@ function SearchList({ styles, items }) {
 
 export default SearchList;
 
-//add functionality when clicking on user you dynamically route
-//to their page
+//add functionality when clicking on user you dynamically route to their page

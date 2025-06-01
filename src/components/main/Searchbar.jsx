@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { Search } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import getUsers from "../../utils/getUsers";
@@ -51,5 +51,9 @@ function Searchbar() {
 
 export default Searchbar;
 
+//add search functionality
 //add debounce
-//remove refetching when data result is the same
+//make button prevent default
+//add on search that if no users with that name theres no user found with a loop icon
+//make it so if query key changes but not the data no refetch,
+//right now if only one name left it keeps refetching when typing in name
