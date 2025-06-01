@@ -1,8 +1,10 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { ArrowRightToLine, ArrowLeftToLine, LogOut } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 function Aside({ paths, asideOpen, setAsideOpen }) {
+  const navigate = useNavigate()
   function clickHandler() {
     setAsideOpen((pre) => {
       const newVal = !pre;
@@ -11,7 +13,10 @@ function Aside({ paths, asideOpen, setAsideOpen }) {
     });
   }
 
-  function logoutHandler() {}
+  function logoutHandler() {
+    sessionStorage.removeItem("user")
+    navigate("/login")
+  }
 
   return (
     <aside
@@ -41,23 +46,17 @@ function Aside({ paths, asideOpen, setAsideOpen }) {
             {asideOpen ? path.name : path.icon}
           </NavLink>
         ))}
-        {asideOpen ? (
-          <p className="hover:bg-gray-300 p-2 rounded-2xl">Logout</p>
-        ) : (
-          <button
-            type="button"
-            aria-label="log out"
-            onClick={logoutHandler}
-            className="hover:bg-gray-300 p-2 rounded-2xl"
-          >
-            <LogOut />
-          </button>
-        )}
+        <button
+          type="button"
+          aria-label="log out"
+          onClick={logoutHandler}
+          className="hover:bg-gray-300 p-2 rounded-2xl"
+        >
+          {asideOpen ? <p>Logout</p> : <LogOut />}
+        </button>
       </nav>
     </aside>
   );
 }
 
 export default Aside;
-
-//add logout functionality
