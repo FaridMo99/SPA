@@ -20,7 +20,9 @@ function PostCard({ postData, editable = false }) {
             alt={`${postData?.username} Avatar`}
             className="mr-4 w-10 h-10 rounded-full"
           />
-          <Link className="hover:text-black/60" to={`/${postData?.username}`}><h1>{postData?.username}</h1></Link>
+          <Link className="hover:text-black/60" to={`/${postData?.username}`}>
+            <h1>{postData?.username}</h1>
+          </Link>
         </div>
         <p className="text-gray-300 mr-2">{passedTime(postData?.createdAt)}</p>
       </div>

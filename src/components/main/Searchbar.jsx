@@ -16,8 +16,6 @@ function Searchbar() {
     enabled: search.length > 0,
   });
 
-  console.log(data);
-
   return (
     <form className="w-2/3 h-2/3 flex justify-center items-center relative z-4">
       <input

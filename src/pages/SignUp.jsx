@@ -104,3 +104,4 @@ function SignUp() {
 export default SignUp;
 
 //set cookies because you logged in
+//add functionality for if username already exists
