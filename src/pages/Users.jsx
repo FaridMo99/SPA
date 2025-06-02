@@ -22,7 +22,11 @@ function Users() {
   }
   return (
     <main className="flex flex-col">
-      <ImageSection username={data[0].username} bio={data[0].bio} />
+      <ImageSection
+        bio={data[0].bio}
+        img={data[0].avatar}
+        username={data[0].username}
+      />
       <div className="w-full flex flex-col items-center mt-10">
         <PostCard postData={data[0]} />
         <PostCard postData={data[0]} />

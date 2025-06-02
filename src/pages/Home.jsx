@@ -7,9 +7,8 @@ import CustomLoader from "../components/CustomLoader";
 import InfiniteScroll from "react-infinite-scroll-component";
 import SortDropdown from "../components/home/SortDropdown";
 
-
 function Home() {
-    const [sortValue, setSortValue] = useState("desc");
+  const [sortValue, setSortValue] = useState("desc");
 
   const { isLoading, data, isError, error } = useQuery({
     queryKey: ["getAllPosts", sortValue],
@@ -22,7 +21,7 @@ function Home() {
     <>
       <CreatePostField />
       <div className="absolute right-2 top-[36vh]">
-      <SortDropdown value={sortValue} setSortValue={setSortValue} />
+        <SortDropdown value={sortValue} setSortValue={setSortValue} />
       </div>
       <div className="w-full flex flex-col items-center">
         {isLoading && <CustomLoader styles="mt-[42vh]" />}
