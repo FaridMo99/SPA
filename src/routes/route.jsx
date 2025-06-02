@@ -4,7 +4,6 @@ import Home from "../pages/Home";
 import Login from "../pages/Login";
 import SignUp from "../pages/SignUp";
 import Posts from "../pages/Posts";
-import Likes from "../pages/Likes";
 import Comments from "../pages/Comments";
 import ProfileLayout from "../layouts/ProfileLayout";
 import Users from "../pages/Users";
@@ -70,10 +69,6 @@ const route = createBrowserRouter([
               {
                 element: <Posts />,
                 index: true,
-              },
-              {
-                element: <Likes />,
-                path: "likes",
               },
               {
                 element: <Comments />,

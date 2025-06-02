@@ -1,17 +1,29 @@
 import React, { useState } from "react";
 import { Heart, ChartNoAxesColumn, MessageCircle } from "lucide-react";
 import passedTime from "../../utils/passedTime";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import deletePost from "../../utils/deletePost";
 import { Link } from "react-router-dom";
+import { Trash2 } from "lucide-react";
+import Button from "../auth/Button";
 
 function PostCard({ postData, editable = false }) {
   const [like, setLike] = useState(false);
   const [hovered, setHovered] = useState(null);
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: () => deletePost(postData?.id),
+    mutationKey: ["delete post", postData.id],
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["get posts"] });
+    },
+  });
 
   return (
     <section
       aria-label={`Post from ${postData?.username}`}
-      className="w-4/5  bg-gray-50 outline-2 outline-gray-300 mb-8 rounded-2xl flex flex-col items-center font-bold"
+      className="w-4/5 relative bg-gray-50 outline-2 outline-gray-300 mb-8 rounded-2xl flex flex-col items-center font-bold"
     >
       <div className="w-full h-1/4 flex items-center justify-between">
         <div className="w-1/2 flex items-center h-full">
@@ -91,6 +103,16 @@ function PostCard({ postData, editable = false }) {
           </p>
         </button>
       </div>
+      {editable && (
+        <Button
+          clickHandler={() => {
+            mutation.mutate();
+          }}
+          aria-label="Delete Post"
+          styles="absolute -bottom-4 -right-3"
+          text={<Trash2 className="text-gray-400" />}
+        />
+      )}
     </section>
   );
 }

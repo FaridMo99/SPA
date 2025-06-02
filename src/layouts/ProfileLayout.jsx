@@ -4,6 +4,7 @@ import UserNavbar from "../components/profile/UserNavbar";
 import ImageSection from "../components/profile/ImageSection";
 import { useQuery } from "@tanstack/react-query";
 import getUsers from "../utils/getUsers";
+import getPosts from "../utils/getPosts";
 import useAuth from "../stores/authStore";
 import UsersLoadingSkeleton from "../components/UsersLoadingSkeleton";
 
@@ -17,14 +18,16 @@ function ProfileLayout() {
     staleTime: 0,
   });
 
+  const { data: postData, isLoading: postsIsLoading } = useQuery({
+    queryKey: ["get posts", queryString],
+    queryFn: () => getPosts(queryString),
+    refetchOnMount: true,
+  });
+
   const userLinks = [
     {
       href: "/profile",
       name: "Posts",
-    },
-    {
-      href: "/profile/likes",
-      name: "Likes",
     },
     {
       href: "/profile/comments",
@@ -43,11 +46,9 @@ function ProfileLayout() {
         editable
       />
       <UserNavbar links={userLinks} />
-      <Outlet context={[data, isLoading]} />
+      <Outlet context={[postData, postsIsLoading]} />
     </>
   );
 }
 
 export default ProfileLayout;
-
-//add read and delete functionality for posts
