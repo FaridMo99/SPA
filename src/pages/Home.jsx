@@ -17,6 +17,16 @@ function Home() {
     staleTime: 0,
   });
 
+  const sortedPosts = data
+    ? [...data].sort((a, b) => {
+        if (sortValue === "desc") {
+          return new Date(b.createdAt) - new Date(a.createdAt);
+        } else {
+          return new Date(a.createdAt) - new Date(b.createdAt);
+        }
+      })
+    : [];
+
   return (
     <>
       <CreatePostField />
@@ -26,7 +36,9 @@ function Home() {
       <div className="w-full flex flex-col items-center">
         {isLoading && <CustomLoader styles="mt-[42vh]" />}
         {!isLoading &&
-          data?.map((post) => <PostCard key={post.username} postData={post} />)}
+          sortedPosts?.map((post) => (
+            <PostCard key={post.username} postData={post} />
+          ))}
         {isError && (
           <p className="text-red-500 font-bold text-2xl">{error.message}</p>
         )}
@@ -36,3 +48,5 @@ function Home() {
 }
 
 export default Home;
+
+//api sorting after creating a post is buggy so i have to sort manually here client-side
