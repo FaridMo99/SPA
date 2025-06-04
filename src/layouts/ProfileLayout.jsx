@@ -23,8 +23,12 @@ function ProfileLayout() {
       name: "Posts",
     },
     {
-      href: "/profile/comments",
-      name: "Comments",
+      href: "/profile/follower",
+      name: "Follower",
+    },
+    {
+      href: "/profile/follow",
+      name: "Follow",
     },
   ];
 
