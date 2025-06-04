@@ -4,7 +4,7 @@ import { Search } from "lucide-react";
 
 function SearchList({ items }) {
   const styles =
-    "border-2 flex flex-col border-gray-300 border-t-0 absolute top-[7vh] w-[calc(79%+48px)] bg-gray-50 rounded-b-lg max-h-[20vh] overflow-y-auto z-2";
+    "border-2 flex flex-col border-gray-300 border-t-0 absolute top-[7vh] w-[calc(79%+48px)] bg-gray-50 rounded-b-lg max-h-[20vh] overflow-y-auto z-499";
   return (
     <div className={styles}>
       {items?.map((item) => (

@@ -110,7 +110,7 @@ function PostCard({ postData, editable = false }) {
           }}
           aria-label="Delete Post"
           styles="absolute -bottom-4 -right-3"
-          text={<Trash2 className="text-gray-400" />}
+          text={<Trash2 className="text-red-500" />}
         />
       )}
     </section>
@@ -118,7 +118,3 @@ function PostCard({ postData, editable = false }) {
 }
 
 export default PostCard;
-
-//add like logic so it posts new number to update like count
-// add usestate logic to change state through knowing from database and not setting it in general to false
-//add like animation

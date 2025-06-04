@@ -53,7 +53,7 @@ function Searchbar() {
       />
       <button
         type="submit"
-        className="h-1/2 bg-gray-600 rounded-r-lg px-3 flex items-center justify-center z-3"
+        className="h-1/2 bg-gray-600 rounded-r-lg px-3 flex items-center justify-center z-500"
         onClick={searchHandler}
       >
         <Search size={24} className="text-green-300" />

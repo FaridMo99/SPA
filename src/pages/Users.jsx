@@ -1,36 +1,67 @@
-import React from "react";
-import { useParams } from "react-router-dom";
 import ImageSection from "../components/profile/ImageSection";
 import PostCard from "../components/home/PostCard";
-import { useQuery } from "@tanstack/react-query";
 import getPosts from "../utils/getPosts";
+import getUsers from "../utils/getUsers";
 import UsersLoadingSkeleton from "../components/UsersLoadingSkeleton";
+import { useLoaderData, useNavigation } from "react-router-dom";
+
+function userQuery(queryString) {
+  return {
+    queryKey: ["userData", queryString],
+    queryFn: async () => getUsers(queryString),
+    retry: false,
+  };
+}
+
+function userPostsQuery(queryString) {
+  return {
+    queryKey: ["getPostData", queryString],
+    queryFn: async () => getPosts(queryString),
+    retry: false,
+  };
+}
+
+export const clientLoader =
+  (queryClient) =>
+  async ({ params }) => {
+    const username = params.username;
+    const queryString = `?username=${username}`;
+    const userQueryObj = userQuery(queryString);
+    const postsQueryObj = userPostsQuery(queryString);
+
+    const userData =
+      queryClient.getQueryData(userQueryObj.queryKey) ??
+      (await queryClient.fetchQuery(userQueryObj));
+
+    const postsData =
+      queryClient.getQueryData(postsQueryObj.queryKey) ??
+      (await queryClient.fetchQuery(postsQueryObj));
+
+    return { userData, postsData };
+  };
 
 function Users() {
-  const { username } = useParams();
-  const queryString = `?username=${username}`;
-  const { data, isLoading } = useQuery({
-    queryKey: [username],
-    queryFn: () => getPosts(queryString),
-    retry: false,
-  });
+  const { userData, postsData } = useLoaderData();
+  const navigate = useNavigation();
 
-  if (isLoading) return <UsersLoadingSkeleton />;
+  if (navigate.state === "loading") return <UsersLoadingSkeleton />;
 
-  if (!data || data.length === 0 || data[0].username !== username) {
+  if (userData.length === 0) {
     throw new Error();
   }
+
   return (
     <main className="flex flex-col">
       <ImageSection
-        bio={data[0].bio}
-        img={data[0].avatar}
-        username={data[0].username}
+        bio={userData[0].bio}
+        img={userData[0].avatar}
+        username={userData[0].username}
       />
       <div className="w-full flex flex-col items-center mt-10">
-        <PostCard postData={data[0]} />
-        <PostCard postData={data[0]} />
-        <PostCard postData={data[0]} />
+        {postsData?.map((element) => (
+          <PostCard key={element.username} postData={element} />
+        ))}
+        {postsData.length === 0 && <p>No Posts found...</p>}
       </div>
     </main>
   );

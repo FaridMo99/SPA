@@ -37,7 +37,7 @@ function MainLayout() {
       <main
         className={`${asideOpen ? "w-[80vw] ml-[20vw]" : "w-[90vw] ml-[10vw]"} mt-[15vh]`}
       >
-        <Outlet />
+        <Outlet context={[data, isLoading]} />
       </main>
     </>
   );
