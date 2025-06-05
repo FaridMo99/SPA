@@ -23,4 +23,3 @@
 - TailwindCSS for styling
 - Zustand for State Management
 - React-Hook-Form and zod for Form Validation and handling
-  

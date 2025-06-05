@@ -51,7 +51,7 @@ function CreatePostField() {
             setText(e.target.value);
           }}
           placeholder="Tell us..."
-          className="bg-white w-full h-2/3 font-bold"
+          className="bg-white w-full h-2/3 font-bold resize-none"
         ></textarea>
         <div className="border-y-black/10 border-y-2 w-full h-1/3 -mt-1.5 flex items-center justify-end">
           <button
