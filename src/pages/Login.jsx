@@ -9,7 +9,7 @@ import loginSchema from "../schemas/loginSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import login from "../utils/login";
 import getUsers from "../utils/getUsers";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 
 function Login() {
   const [loginError, setLoginError] = useState(false);
@@ -17,6 +17,11 @@ function Login() {
   const { data, isLoading } = useQuery({
     queryKey: ["getAllUsers for login"],
     queryFn: () => getUsers(),
+  });
+
+  const { mutate } = useMutation({
+    mutationKey: ["login"],
+    mutationFn: login,
   });
 
   const navigation = useNavigate();
@@ -41,16 +46,17 @@ function Login() {
   }, [isLoading, data, reset]);
 
   async function submitHandler(formData) {
-    const user = await login(formData);
-
-    if (user) {
-      setLoginSuccess(true);
-      setLoginError(false);
-      setTimeout(() => navigation("/home", { replace: true }), 800);
-    } else {
-      setLoginError(true);
-      setLoginSuccess(false);
-    }
+    mutate(formData, {
+      onSuccess: () => {
+        setLoginSuccess(true);
+        setLoginError(false);
+        setTimeout(() => navigation("/home", { replace: true }), 800);
+      },
+      onError: () => {
+        setLoginError(true);
+        setLoginSuccess(false);
+      },
+    });
   }
 
   return (

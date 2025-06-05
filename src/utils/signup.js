@@ -1,25 +1,14 @@
-import login from "./login";
+import useAuth from "../stores/authStore";
 
 export default async function signup(formData) {
-  const response = await fetch(
-    "https://6831e441c3f2222a8cb0be24.mockapi.io/api/friendly/users",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    },
-  );
+  const res = await fetch("/api/signup", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify(formData),
+  });
 
-  if (!response.ok) {
-    throw new Error(`Error: ${response.status} ${response.statusText}`);
-  }
+  if (!res.ok) throw new Error("Signup failed");
 
-  const data = await response.json();
-  const { username, password } = data;
-
-  const loginResult = await login({ username, password });
-
-  return { signupData: data, loginResult };
+  await useAuth.getState().fetchUser();
 }
