@@ -6,6 +6,7 @@ import SignUp from "../pages/SignUp";
 import Posts from "../pages/Posts";
 import Follower from "../pages/Follower";
 import Follow from "../pages/Follow";
+import Comments from "../pages/Comments";
 import ProfileLayout from "../layouts/ProfileLayout";
 import Users from "../pages/Users";
 import LoadingScreen from "../components/LoadingScreen";
@@ -59,6 +60,10 @@ const route = createBrowserRouter([
           {
             element: <Home />,
             path: "home",
+          },
+          {
+            element: <Comments />,
+            path: "comments/:id",
           },
           {
             element: <Users />,

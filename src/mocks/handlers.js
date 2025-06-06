@@ -24,6 +24,22 @@ export const handlers = [
       headers: { "Content-Type": "application/json" },
     });
   }),
+  http.get("/api/posts/id/:id", ({ params }) => {
+    const { id } = params;
+    const post = posts.find((p) => p.id === id);
+
+    if (!post) {
+      return new HttpResponse(JSON.stringify({ error: "Post not found" }), {
+        status: 404,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    return new HttpResponse(JSON.stringify(post), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  }),
 
   http.post("/api/users", async ({ request }) => {
     const newUser = await request.json();

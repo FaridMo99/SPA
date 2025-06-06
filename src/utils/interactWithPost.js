@@ -17,7 +17,7 @@ export async function like(postId, username) {
   return await response.json();
 }
 
-export async function comment(postId, username, text) {
+export async function comment({ postId, username, text }) {
   const response = await fetch(`/api/posts/${postId}`, {
     method: "PATCH",
     headers: {

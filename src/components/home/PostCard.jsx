@@ -64,13 +64,15 @@ function PostCard({ postData, editable = false }) {
           onClick={toggleLike}
         />
 
-        <PostCardIcons
-          Icon={MessageCircle}
-          ariaLabel="View Comments"
-          iconClassName="w-10 rounded-full text-gray-400 p-1 hover:bg-blue-300 hover:text-blue-500"
-          pClassName="text-gray-400"
-          text={postData.comments.length}
-        />
+        <Link to={`/comments/${postData.id}`}>
+          <PostCardIcons
+            Icon={MessageCircle}
+            ariaLabel="View Comments"
+            iconClassName="w-10 rounded-full text-gray-400 p-1 hover:bg-blue-300 hover:text-blue-500"
+            pClassName="text-gray-400"
+            text={postData.comments.length}
+          />
+        </Link>
       </div>
       {editable && (
         <Button

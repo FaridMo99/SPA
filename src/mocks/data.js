@@ -13,7 +13,14 @@ export const users = [
         avatar: "https://avatars.githubusercontent.com/u/85822146",
         id: "2",
         createdAt: "2025-06-04T07:48:36.777Z",
-        comments: [],
+        comments: [
+          {
+            username: "Grayce.Kohler49",
+            avatar: "https://avatars.githubusercontent.com/u/18413282",
+            createdAt: "2025-06-05T15:59:41.763Z",
+            comment: "Nice Post!",
+          },
+        ],
         likes: [],
         post: "Minima adicio admoneo amicitia. Complectus maiores veritatis comedo calamitas adeptio. Arcesso admoveo acceptus aegre valde. Adversus deinde territo depulso basium.",
       },
