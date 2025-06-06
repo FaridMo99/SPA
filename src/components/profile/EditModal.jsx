@@ -7,14 +7,14 @@ import Button from "../auth/Button";
 import Input from "../auth/Input";
 import editUser from "../../utils/editUser";
 import editSchema from "../../schemas/editSchema";
-import { useMutation,useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import SuccessScreen from "../auth/SuccessScreen";
 
 function EditModal({ setIsOpen }) {
-  const {user, setUser} = useAuth();
-  const queryClient = useQueryClient()
+  const { user, setUser } = useAuth();
+  const queryClient = useQueryClient();
 
   const { handleSubmit, formState, register, watch } = useForm({
     resolver: zodResolver(editSchema),
@@ -29,14 +29,14 @@ function EditModal({ setIsOpen }) {
 
   const mutation = useMutation({
     mutationKey: ["change info", user],
-    mutationFn:(data)=>editUser(data,user.username),
-    onSuccess:(updatedUser)=>{
-      queryClient.invalidateQueries(["getUser for login"])
-      setTimeout(()=>{
-        setIsOpen(false)
-        setUser(updatedUser)
-      },800)
-    }
+    mutationFn: (data) => editUser(data, user.username),
+    onSuccess: (updatedUser) => {
+      queryClient.invalidateQueries(["getUser for login"]);
+      setTimeout(() => {
+        setIsOpen(false);
+        setUser(updatedUser);
+      }, 800);
+    },
   });
 
   function submitHandler(formData) {

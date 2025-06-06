@@ -53,7 +53,9 @@ function Home() {
       </div>
       <div className="w-full flex flex-col items-center">
         {status === "loading" && <CustomLoader styles="mt-[42vh]" />}
-
+        {allPosts.length === 0 && (
+          <p className="text-green-300 font-bold">No Posts found...</p>
+        )}
         {allPosts.map((post) => (
           <PostCard key={post.id} postData={post} />
         ))}

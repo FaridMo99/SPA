@@ -1,9 +1,10 @@
-import React from "react";
 import { NavLink } from "react-router-dom";
 import { ArrowRightToLine, ArrowLeftToLine, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import useAuth from "../../stores/authStore";
 
 function Aside({ paths, asideOpen, setAsideOpen }) {
+  const { clearUser } = useAuth();
   const navigate = useNavigate();
   function clickHandler() {
     setAsideOpen((pre) => {
@@ -14,7 +15,8 @@ function Aside({ paths, asideOpen, setAsideOpen }) {
   }
 
   function logoutHandler() {
-    sessionStorage.removeItem("user");
+    sessionStorage.removeItem("search");
+    clearUser();
     navigate("/login");
   }
 

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Search } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import getPosts from "../../utils/getPosts";
+import getUsers from "../../utils/getUsers";
 import SearchList from "./SearchList";
 import useDebounce from "../../hooks/useDebounce";
 import { useNavigate } from "react-router-dom";
@@ -18,13 +18,13 @@ function Searchbar() {
 
   const { data } = useQuery({
     queryKey: ["get users for searchbar", debouncedSearch],
-    queryFn: () => getPosts(`?username=${debouncedSearch}`),
+    queryFn: () => getUsers(`?search=${debouncedSearch}`),
     enabled: debouncedSearch.length > 0,
   });
 
   function searchHandler(e) {
     e.preventDefault();
-    navigate(`/${data[0].username}`);
+    navigate(`/${data.username}`);
   }
 
   return (

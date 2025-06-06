@@ -9,12 +9,19 @@ function generateToken(user) {
 }
 
 export const handlers = [
-  http.get("/api/users", () => {
-    return new HttpResponse(JSON.stringify(users), {
+  http.get("/api/users", ({ request }) => {
+    const url = new URL(request.url);
+    const search = url.searchParams.get("search")?.toLowerCase() || "";
+
+    const filteredUsers = users.filter(
+      (u) =>
+        u.username.toLowerCase().includes(search) ||
+        u.bio?.toLowerCase().includes(search),
+    );
+
+    return new HttpResponse(JSON.stringify(filteredUsers), {
       status: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
     });
   }),
 
@@ -100,67 +107,71 @@ export const handlers = [
     });
   }),
 
-http.patch("/api/users/:username", async ({ request, params }) => {
-  const { username } = params;
-  const body = await request.json();
+  http.patch("/api/users/:username", async ({ request, params }) => {
+    const { username } = params;
+    const body = await request.json();
 
-  const userIndex = users.findIndex((u) => u.username === username);
+    const userIndex = users.findIndex((u) => u.username === username);
 
-  if (userIndex === -1) {
-    return new HttpResponse(JSON.stringify({ error: "User not found" }), {
-      status: 404,
-      headers: { "Content-Type": "application/json" },
-    });
-  }
-
-  const user = users[userIndex];
-
-  if (body.action && body.target) {
-    const { action, target } = body;
-    const targetIndex = users.findIndex((u) => u.username === target);
-
-    if (targetIndex === -1) {
-      return new HttpResponse(JSON.stringify({ error: "Target user not found" }), {
+    if (userIndex === -1) {
+      return new HttpResponse(JSON.stringify({ error: "User not found" }), {
         status: 404,
         headers: { "Content-Type": "application/json" },
       });
     }
 
-    const targetUser = users[targetIndex];
+    const user = users[userIndex];
 
-    if (action === "follow") {
-      if (!user.following.includes(target)) user.following.push(target);
-      if (!targetUser.followers.includes(username)) targetUser.followers.push(username);
-    } else if (action === "unfollow") {
-      user.following = user.following.filter((u) => u !== target);
-      targetUser.followers = targetUser.followers.filter((u) => u !== username);
-    }
+    if (body.action && body.target) {
+      const { action, target } = body;
+      const targetIndex = users.findIndex((u) => u.username === target);
 
-    users[userIndex] = user;
-    users[targetIndex] = targetUser;
-
-    return new HttpResponse(JSON.stringify(user), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
-
-  } else {
-
-    const allowedFields = ["username", "bio", "avatar"];
-    allowedFields.forEach(field => {
-      if (body[field] !== undefined) {
-        user[field] = body[field];
+      if (targetIndex === -1) {
+        return new HttpResponse(
+          JSON.stringify({ error: "Target user not found" }),
+          {
+            status: 404,
+            headers: { "Content-Type": "application/json" },
+          },
+        );
       }
-    });
 
-    users[userIndex] = user;
+      const targetUser = users[targetIndex];
 
-    return new HttpResponse(JSON.stringify(user), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
-  }
-}),
+      if (action === "follow") {
+        if (!user.following.includes(target)) user.following.push(target);
+        if (!targetUser.followers.includes(username))
+          targetUser.followers.push(username);
+      } else if (action === "unfollow") {
+        user.following = user.following.filter((u) => u !== target);
+        targetUser.followers = targetUser.followers.filter(
+          (u) => u !== username,
+        );
+      }
+
+      users[userIndex] = user;
+      users[targetIndex] = targetUser;
+
+      return new HttpResponse(JSON.stringify(user), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      });
+    } else {
+      const allowedFields = ["username", "bio", "avatar"];
+      allowedFields.forEach((field) => {
+        if (body[field] !== undefined) {
+          user[field] = body[field];
+        }
+      });
+
+      users[userIndex] = user;
+
+      return new HttpResponse(JSON.stringify(user), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+  }),
 
   http.delete("/api/posts/:id", ({ params }) => {
     const { id } = params;
