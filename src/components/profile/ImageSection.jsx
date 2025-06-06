@@ -3,6 +3,7 @@ import UserImg from "../UserImage";
 import { Settings } from "lucide-react";
 import EditModal from "./EditModal";
 import Button from "../auth/Button";
+import FollowButton from "./FollowButton";
 
 function ImageSection({ username, img, bio = "", editable = false }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,12 +15,16 @@ function ImageSection({ username, img, bio = "", editable = false }) {
         aria-label="profile picture area"
         className="w-full h-[40vh] flex flex-col items-center bg-gray-300 relative"
       >
-        {editable && (
+        {editable ? (
           <Button
             styles="absolute top-2 right-2 md:px-8"
             text={<Settings />}
             clickHandler={() => setIsOpen(true)}
           />
+        ) : (
+          <div className="absolute top-8 right-4">
+            <FollowButton name={username} />
+          </div>
         )}
         <div className="flex w-full items-center pl-10 h-3/4">
           <UserImg editable img={img} />

@@ -1,4 +1,5 @@
 import { createPortal } from "react-dom";
+import { useEffect } from "react";
 import { X, CheckCircle2 } from "lucide-react";
 import useAuth from "../../stores/authStore";
 import Label from "../auth/Label";
@@ -6,14 +7,14 @@ import Button from "../auth/Button";
 import Input from "../auth/Input";
 import editUser from "../../utils/editUser";
 import editSchema from "../../schemas/editSchema";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation,useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import SuccessScreen from "../auth/SuccessScreen";
-import login from "../../utils/login";
 
 function EditModal({ setIsOpen }) {
-  const user = useAuth((state) => state.user);
+  const {user, setUser} = useAuth();
+  const queryClient = useQueryClient()
 
   const { handleSubmit, formState, register, watch } = useForm({
     resolver: zodResolver(editSchema),
@@ -28,19 +29,18 @@ function EditModal({ setIsOpen }) {
 
   const mutation = useMutation({
     mutationKey: ["change info", user],
-    mutationFn: (data) => editUser(data, user.username),
+    mutationFn:(data)=>editUser(data,user.username),
+    onSuccess:(updatedUser)=>{
+      queryClient.invalidateQueries(["getUser for login"])
+      setTimeout(()=>{
+        setIsOpen(false)
+        setUser(updatedUser)
+      },800)
+    }
   });
 
   function submitHandler(formData) {
-    const submitData = { ...user, ...formData };
-
-    mutation.mutate(submitData, {
-      onSuccess: () => {
-        setTimeout(() => {
-          login(submitData);
-        }, 800);
-      },
-    });
+    mutation.mutate(formData);
   }
 
   const currentValues = watch();
@@ -50,8 +50,16 @@ function EditModal({ setIsOpen }) {
     currentValues.bio === user.bio &&
     currentValues.avatar === user.avatar;
 
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, []);
+
   return createPortal(
-    <div className="w-screen h-screen absolute top-0 left-0 overflow-hidden bg-black/50 flex justify-center items-center z-50">
+    <div className="w-screen h-screen fixed top-0 left-0 overflow-hidden bg-black/50 flex justify-center items-center z-500">
       <form
         noValidate
         onSubmit={handleSubmit(submitHandler)}
@@ -100,7 +108,5 @@ function EditModal({ setIsOpen }) {
 
 export default EditModal;
 
-//usually i would use a file input type to change profile picture but mockapi.io
+//usually i would use a file input type to change profile picture but msw doenst support it
 //doesnt support this so here i am using a url to consume later in the frontend
-
-//the api doesnt support PATCH request so i am using a PUT request here

@@ -3,7 +3,9 @@ import React from "react";
 
 function CustomLoader({ styles }) {
   return (
-    <Loader2 size={60} className={`animate-spin text-green-300 ${styles}`} />
+    <div className="w-full mt-6 flex items-center justify-center">
+      <Loader2 size={60} className={`animate-spin text-green-300 ${styles}`} />
+    </div>
   );
 }
 

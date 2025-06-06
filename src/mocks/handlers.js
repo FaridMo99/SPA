@@ -75,6 +75,16 @@ export const handlers = [
       },
     });
   }),
+  http.get("/api/posts/:username", ({ params }) => {
+    const { username } = params;
+
+    const userPosts = posts.filter((post) => post.username === username);
+
+    return new HttpResponse(JSON.stringify(userPosts), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  }),
 
   http.post("/api/posts", async ({ request }) => {
     const newPost = await request.json();
@@ -90,30 +100,37 @@ export const handlers = [
     });
   }),
 
-  http.patch("/api/users/:username", async ({ request, params }) => {
-    const { username } = params;
-    const { action, target } = await request.json();
+http.patch("/api/users/:username", async ({ request, params }) => {
+  const { username } = params;
+  const body = await request.json();
 
-    const userIndex = users.findIndex((u) => u.username === username);
+  const userIndex = users.findIndex((u) => u.username === username);
+
+  if (userIndex === -1) {
+    return new HttpResponse(JSON.stringify({ error: "User not found" }), {
+      status: 404,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  const user = users[userIndex];
+
+  if (body.action && body.target) {
+    const { action, target } = body;
     const targetIndex = users.findIndex((u) => u.username === target);
 
-    if (userIndex === -1 || targetIndex === -1) {
-      return new HttpResponse(JSON.stringify({ error: "User not found" }), {
+    if (targetIndex === -1) {
+      return new HttpResponse(JSON.stringify({ error: "Target user not found" }), {
         status: 404,
         headers: { "Content-Type": "application/json" },
       });
     }
 
-    const user = users[userIndex];
     const targetUser = users[targetIndex];
 
     if (action === "follow") {
-      if (!user.following.includes(target)) {
-        user.following.push(target);
-      }
-      if (!targetUser.followers.includes(username)) {
-        targetUser.followers.push(username);
-      }
+      if (!user.following.includes(target)) user.following.push(target);
+      if (!targetUser.followers.includes(username)) targetUser.followers.push(username);
     } else if (action === "unfollow") {
       user.following = user.following.filter((u) => u !== target);
       targetUser.followers = targetUser.followers.filter((u) => u !== username);
@@ -126,7 +143,24 @@ export const handlers = [
       status: 200,
       headers: { "Content-Type": "application/json" },
     });
-  }),
+
+  } else {
+
+    const allowedFields = ["username", "bio", "avatar"];
+    allowedFields.forEach(field => {
+      if (body[field] !== undefined) {
+        user[field] = body[field];
+      }
+    });
+
+    users[userIndex] = user;
+
+    return new HttpResponse(JSON.stringify(user), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+}),
 
   http.delete("/api/posts/:id", ({ params }) => {
     const { id } = params;

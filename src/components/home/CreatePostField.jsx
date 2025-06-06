@@ -31,7 +31,8 @@ function CreatePostField() {
     mutation.mutate(data, {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["getAllPosts"] });
-        setText("");
+        queryClient.invalidateQueries(["get User posts", user.username]),
+          setText("");
       },
       onError: () => {
         alert("Something went wrong!");

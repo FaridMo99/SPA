@@ -4,7 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import { updateFollow } from "../../utils/updateFollow";
 
 function FollowButton({ name }) {
-  const {user, setUser} = useAuth();
+  const { user, setUser } = useAuth();
   const [isFollowing, setIsFollowing] = useState(user.following.includes(name));
   const { mutate, isPending } = useMutation({
     mutationKey: ["follow/unfollow"],
@@ -12,7 +12,7 @@ function FollowButton({ name }) {
       updateFollow({ username, targetUsername, action }),
     onSuccess: (updatedUser) => {
       setIsFollowing((prev) => !prev);
-      setUser(updatedUser)
+      setUser(updatedUser);
     },
   });
 

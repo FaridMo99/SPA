@@ -53,15 +53,17 @@ function Users() {
   return (
     <main className="flex flex-col">
       <ImageSection
-        bio={userData[0].bio}
-        img={userData[0].avatar}
-        username={userData[0].username}
+        bio={userData.bio}
+        img={userData.avatar}
+        username={userData.username}
       />
       <div className="w-full flex flex-col items-center mt-10">
         {postsData?.map((element) => (
           <PostCard key={element.username} postData={element} />
         ))}
-        {postsData.length === 0 && <p>No Posts found...</p>}
+        {postsData.length === 0 && (
+          <p className="text-green-300 font-bold">No Posts found...</p>
+        )}
       </div>
     </main>
   );
