@@ -15,7 +15,6 @@ export const users = [
         createdAt: "2025-06-04T07:48:36.777Z",
         comments: [],
         likes: [],
-        impressions: "5",
         post: "Minima adicio admoneo amicitia. Complectus maiores veritatis comedo calamitas adeptio. Arcesso admoveo acceptus aegre valde. Adversus deinde territo depulso basium.",
       },
     ],
@@ -946,5 +945,3 @@ export const posts = users.flatMap((user) =>
     avatar: user.avatar,
   })),
 );
-
-//posts need createdAt as ISO 8601, post,likes,comments,impressions,id

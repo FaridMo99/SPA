@@ -3,11 +3,9 @@ import React from "react";
 function PostCardIcons({
   Icon,
   ariaLabel,
-  setHovered,
   pClassName,
   iconClassName,
   text,
-  hoverKey,
   onClick,
 }) {
   return (
@@ -15,8 +13,6 @@ function PostCardIcons({
       type="button"
       aria-label={ariaLabel}
       className="flex items-center"
-      onMouseEnter={() => setHovered(hoverKey)}
-      onMouseLeave={() => setHovered(null)}
       onClick={onClick}
     >
       <Icon size={null} className={iconClassName} />

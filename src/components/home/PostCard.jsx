@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Heart, ChartNoAxesColumn, MessageCircle } from "lucide-react";
+import { Heart, MessageCircle } from "lucide-react";
 import passedTime from "../../utils/passedTime";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import deletePost from "../../utils/deletePost";
@@ -7,22 +7,31 @@ import { Link } from "react-router-dom";
 import { Trash2 } from "lucide-react";
 import Button from "../auth/Button";
 import PostCardIcons from "./PostCardIcons";
+import { like as likePost } from "../../utils/interactWithPost";
+import useAuth from "../../stores/authStore";
 
 function PostCard({ postData, editable = false }) {
-  const [like, setLike] = useState(false);
-  const [hovered, setHovered] = useState(null);
   const queryClient = useQueryClient();
+  const { user: currentUser } = useAuth();
 
-  const mutation = useMutation({
-    mutationFn: () => deletePost(postData.id),
-    mutationKey: ["delete post", postData.id],
+  const [like, setLike] = useState(
+    postData.likes.includes(currentUser?.username),
+  );
+
+  const mutationLike = useMutation({
+    mutationFn: () => likePost(postData.id, currentUser.username),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["get posts"] });
-      queryClient.invalidateQueries({
-        queryKey: ["get User posts", postData.username],
-      });
+      queryClient.invalidateQueries(["get posts"]);
+      if (postData.username === currentUser.username) {
+        queryClient.invalidateQueries(["get User posts", postData.username]);
+      }
     },
   });
+
+  const toggleLike = () => {
+    setLike((prev) => !prev);
+    mutationLike.mutate();
+  };
 
   return (
     <section
@@ -45,46 +54,28 @@ function PostCard({ postData, editable = false }) {
       <p className="h-1/2 w-4/5">{postData.post}</p>
       <div className="h-1/4 w-full flex items-center justify-evenly">
         <PostCardIcons
-          Icon={ChartNoAxesColumn}
-          ariaLabel="View Impressions"
-          setHovered={setHovered}
-          hoverKey="chart"
-          iconClassName={`w-10 text-gray-400 rounded-full p-1 ${
-            hovered === "chart" ? "text-green-500 bg-green-300" : ""
-          }`}
-          pClassName={hovered === "chart" ? "text-green-500" : "text-gray-400"}
-          text={postData.impressions}
-        />
-
-        <PostCardIcons
           Icon={Heart}
           ariaLabel="Add or Remove Like"
-          setHovered={setHovered}
-          hoverKey="heart"
-          iconClassName={`w-10 rounded-full text-gray-400 p-1 ${
-            hovered === "heart" ? "text-red-500 bg-red-300" : ""
-          } ${like ? "fill-red-500 text-red-500" : ""}`}
-          pClassName={hovered === "heart" ? "text-red-500" : "text-gray-400"}
-          text={postData.likes}
-          onClick={() => setLike((prev) => !prev)}
+          iconClassName={`w-10 rounded-full text-gray-400 p-1 hover:bg-red-300 hover:text-red-500 ${
+            like ? "fill-red-500 text-red-500" : ""
+          }`}
+          pClassName={like ? "text-red-500" : "text-gray-400"}
+          text={postData.likes.length}
+          onClick={toggleLike}
         />
 
         <PostCardIcons
           Icon={MessageCircle}
           ariaLabel="View Comments"
-          setHovered={setHovered}
-          hoverKey="message"
-          iconClassName={`w-10 rounded-full text-gray-400 p-1 ${
-            hovered === "message" ? "blueBug bg-blue-300" : ""
-          }`}
-          pClassName={hovered === "message" ? "text-blue-500" : "text-gray-400"}
-          text={postData.comments}
+          iconClassName="w-10 rounded-full text-gray-400 p-1 hover:bg-blue-300 hover:text-blue-500"
+          pClassName="text-gray-400"
+          text={postData.comments.length}
         />
       </div>
       {editable && (
         <Button
           clickHandler={() => {
-            mutation.mutate();
+            deletePost(postData.id);
           }}
           aria-label="Delete Post"
           styles="absolute -bottom-4 -right-3"

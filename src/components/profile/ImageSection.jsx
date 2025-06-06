@@ -5,7 +5,14 @@ import EditModal from "./EditModal";
 import Button from "../auth/Button";
 import FollowButton from "./FollowButton";
 
-function ImageSection({ username, img, bio = "", editable = false }) {
+function ImageSection({
+  username,
+  img,
+  bio = "",
+  editable = false,
+  followers = null,
+  following = null,
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const nameStyles = "text-gray-600 font-bold mt-[11vh] flex";
 
@@ -22,12 +29,19 @@ function ImageSection({ username, img, bio = "", editable = false }) {
             clickHandler={() => setIsOpen(true)}
           />
         ) : (
-          <div className="absolute top-8 right-4">
+          <div className="absolute font-bold top-8 right-4">
             <FollowButton name={username} />
           </div>
         )}
         <div className="flex w-full items-center pl-10 h-3/4">
           <UserImg editable img={img} />
+          {!editable && (
+            <div className="font-bold text-green-300 flex justify-evenly items-center absolute top-9 left-22 w-1/2">
+              Follower:{followers}
+              <p></p>
+              <p>Following:{following}</p>
+            </div>
+          )}
           <p className={nameStyles}>@{username}</p>
         </div>
         <div className="w-full">

@@ -189,6 +189,72 @@ export const handlers = [
     return new HttpResponse({ status: 204 });
   }),
 
+  http.patch("/api/posts/:id", async ({ request, params }) => {
+    const { id } = params;
+    const body = await request.json();
+
+    const postIndex = posts.findIndex((p) => p.id === id);
+
+    if (postIndex === -1) {
+      return new HttpResponse(JSON.stringify({ error: "Post not found" }), {
+        status: 404,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    const post = posts[postIndex];
+    const { action, username, text } = body;
+
+    if (!action) {
+      return new HttpResponse(JSON.stringify({ error: "Action is required" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    if (action === "like") {
+      if (!post.likes) post.likes = [];
+      if (!post.likes.includes(username)) {
+        post.likes.push(username);
+      } else {
+        post.likes = post.likes.filter((u) => u !== username);
+      }
+    } else if (action === "comment") {
+      if (!post.comments) post.comments = [];
+      if (!text) {
+        return new HttpResponse(
+          JSON.stringify({ error: "Comment text is required" }),
+          {
+            status: 400,
+            headers: { "Content-Type": "application/json" },
+          },
+        );
+      }
+      const newComment = {
+        id: uuid,
+        username,
+        text,
+        createdAt: new Date().toISOString(),
+      };
+      post.comments.push(newComment);
+    } else if (action === "impression") {
+      if (typeof post.impressions !== "number") post.impressions = 0;
+      post.impressions++;
+    } else {
+      return new HttpResponse(JSON.stringify({ error: "Invalid action" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    posts[postIndex] = post;
+
+    return new HttpResponse(JSON.stringify(post), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  }),
+
   // auth
   http.post("/api/login", async ({ request }) => {
     const { username, password } = await request.json();

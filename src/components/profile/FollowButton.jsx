@@ -2,16 +2,19 @@ import { useState } from "react";
 import useAuth from "../../stores/authStore";
 import { useMutation } from "@tanstack/react-query";
 import { updateFollow } from "../../utils/updateFollow";
+import { useQueryClient } from "@tanstack/react-query";
 
 function FollowButton({ name }) {
   const { user, setUser } = useAuth();
   const [isFollowing, setIsFollowing] = useState(user.following.includes(name));
+  const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation({
     mutationKey: ["follow/unfollow"],
     mutationFn: ({ username, targetUsername, action }) =>
       updateFollow({ username, targetUsername, action }),
     onSuccess: (updatedUser) => {
       setIsFollowing((prev) => !prev);
+      queryClient.invalidateQueries(["userData", `/${name}`]);
       setUser(updatedUser);
     },
   });
