@@ -17,8 +17,9 @@ function Home() {
     hasNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ["getAllPosts"],
-    queryFn: ({ pageParam = 1 }) => getPosts(`?page=${pageParam}&limit=10`),
+    queryKey: ["getAllPosts", sortValue],
+    queryFn: ({ pageParam = 1 }) =>
+      getPosts(`?page=${pageParam}&limit=10&sort=${sortValue}`),
     getNextPageParam: (lastPage, allPages) =>
       lastPage.length < 10 ? undefined : allPages.length + 1,
     refetchOnMount: true,
@@ -36,16 +37,13 @@ function Home() {
       },
       { threshold: 1 },
     );
+
     if (loadMoreRef.current) observer.observe(loadMoreRef.current);
+
     return () => observer.disconnect();
   }, [fetchNextPage, hasNextPage]);
 
   const allPosts = data?.pages.flat() || [];
-  const sortedPosts = allPosts.sort((a, b) => {
-    const dateA = new Date(a.createdAt);
-    const dateB = new Date(b.createdAt);
-    return sortValue === "desc" ? dateB - dateA : dateA - dateB;
-  });
 
   return (
     <>
@@ -56,8 +54,8 @@ function Home() {
       <div className="w-full flex flex-col items-center">
         {status === "loading" && <CustomLoader styles="mt-[42vh]" />}
 
-        {sortedPosts.map((post) => (
-          <PostCard key={post.username} postData={post} />
+        {allPosts.map((post) => (
+          <PostCard key={post.id} postData={post} />
         ))}
 
         {isFetchingNextPage && <CustomLoader styles="my-4" />}
@@ -72,5 +70,3 @@ function Home() {
 }
 
 export default Home;
-
-//api sorting after creating a post is buggy so i have to sort manually here client-side

@@ -1,9 +1,11 @@
 import React from "react";
 import { User } from "lucide-react";
 
-function UserImage({ img }) {
+function UserImage({ img, styles = "", size = 22, mdSize = 30 }) {
   return (
-    <div className="w-22 h-22 md:h-30 md:w-30 flex justify-center items-center rounded-full border-green-300 border-4 overflow-hidden  bg-gray-600">
+    <div
+      className={`w-${size} h-${size} md:h-${mdSize} md:w-${mdSize} flex justify-center items-center rounded-full border-green-300 border-4 overflow-hidden  bg-gray-600 ${styles}`}
+    >
       {!img ? (
         <User size={60} className="text-green-300" />
       ) : (

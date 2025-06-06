@@ -1,26 +1,20 @@
 import { redirect } from "react-router-dom";
 import useAuth from "../stores/authStore";
 
-export function initialAuthCheck() {
-  useAuth.getState().setUser();
+export async function initialAuthCheck() {
+  await useAuth.getState().fetchUser();
   const { authenticated } = useAuth.getState();
   return authenticated ? redirect("/home") : redirect("/login");
 }
 
-export function authCheckPrivate() {
-  useAuth.getState().setUser();
+export async function authCheckPrivate() {
+  await useAuth.getState().fetchUser();
   const { authenticated } = useAuth.getState();
-  if (!authenticated) {
-    return redirect("/login");
-  }
-  return null;
+  return authenticated ? null : redirect("/login");
 }
-export function authCheckPublic() {
-  useAuth.getState().setUser();
-  const { authenticated } = useAuth.getState();
 
-  if (authenticated) {
-    return redirect("/home");
-  }
-  return null;
+export async function authCheckPublic() {
+  await useAuth.getState().fetchUser();
+  const { authenticated } = useAuth.getState();
+  return authenticated ? redirect("/home") : null;
 }

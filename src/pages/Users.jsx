@@ -25,7 +25,7 @@ export const clientLoader =
   (queryClient) =>
   async ({ params }) => {
     const username = params.username;
-    const queryString = `?username=${username}`;
+    const queryString = `/${username}`;
     const userQueryObj = userQuery(queryString);
     const postsQueryObj = userPostsQuery(queryString);
 

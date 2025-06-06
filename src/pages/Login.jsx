@@ -15,8 +15,8 @@ function Login() {
   const [loginError, setLoginError] = useState(false);
   const [loginSuccess, setLoginSuccess] = useState(false);
   const { data, isLoading } = useQuery({
-    queryKey: ["getAllUsers for login"],
-    queryFn: () => getUsers(),
+    queryKey: ["getUser for login"],
+    queryFn: () => getUsers("/Gudrun_Huels"),
   });
 
   const { mutate } = useMutation({
@@ -37,10 +37,10 @@ function Login() {
   const { errors } = formState;
 
   useEffect(() => {
-    if (!isLoading && data && data.length > 0) {
+    if (!isLoading && data) {
       reset({
-        username: data[0].username,
-        password: data[0].password,
+        username: data.username,
+        password: data.password,
       });
     }
   }, [isLoading, data, reset]);
@@ -55,6 +55,7 @@ function Login() {
       onError: () => {
         setLoginError(true);
         setLoginSuccess(false);
+        console.log("error");
       },
     });
   }

@@ -10,5 +10,7 @@ export default async function signup(formData) {
 
   if (!res.ok) throw new Error("Signup failed");
 
-  await useAuth.getState().fetchUser();
+  const user = await res.json();
+
+  useAuth.getState().setUser(user);
 }

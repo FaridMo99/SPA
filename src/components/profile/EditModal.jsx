@@ -28,7 +28,7 @@ function EditModal({ setIsOpen }) {
 
   const mutation = useMutation({
     mutationKey: ["change info", user],
-    mutationFn: (data) => editUser(data, user.id),
+    mutationFn: (data) => editUser(data, user.username),
   });
 
   function submitHandler(formData) {

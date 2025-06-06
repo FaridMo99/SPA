@@ -1,22 +1,20 @@
 import PostCard from "../components/home/PostCard";
-import { useOutletContext } from "react-router-dom";
-import CustomLoader from "../components/CustomLoader";
+import useAuth from "../stores/authStore";
 
 function Posts() {
-  const [postData, postIsLoading] = useOutletContext();
+  const user = useAuth((state) => state.user);
 
   return (
     <section
       aria-label="Your Posts"
       className="w-full flex flex-col items-center my-10"
     >
-      {postIsLoading && <CustomLoader />}
-      {!postIsLoading && postData.length === 0 && (
+      {user.posts.length === 0 && (
         <p className="font-bold text-green-300">No Posts found...</p>
       )}
-      {!postIsLoading && postData.length !== 0 && (
+      {user.posts.length !== 0 && (
         <>
-          {postData.map((element) => (
+          {user.posts.map((element) => (
             <PostCard editable key={element.createdAt} postData={element} />
           ))}
         </>

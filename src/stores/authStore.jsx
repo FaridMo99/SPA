@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-const useAuth = create((set) => ({
+const useAuth = create((set, get) => ({
   user: null,
   authenticated: false,
 
@@ -9,8 +9,11 @@ const useAuth = create((set) => ({
   clearUser: () => set({ user: null, authenticated: false }),
 
   fetchUser: async () => {
+    const { user, authenticated } = get();
+
+    if (authenticated && user) return;
     try {
-      const res = await fetch("/api/session", { credentials: "include" });
+      const res = await fetch("/api/login", { credentials: "include" });
       if (!res.ok) throw new Error("Not authenticated");
       const user = await res.json();
       set({ user, authenticated: true });
