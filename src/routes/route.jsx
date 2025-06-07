@@ -16,8 +16,6 @@ import {
   initialAuthCheck,
 } from "../utils/authRedirect";
 import { Suspense, lazy } from "react";
-import { queryClient } from "../utils/queryClient";
-import { clientLoader as userLoader } from "../pages/Users";
 
 const LazyAuthLayout = lazy(() => import("../layouts/AuthLayout"));
 const LazyMainLayout = lazy(() => import("../layouts/MainLayout"));
@@ -68,7 +66,6 @@ const route = createBrowserRouter([
           {
             element: <Users />,
             path: ":username",
-            loader: userLoader(queryClient),
             errorElement: <Error userspage />,
           },
           {

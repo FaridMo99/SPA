@@ -15,8 +15,8 @@ function FollowButton({ name }) {
       updateFollow({ username, targetUsername, action }),
     onSuccess: (updatedUser) => {
       setIsFollowing((prev) => !prev);
-      queryClient.invalidateQueries(["userData", queryString]);
       setUser(updatedUser);
+      queryClient.invalidateQueries(["userData", queryString]);
     },
   });
 

@@ -3,50 +3,31 @@ import PostCard from "../components/home/PostCard";
 import getPosts from "../utils/getPosts";
 import getUsers from "../utils/getUsers";
 import UsersLoadingSkeleton from "../components/UsersLoadingSkeleton";
-import { useLoaderData, useNavigation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import useAuth from "../stores/authStore";
 import { useEffect } from "react";
-
-function userQuery(queryString) {
-  return {
-    queryKey: ["userData", queryString],
-    queryFn: async () => getUsers(queryString),
-  };
-}
-
-function userPostsQuery(queryString) {
-  return {
-    queryKey: ["getPostData", queryString],
-    queryFn: async () => getPosts(queryString),
-  };
-}
-
-export const clientLoader =
-  (queryClient) =>
-  async ({ params }) => {
-    const username = params.username;
-    const queryString = `/${username}`;
-    const userQueryObj = userQuery(queryString);
-    const postsQueryObj = userPostsQuery(queryString);
-
-    const userData =
-      queryClient.getQueryData(userQueryObj.queryKey) ??
-      (await queryClient.fetchQuery(userQueryObj));
-
-    const postsData =
-      queryClient.getQueryData(postsQueryObj.queryKey) ??
-      (await queryClient.fetchQuery(postsQueryObj));
-
-    return { userData, postsData };
-  };
+import { useQuery } from "@tanstack/react-query";
 
 function Users() {
-  const { userData, postsData } = useLoaderData();
-  const navigation = useNavigation();
   const navigate = useNavigate();
   const user = useAuth((state) => state.user);
   const { username } = useParams();
+  const queryString = `/${username}`;
+
+  const {
+    data: userData,
+    isLoading: userIsLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["userData", queryString],
+    queryFn: async () => getUsers(queryString),
+  });
+
+  const { data: postData, isLoading: postDataIsLoading } = useQuery({
+    queryKey: ["getPostData", queryString],
+    queryFn: async () => getPosts(queryString),
+  });
 
   useEffect(() => {
     if (username === user.username) {
@@ -54,9 +35,9 @@ function Users() {
     }
   }, []);
 
-  if (navigation.state === "loading") return <UsersLoadingSkeleton />;
+  if (userIsLoading || postDataIsLoading) return <UsersLoadingSkeleton />;
 
-  if (!userData) {
+  if ((!userData, isError)) {
     throw new Error();
   }
 
@@ -70,10 +51,10 @@ function Users() {
         following={userData.following.length}
       />
       <div className="w-full flex flex-col items-center mt-10">
-        {postsData?.map((element) => (
+        {postData?.map((element) => (
           <PostCard key={element.id} postData={element} />
         ))}
-        {postsData.length === 0 && (
+        {postData.length === 0 && (
           <p className="text-green-300 font-bold">No Posts found...</p>
         )}
       </div>
