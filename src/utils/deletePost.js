@@ -7,5 +7,5 @@ export default async function deletePost(id) {
     throw new Error("Delete failed");
   }
 
-  return await res.json();
+  return true;
 }

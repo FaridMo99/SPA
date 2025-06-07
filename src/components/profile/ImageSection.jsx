@@ -10,8 +10,8 @@ function ImageSection({
   img,
   bio = "",
   editable = false,
-  followers = null,
-  following = null,
+  followers,
+  following,
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const nameStyles = "text-gray-600 font-bold mt-[11vh] flex";

@@ -13,18 +13,16 @@ import UserImage from "../UserImage";
 
 function PostCard({ postData, editable = false }) {
   const queryClient = useQueryClient();
-  const { user: currentUser } = useAuth();
+  const { user } = useAuth();
 
-  const [like, setLike] = useState(
-    postData.likes.includes(currentUser?.username),
-  );
+  const [like, setLike] = useState(postData.likes.includes(user?.username));
 
   const mutationLike = useMutation({
-    mutationKey: ["like post", postData.id, currentUser.username],
-    mutationFn: () => likePost(postData.id, currentUser.username),
+    mutationKey: ["like post", postData.id, user.username],
+    mutationFn: () => likePost(postData.id, user.username),
     onSuccess: () => {
       queryClient.invalidateQueries(["get posts"]);
-      if (postData.username === currentUser.username) {
+      if (postData.username === user.username) {
         queryClient.invalidateQueries(["get User posts", postData.username]);
       }
     },
@@ -34,7 +32,7 @@ function PostCard({ postData, editable = false }) {
     mutationFn: () => deletePost(postData.id),
     mutationKey: ["delete post"],
     onSuccess: () => {
-      queryClient.invalidateQueries(["get User posts", currentUser.username]);
+      queryClient.invalidateQueries(["get User posts", user.username]);
     },
   });
 

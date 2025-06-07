@@ -12,7 +12,6 @@ function userQuery(queryString) {
   return {
     queryKey: ["userData", queryString],
     queryFn: async () => getUsers(queryString),
-    retry: false,
   };
 }
 
@@ -20,7 +19,6 @@ function userPostsQuery(queryString) {
   return {
     queryKey: ["getPostData", queryString],
     queryFn: async () => getPosts(queryString),
-    retry: false,
   };
 }
 
