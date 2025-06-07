@@ -8,16 +8,16 @@ function FollowButton({ name }) {
   const { user, setUser } = useAuth();
   const [isFollowing, setIsFollowing] = useState(user.following.includes(name));
   const queryClient = useQueryClient();
-const { mutate, isPending } = useMutation({
-  mutationKey: ["follow/unfollow"],
-  mutationFn: ({ username, targetUsername, action }) =>
-    updateFollow({ username, targetUsername, action }),
-  onSuccess: (updatedUser) => {
-    setIsFollowing(prev => !prev);
-    queryClient.invalidateQueries(["userData", `/${name}`]);
-    setUser(updatedUser);
-  },
-});
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["follow/unfollow"],
+    mutationFn: ({ username, targetUsername, action }) =>
+      updateFollow({ username, targetUsername, action }),
+    onSuccess: (updatedUser) => {
+      setIsFollowing((prev) => !prev);
+      queryClient.invalidateQueries(["userData", `/${name}`]);
+      setUser(updatedUser);
+    },
+  });
 
   return (
     <button

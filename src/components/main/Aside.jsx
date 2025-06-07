@@ -1,10 +1,8 @@
 import { NavLink } from "react-router-dom";
 import { ArrowRightToLine, ArrowLeftToLine, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import useAuth from "../../stores/authStore";
 
 function Aside({ paths, asideOpen, setAsideOpen }) {
-  const { clearUser } = useAuth();
   const navigate = useNavigate();
   function clickHandler() {
     setAsideOpen((pre) => {
@@ -16,14 +14,8 @@ function Aside({ paths, asideOpen, setAsideOpen }) {
   async function logoutHandler() {
     sessionStorage.removeItem("search");
     sessionStorage.removeItem("aside");
-
-    await fetch("/api/logout", {
-      method: "POST",
-      credentials: "include",
-    });
-
+    sessionStorage.removeItem("username");
     navigate("/login");
-    clearUser();
   }
 
   return (

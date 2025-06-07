@@ -20,7 +20,7 @@ function PostCard({ postData, editable = false }) {
   );
 
   const mutationLike = useMutation({
-    mutationKey:["like post", postData.id, currentUser.username],
+    mutationKey: ["like post", postData.id, currentUser.username],
     mutationFn: () => likePost(postData.id, currentUser.username),
     onSuccess: () => {
       queryClient.invalidateQueries(["get posts"]);
@@ -31,12 +31,12 @@ function PostCard({ postData, editable = false }) {
   });
 
   const mutationDelete = useMutation({
-    mutationFn:()=>deletePost(postData.id),
-    mutationKey:["delete post"],
-    onSuccess:()=>{
-      queryClient.invalidateQueries(["get User posts", currentUser.username])
-    }
-  })
+    mutationFn: () => deletePost(postData.id),
+    mutationKey: ["delete post"],
+    onSuccess: () => {
+      queryClient.invalidateQueries(["get User posts", currentUser.username]);
+    },
+  });
 
   const toggleLike = () => {
     setLike((prev) => !prev);

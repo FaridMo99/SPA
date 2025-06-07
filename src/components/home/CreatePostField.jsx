@@ -27,11 +27,11 @@ function CreatePostField() {
       likes: [],
       comments: [],
     };
+
     mutation.mutate(data, {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["getAllPosts"] });
-        queryClient.invalidateQueries(["get User posts", user.username]),
-          setText("");
+        setText("");
       },
       onError: () => {
         alert("Something went wrong!");

@@ -16,7 +16,7 @@ function Login() {
   const [loginSuccess, setLoginSuccess] = useState(false);
   const { data, isLoading } = useQuery({
     queryKey: ["getUser for login"],
-    queryFn: () => getUsers("/Gudrun_Huels"),
+    queryFn: () => getUsers(),
   });
 
   const { mutate } = useMutation({
@@ -29,18 +29,14 @@ function Login() {
   const { formState, register, handleSubmit, reset } = useForm({
     resolver: zodResolver(loginSchema),
     mode: "onSubmit",
-    defaultValues: {
-      username: "",
-      password: "",
-    },
   });
   const { errors } = formState;
 
   useEffect(() => {
-    if (!isLoading && data) {
+    if (!isLoading && data.length !== 0) {
       reset({
-        username: data.username,
-        password: data.password,
+        username: data[0].username,
+        password: data[0].password,
       });
     }
   }, [isLoading, data, reset]);
@@ -55,7 +51,6 @@ function Login() {
       onError: () => {
         setLoginError(true);
         setLoginSuccess(false);
-        console.log("error");
       },
     });
   }
@@ -92,7 +87,7 @@ function Login() {
         <Button text="Login" type="submit" styles="font-bold" />
 
         <Link to="/signup" className="text-green-300 underline">
-          Don’t have an account? Sign up.
+          Don’t have a account? Sign up.
         </Link>
       </form>
       {loginSuccess && (

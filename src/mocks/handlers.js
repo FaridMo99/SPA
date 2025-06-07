@@ -2,12 +2,6 @@ import { http, HttpResponse } from "msw";
 import { v4 as uuid } from "uuid";
 import { users, posts } from "./data";
 
-const TOKEN = "mocktoken";
-
-function generateToken(user) {
-  return `${user.id}.${Date.now()}`;
-}
-
 export const handlers = [
   http.get("/api/users", ({ request }) => {
     const url = new URL(request.url);
@@ -172,6 +166,27 @@ export const handlers = [
       });
     } else {
       const allowedFields = ["username", "bio", "avatar"];
+
+      if (user.posts.length !== 0) {
+        posts.forEach((post) => {
+          if (post.username === user.username) {
+            post.username = body.username;
+            post.avatar = body.avatar;
+          }
+        });
+      }
+
+      posts.forEach((post) => {
+        if (post.comments.length !== 0) {
+          post.comments.forEach((comment) => {
+            if (comment.username === user.username) {
+              comment.username = body.username;
+              comment.avatar = body.avatar;
+            }
+          });
+        }
+      });
+
       allowedFields.forEach((field) => {
         if (body[field] !== undefined) {
           user[field] = body[field];
@@ -179,7 +194,7 @@ export const handlers = [
       });
 
       users[userIndex] = user;
-
+      console.log(posts);
       return new HttpResponse(JSON.stringify(user), {
         status: 200,
         headers: { "Content-Type": "application/json" },
@@ -252,9 +267,6 @@ export const handlers = [
         createdAt: new Date().toISOString(),
       };
       post.comments.push(newComment);
-    } else if (action === "impression") {
-      if (typeof post.impressions !== "number") post.impressions = 0;
-      post.impressions++;
     } else {
       return new HttpResponse(JSON.stringify({ error: "Invalid action" }), {
         status: 400,
@@ -286,13 +298,11 @@ export const handlers = [
         },
       );
     }
-    const token = generateToken(user);
     const { password: _, ...safeUser } = user;
 
     return new HttpResponse(JSON.stringify(safeUser), {
       status: 200,
       headers: {
-        "Set-Cookie": `${TOKEN}=${token}; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=${60 * 60 * 24}`,
         "Content-Type": "application/json",
       },
     });
@@ -320,22 +330,12 @@ export const handlers = [
     newUser.avatar = "";
     users.push(newUser);
 
-    const token = generateToken(newUser);
     const { password: _, ...safeUser } = newUser;
 
     return new HttpResponse(JSON.stringify(safeUser), {
       status: 201,
       headers: {
-        "Set-Cookie": `${TOKEN}=${token}; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=${60 * 60 * 24}`,
         "Content-Type": "application/json",
-      },
-    });
-  }),
-  http.post("/api/logout", () => {
-    return new HttpResponse(null, {
-      status: 200,
-      headers: {
-        "Set-Cookie": `${TOKEN}=; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=0`,
       },
     });
   }),
