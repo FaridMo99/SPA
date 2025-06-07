@@ -11,11 +11,12 @@ function SearchList({ items }) {
         <Link
           to={`/${item.username}`}
           className="w-full hover:bg-gray-300 h-11"
+          key={item.username}
         >
           {item.username}
         </Link>
       ))}
-      {!items && (
+      {items?.length === 0 && (
         <div className="w-full h-[10vh] flex justify-center items-center text-gray-500">
           <p>No Users Found</p>
           <Search className="ml-2" />
