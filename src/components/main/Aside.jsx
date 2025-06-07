@@ -13,11 +13,17 @@ function Aside({ paths, asideOpen, setAsideOpen }) {
       return newVal;
     });
   }
-
-  function logoutHandler() {
+  async function logoutHandler() {
     sessionStorage.removeItem("search");
-    clearUser();
+    sessionStorage.removeItem("aside");
+
+    await fetch("/api/logout", {
+      method: "POST",
+      credentials: "include",
+    });
+
     navigate("/login");
+    clearUser();
   }
 
   return (

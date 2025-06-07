@@ -17,7 +17,7 @@ export async function like(postId, username) {
   return await response.json();
 }
 
-export async function comment({ postId, username, text }) {
+export async function comment({ postId, username, comment, avatar }) {
   const response = await fetch(`/api/posts/${postId}`, {
     method: "PATCH",
     headers: {
@@ -26,7 +26,8 @@ export async function comment({ postId, username, text }) {
     body: JSON.stringify({
       action: "comment",
       username,
-      text,
+      comment,
+      avatar,
     }),
   });
 

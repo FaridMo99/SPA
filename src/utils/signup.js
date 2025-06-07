@@ -13,4 +13,5 @@ export default async function signup(formData) {
   const user = await res.json();
 
   useAuth.getState().setUser(user);
+  return user;
 }

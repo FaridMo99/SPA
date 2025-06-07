@@ -24,9 +24,8 @@ function CreatePostField() {
       username: user.username,
       avatar: user.avatar,
       post: text.trim(),
-      likes: 0,
-      impressions: 0,
-      comments: 0,
+      likes: [],
+      comments: [],
     };
     mutation.mutate(data, {
       onSuccess: () => {

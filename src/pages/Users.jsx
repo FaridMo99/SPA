@@ -54,11 +54,11 @@ function Users() {
     if (username === user.username) {
       navigate("/profile");
     }
-  }, [username, user.username, navigate]);
+  }, []);
 
   if (navigation.state === "loading") return <UsersLoadingSkeleton />;
 
-  if (userData.length === 0) {
+  if (!userData) {
     throw new Error();
   }
 
@@ -73,7 +73,7 @@ function Users() {
       />
       <div className="w-full flex flex-col items-center mt-10">
         {postsData?.map((element) => (
-          <PostCard key={element.username} postData={element} />
+          <PostCard key={element.id} postData={element} />
         ))}
         {postsData.length === 0 && (
           <p className="text-green-300 font-bold">No Posts found...</p>

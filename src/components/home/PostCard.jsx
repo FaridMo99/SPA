@@ -9,6 +9,7 @@ import Button from "../auth/Button";
 import PostCardIcons from "./PostCardIcons";
 import { like as likePost } from "../../utils/interactWithPost";
 import useAuth from "../../stores/authStore";
+import UserImage from "../UserImage";
 
 function PostCard({ postData, editable = false }) {
   const queryClient = useQueryClient();
@@ -19,6 +20,7 @@ function PostCard({ postData, editable = false }) {
   );
 
   const mutationLike = useMutation({
+    mutationKey:["like post", postData.id, currentUser.username],
     mutationFn: () => likePost(postData.id, currentUser.username),
     onSuccess: () => {
       queryClient.invalidateQueries(["get posts"]);
@@ -27,6 +29,14 @@ function PostCard({ postData, editable = false }) {
       }
     },
   });
+
+  const mutationDelete = useMutation({
+    mutationFn:()=>deletePost(postData.id),
+    mutationKey:["delete post"],
+    onSuccess:()=>{
+      queryClient.invalidateQueries(["get User posts", currentUser.username])
+    }
+  })
 
   const toggleLike = () => {
     setLike((prev) => !prev);
@@ -40,13 +50,12 @@ function PostCard({ postData, editable = false }) {
     >
       <div className="w-full h-1/4 flex items-center justify-between">
         <div className="w-1/2 flex items-center h-full">
-          <img
-            src={postData.avatar}
-            alt={`${postData.username} Avatar`}
-            className="mr-4 w-10 h-10 rounded-full"
-          />
-          <Link className="hover:text-black/60" to={`/${postData.username}`}>
-            <h1>{postData.username}</h1>
+          <UserImage img={postData.avatar} />
+          <Link
+            className="hover:text-black/60 absolute left-20"
+            to={`/${postData.username}`}
+          >
+            <h1>@{postData.username}</h1>
           </Link>
         </div>
         <p className="text-gray-300 mr-2">{passedTime(postData.createdAt)}</p>
@@ -76,9 +85,7 @@ function PostCard({ postData, editable = false }) {
       </div>
       {editable && (
         <Button
-          clickHandler={() => {
-            deletePost(postData.id);
-          }}
+          clickHandler={mutationDelete.mutate}
           aria-label="Delete Post"
           styles="absolute -bottom-4 -right-3"
           text={<Trash2 className="text-red-500" />}

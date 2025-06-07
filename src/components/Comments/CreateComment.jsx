@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Send } from "lucide-react";
-import { comment } from "../../utils/interactWithPost";
+import { comment as commenting } from "../../utils/interactWithPost";
 import { useMutation } from "@tanstack/react-query";
 import useAuth from "../../stores/authStore";
 
@@ -16,8 +16,8 @@ function CreateComment({ commentId }) {
 
   const { mutate, isLoading } = useMutation({
     mutationKey: ["send comment", commentId],
-    mutationFn: ({ postId, username, text }) =>
-      comment({ postId, username, text }),
+    mutationFn: ({ postId, username, comment, avatar }) =>
+      commenting({ postId, username, comment, avatar }),
     onSuccess: () => {
       setValue("");
     },
@@ -25,11 +25,11 @@ function CreateComment({ commentId }) {
 
   function submitHandler(e) {
     e.preventDefault();
-
     mutate({
       postId: commentId,
       username: user.username,
-      text: value.trim(),
+      comment: value.trim(),
+      avatar: user.avatar,
     });
   }
 

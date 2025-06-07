@@ -15,7 +15,6 @@ function Follower() {
       );
       return followersData;
     },
-    enabled: user.followers.length > 0,
   });
 
   if (isLoading) return <CustomLoader />;
@@ -23,7 +22,9 @@ function Follower() {
   return (
     <div className="w-full flex flex-col my-4 items-center">
       {user.followers.length === 0 ? (
-        <p className="font-bold text-green-300 mt-10">You have 0 followers</p>
+        <p className="font-bold text-green-300 mt-10">
+          You have 0 followers...
+        </p>
       ) : (
         data.map((follower) => (
           <FollowCard key={follower.id} followsData={follower} />

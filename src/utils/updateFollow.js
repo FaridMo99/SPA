@@ -11,6 +11,5 @@ export async function updateFollow({ username, targetUsername, action }) {
   if (!res.ok) {
     throw new Error(`Failed to ${action}: ${res.statusText}`);
   }
-
-  return res.json();
+  return await res.json();
 }

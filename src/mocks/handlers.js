@@ -113,8 +113,6 @@ export const handlers = [
     const newPost = await request.json();
 
     newPost.id = uuid();
-    newPost.createdAt = new Date().toISOString();
-
     posts.push(newPost);
 
     return new HttpResponse(JSON.stringify(newPost), {
@@ -219,7 +217,7 @@ export const handlers = [
     }
 
     const post = posts[postIndex];
-    const { action, username, text } = body;
+    const { action, username, comment, avatar } = body;
 
     if (!action) {
       return new HttpResponse(JSON.stringify({ error: "Action is required" }), {
@@ -237,7 +235,7 @@ export const handlers = [
       }
     } else if (action === "comment") {
       if (!post.comments) post.comments = [];
-      if (!text) {
+      if (!comment) {
         return new HttpResponse(
           JSON.stringify({ error: "Comment text is required" }),
           {
@@ -249,7 +247,8 @@ export const handlers = [
       const newComment = {
         id: uuid,
         username,
-        text,
+        comment,
+        avatar,
         createdAt: new Date().toISOString(),
       };
       post.comments.push(newComment);
@@ -315,6 +314,10 @@ export const handlers = [
     }
     newUser.id = uuid();
     newUser.createdAt = new Date().toISOString();
+    newUser.followers = [];
+    newUser.following = [];
+    newUser.posts = [];
+    newUser.avatar = "";
     users.push(newUser);
 
     const token = generateToken(newUser);
@@ -325,6 +328,14 @@ export const handlers = [
       headers: {
         "Set-Cookie": `${TOKEN}=${token}; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=${60 * 60 * 24}`,
         "Content-Type": "application/json",
+      },
+    });
+  }),
+  http.post("/api/logout", () => {
+    return new HttpResponse(null, {
+      status: 200,
+      headers: {
+        "Set-Cookie": `${TOKEN}=; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=0`,
       },
     });
   }),

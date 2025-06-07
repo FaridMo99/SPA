@@ -24,7 +24,7 @@ const signupSchema = z
       .string()
       .email("Invalid email address")
       .nonempty("Field is required"),
-    password: z.string().min(8).max(20),
+    password: z.string().min(8, "Password must have atleast 8 Characters"),
 
     confirmPassword: z.string().nonempty("Field is required"),
     bio: z.string().optional(),
