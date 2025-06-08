@@ -21,11 +21,10 @@ const useAuth = create((set) => ({
       });
       if (!res.ok) throw new Error("Not authenticated");
       const user = await res.json();
-      sessionStorage.setItem("username", username);
-      set({ user, authenticated: true });
+      useAuth.getState().setUser(user);
       return true;
     } catch {
-      set({ user: null, authenticated: false });
+      useAuth.getState().clearUser();
       return false;
     }
   },

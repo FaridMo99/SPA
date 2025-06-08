@@ -24,6 +24,7 @@ const route = createBrowserRouter([
   {
     path: "/",
     errorElement: <Error />,
+    hydrateFallbackElement: <LoadingScreen />,
     children: [
       {
         index: true,
