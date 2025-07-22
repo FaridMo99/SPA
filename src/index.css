@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;600&family=Space+Grotesk:wght@400;600&display=swap");
 @import "tailwindcss";
-@config "../tailwind.config.js";
+@config "../tailwind.config.ts";
 
 .blueBug {
   color: #3b82f6;
