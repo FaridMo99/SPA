@@ -24,7 +24,7 @@ function PostCardIcons({
       className="flex items-center"
       onClick={onClick}
     >
-      <Icon size={null} className={iconClassName} />
+      <Icon size={40} className={iconClassName} />
       <p className={pClassName}>{text}</p>
     </button>
   );
