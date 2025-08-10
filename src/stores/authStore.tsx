@@ -1,18 +1,24 @@
 import { create } from "zustand";
 import type { User } from "../mocks/data";
+import io from "socket.io-client"
+import type { Socket } from "socket.io-client";
 
 type AuthState = {
   user: User | null;
   authenticated: boolean;
+  socket: null | typeof Socket;
 
   setUser: (user: User) => void;
   clearUser: () => void;
   fetchUser: (username: string) => Promise<boolean>;
+  socketConnect: () => void;
+  socketDisconnect: () => void;
 };
 
-const useAuth = create<AuthState>((set) => ({
+const useAuth = create<AuthState>((set,get) => ({
   user: null,
   authenticated: false,
+  socket: null,
 
   setUser: (user) => {
     sessionStorage.setItem("username", user.username);
@@ -31,13 +37,17 @@ const useAuth = create<AuthState>((set) => ({
       });
       if (!res.ok) throw new Error("Not authenticated");
       const user = await res.json();
-      useAuth.getState().setUser(user);
+      get().setUser(user);
+      
       return true;
     } catch {
-      useAuth.getState().clearUser();
+      get().clearUser();
       return false;
     }
   },
+  
+  socketConnect: () => {},
+  socketDisconnect: () => {},
 }));
 
 export default useAuth;

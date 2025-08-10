@@ -4,6 +4,7 @@ import Header from "../components/main/Header";
 import Aside from "../components/main/Aside";
 import { House, UserRound } from "lucide-react";
 import useAuth from "../stores/authStore";
+import { ThemeProvider } from "../components/ThemeProvider";
 
 function MainLayout() {
   const [asideOpen, setAsideOpen] = useState<boolean>(() => {
@@ -14,7 +15,11 @@ function MainLayout() {
   const user = useAuth((state) => state.user);
 
   return (
-    <>
+    <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange>
       <Header avatar={user?.avatar ?? null} />
       <Aside
         paths={[
@@ -29,7 +34,7 @@ function MainLayout() {
       >
         <Outlet />
       </main>
-    </>
+    </ThemeProvider>
   );
 }
 

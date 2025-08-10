@@ -52,7 +52,7 @@ function PostCard({ postData, editable = false }: PostCardProps) {
   return (
     <section
       aria-label={`Post from ${postData.username}`}
-      className="w-4/5 relative bg-gray-50 outline-2 outline-gray-300 mb-8 rounded-2xl flex flex-col items-center font-bold"
+      className="w-4/5 relative bg-gray-50 dark:bg-dark-gray dark:outline-dark-green outline-2 outline-gray-300 mb-8 rounded-2xl flex flex-col items-center font-bold"
     >
       <div className="w-full h-1/4 flex items-center justify-between">
         <div className="w-1/2 flex items-center h-full">

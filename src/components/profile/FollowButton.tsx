@@ -25,7 +25,7 @@ function FollowButton({ name }: { name: string }) {
   return (
     <button
       type="button"
-      className="rounded px-2 py-1 bg-green-300 text-white font-bold absolute right-2"
+      className="rounded px-2 py-1 bg-green-300 dark:bg-dark-green text-white font-bold absolute right-2"
       onClick={() =>
         mutate({
           username: safeUser.username,

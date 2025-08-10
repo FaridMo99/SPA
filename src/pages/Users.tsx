@@ -59,7 +59,7 @@ function Users() {
         ))}
         {!postData ||
           (postData.length === 0 && (
-            <p className="text-green-300 font-bold">No Posts found...</p>
+            <p className="text-green-300  dark:text-dark-green font-bold">No Posts found...</p>
           ))}
       </div>
     </main>

@@ -62,7 +62,7 @@ function Login() {
         aria-label="Login"
         noValidate
         onSubmit={handleSubmit(submitHandler)}
-        className="w-full h-full flex flex-col justify-evenly items-center"
+        className="w-full h-full flex flex-col justify-evenly rounded-2xl items-center dark:bg-dark-gray"
       >
         <Fieldset
           register={register}
@@ -85,7 +85,7 @@ function Login() {
 
         <Button text="Login" type="submit" styles="font-bold" />
 
-        <Link to="/signup" className="text-green-300 underline">
+        <Link to="/signup" className="text-green-300 dark:text-dark-green underline">
           Don’t have a account? Sign up.
         </Link>
       </form>

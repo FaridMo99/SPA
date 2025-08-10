@@ -51,7 +51,7 @@ function SortDropdown({
         onClick={toggleDropdown}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
-        className="px-4 py-2 border border-gray-300 rounded-md bg-white hover:bg-gray-100 text-sm font-medium flex items-center justify-between w-48"
+        className="px-4 py-2 border border-gray-300 dark:border-dark-green dark:bg-dark-gray rounded-md bg-white hover:bg-gray-100 text-sm font-medium flex items-center justify-between w-48"
       >
         {selectedLabel}
         <ChevronDown
@@ -64,7 +64,7 @@ function SortDropdown({
       {isOpen && (
         <ul
           role="listbox"
-          className="absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded-md shadow-lg z-20"
+          className="absolute right-0 mt-2 w-56 bg-white dark:bg-dark-gray dark:border-dark-green border border-gray-200 rounded-md shadow-lg z-20"
           tabIndex={-1}
         >
           {options.map((option) => (
@@ -73,8 +73,8 @@ function SortDropdown({
               role="option"
               aria-selected={selected === option.value}
               onClick={() => handleSelect(option.value)}
-              className={`flex items-center justify-between px-4 py-2 cursor-pointer text-sm hover:bg-gray-100 ${
-                selected === option.value ? "bg-gray-100 font-medium" : ""
+              className={`flex items-center justify-between px-4 py-2 cursor-pointer text-sm hover:bg-gray-100 dark:hover:bg-gray-500 ${
+                selected === option.value ? "brightness-100 font-medium" : ""
               }`}
             >
               <span>{option.label}</span>

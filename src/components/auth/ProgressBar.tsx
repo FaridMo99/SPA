@@ -12,23 +12,25 @@ function ProgressBar({ steps, success }: ProgressBarProps) {
   return (
     <div className="relative w-4/5 mx-auto mt-10">
       <div
-        className={`absolute top-1/2 left-0 w-full h-2 ${steps > 2 ? "bg-green-300" : "bg-gray-300"} rounded-full transform -translate-y-1/2`}
+        className={`absolute top-1/2 left-0 w-full h-2 ${steps > 2 ? "bg-green-300 dark:bg-dark-green" : "bg-gray-300"} rounded-full transform -translate-y-1/2`}
       >
         {steps > 1 && (
-          <div className="absolute top-1/2 left-0 w-1/2 h-2 bg-green-300 rounded-full transform -translate-y-1/2"></div>
+          <div className="absolute top-1/2 left-0 w-1/2 h-2 bg-green-300 dark:bg-dark-green rounded-full transform -translate-y-1/2"></div>
         )}
       </div>
       <div className="relative flex justify-between items-center z-10">
-        <div className={`${stepStyles} border-green-300 text-green-300`}>
+        <div
+          className={`${stepStyles} border-green-300 text-green-300 dark:border-dark-green dark:text-dark-green`}
+        >
           {steps > 1 ? <Check /> : 1}
         </div>
         <div
-          className={`${stepStyles} ${steps > 1 ? "border-green-300 text-green-300" : ""}`}
+          className={`${stepStyles} ${steps > 1 ? "border-green-300 text-green-300 dark:border-dark-green dark:text-dark-green" : ""}`}
         >
           {steps > 2 ? <Check /> : 2}
         </div>
         <div
-          className={`${stepStyles} ${steps > 2 ? "border-green-300 text-green-300" : ""}`}
+          className={`${stepStyles} ${steps > 2 ? "border-green-300 text-green-300 dark:border-dark-green dark:text-dark-green" : ""}`}
         >
           {success ? <Check /> : 3}
         </div>

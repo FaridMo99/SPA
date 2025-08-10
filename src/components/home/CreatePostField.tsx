@@ -6,7 +6,7 @@ import SuccessScreen from "../auth/SuccessScreen";
 import { CheckCircle2 } from "lucide-react";
 
 const buttonStyles =
-  "bg-green-300 text-white rounded-3xl p-2 w-18 mr-2 font-bold hover:bg-gray-300 hover:text-green-300 disabled:bg-gray-100 disabled:text-gray-400 disabled:hover:bg-gray-100 disabled:hover:text-gray-400";
+  "bg-green-300 text-white rounded-3xl p-2 w-18 mr-2 font-bold disabled:bg-gray-100 disabled:text-gray-400 dark:bg-dark-green dark:disabled:bg-gray-100 dark:disabled:text-gray-400 enabled:hover:brightness-110 dark:enabled:hover:brightness-110";
 
 function CreatePostField() {
   const [text, setText] = useState<string>("");
@@ -42,7 +42,7 @@ function CreatePostField() {
   return (
     <section
       aria-label="Create Post"
-      className="w-full h-[20vh] bg-white mb-16"
+      className="w-full h-[20vh] bg-white mb-16 dark:bg-dark-gray"
     >
       <form onSubmit={submitHandler} className="w-full h-full">
         <textarea
@@ -51,9 +51,9 @@ function CreatePostField() {
             setText(e.target.value);
           }}
           placeholder="Tell us..."
-          className="bg-white w-full h-2/3 font-bold resize-none"
+          className="bg-white w-full h-2/3 font-bold resize-none  dark:bg-dark-gray"
         ></textarea>
-        <div className="border-y-black/10 border-y-2 w-full h-1/3 -mt-1.5 flex items-center justify-end">
+        <div className="border-y-black/10 dark:border-black border-y-2 w-full h-1/3 -mt-1.5 flex items-center justify-end">
           <button
             disabled={text.length === 0 || mutation.isPending}
             className={buttonStyles}

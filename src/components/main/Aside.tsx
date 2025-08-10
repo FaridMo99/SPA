@@ -38,7 +38,7 @@ function Aside({ paths, asideOpen, setAsideOpen }: AsideProps) {
 
   return (
     <aside
-      className={`h-[85vh] ${asideOpen ? "w-[20vw]" : "w-[10vw]"} fixed top-[15vh] left-0 border-r-2 border-r-green-300 bg-gray-50 z-10`}
+      className={`h-[85vh] ${asideOpen ? "w-[20vw]" : "w-[10vw]"} fixed top-[15vh] left-0 border-r-2 border-r-green-300 dark:border-r-dark-green bg-gray-50 dark:bg-dark-gray z-10`}
     >
       <nav
         aria-label="Page Navigation"
@@ -47,7 +47,7 @@ function Aside({ paths, asideOpen, setAsideOpen }: AsideProps) {
         <button
           aria-label={asideOpen ? "Collapse sidebar" : "Expand sidebar"}
           onClick={clickHandler}
-          className="absolute top-6 hover:bg-gray-300 p-2 rounded-2xl text-green-300"
+          className="absolute top-6 hover:bg-gray-300 p-2 rounded-2xl text-green-300 dark:text-dark-green dark:hover:bg-gray-600 hover:cursor-pointer"
         >
           {asideOpen ? <ArrowLeftToLine /> : <ArrowRightToLine />}
         </button>
@@ -55,7 +55,7 @@ function Aside({ paths, asideOpen, setAsideOpen }: AsideProps) {
         {paths?.map((path) => (
           <NavLink
             className={({ isActive }) =>
-              `${isActive ? "text-green-300" : ""} hover:bg-gray-300 p-2 rounded-2xl`
+              `${isActive ? "text-green-300 dark:text-dark-green" : ""} hover:bg-gray-300 dark:hover:bg-gray-600 p-2 rounded-2xl`
             }
             to={path.href}
             key={path.href}
@@ -68,7 +68,7 @@ function Aside({ paths, asideOpen, setAsideOpen }: AsideProps) {
           type="button"
           aria-label="log out"
           onClick={logoutHandler}
-          className="hover:bg-gray-300 p-2 rounded-2xl"
+          className="hover:bg-gray-300 dark:hover:bg-gray-600 p-2 rounded-2xl hover:cursor-pointer"
         >
           {asideOpen ? <p>Logout</p> : <LogOut />}
         </button>

@@ -78,7 +78,10 @@ function SignUp() {
           </SignUpStepThree>
         )}
       </form>
-      <Link to="/login" className="text-green-300 underline">
+      <Link
+        to="/login"
+        className="text-green-300 underline dark:text-dark-green"
+      >
         Already have a Account? Log in.
       </Link>
       {mutation.isPending && (

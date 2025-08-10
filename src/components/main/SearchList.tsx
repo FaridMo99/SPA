@@ -4,7 +4,7 @@ import type { User } from "../../mocks/data";
 
 function SearchList({ items }: { items: User[] }) {
   const styles =
-    "border-2 flex flex-col border-gray-300 border-t-0 absolute top-[7vh] w-[calc(79%+48px)] bg-gray-50 rounded-b-lg max-h-[20vh] overflow-y-auto z-499";
+    "border-2 flex flex-col border-gray-300 border-t-0 absolute top-[7vh] w-[calc(80%+48px)] bg-gray-50 dark:bg-dark-gray dark:border-dark-green rounded-b-lg max-h-[20vh] overflow-y-auto z-499";
   return (
     <div className={styles}>
       {items?.map((item) => (
@@ -19,7 +19,7 @@ function SearchList({ items }: { items: User[] }) {
       {items.length === 0 && (
         <div className="w-full h-[10vh] flex justify-center items-center text-gray-500">
           <p>No Users Found</p>
-          <Search className="ml-2" />
+          <Search className="ml-2 dark:text-dark-green" />
         </div>
       )}
     </div>

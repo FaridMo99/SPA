@@ -48,9 +48,9 @@ function Searchbar() {
         }}
         name="search"
         placeholder="Search..."
-        className={`h-1/2 w-4/5 border-2 bg-gray-50 border-r-1 border-gray-300 rounded-l-lg outline-0 px-2 ${
-          search.length === 0 ? "focus:shadow-lg" : ""
-        } z-4`}
+        className={`h-1/2 w-4/5 border-2 bg-gray-50 border-r-0 border-gray-300 rounded-l-lg outline-0 px-2 dark:bg-dark-gray dark:border-dark-green
+          ${debouncedSearch.length > 0 && isFocused ? "rounded-b-none" : ""} 
+          ${search.length === 0 ? "focus:shadow-lg" : ""} z-4`}
         type="text"
         autoComplete="on"
         value={search}
@@ -62,7 +62,7 @@ function Searchbar() {
       />
       <button
         type="submit"
-        className="h-1/2 bg-gray-600 rounded-r-lg px-3 flex items-center justify-center z-500 disabled:opacity-60"
+        className={`h-1/2 bg-gray-600 rounded-r-lg px-3 flex items-center justify-center z-500 disabled:opacity-60 ${debouncedSearch.length > 0 && isFocused ? " rounded-b-none" : ""}`}
         disabled={!data || data.length === 0}
       >
         <Search size={24} className="text-green-300" />
