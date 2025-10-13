@@ -5,7 +5,7 @@ import { getPosts } from "../utils/getPosts";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import CustomLoader from "../components/CustomLoader";
 import SortDropdown from "../components/home/SortDropdown";
-import type { Post } from "../mocks/data";
+import type { Post } from "../types/types";
 
 function Home() {
   const [sortValue, setSortValue] = useState<string>("desc");

@@ -1,0 +1,61 @@
+export type User = {
+  username: string;
+  profilePicture: string | null;
+  bio: string | null;
+  _count: {
+    followers: number;
+    following: number;
+  };
+};
+
+export type Post = {
+  user: {
+    username: string;
+    profilePicture: string | null;
+  };
+  id: string;
+  createdAt: Date;
+  content: string;
+  //to check if user already liked, if true then .length > 0
+  likedBy: {
+    id: string;
+  }[];
+  //for total like count
+  _count: {
+    likedBy: number;
+  };
+};
+
+export type Comment = {
+  user: {
+    username: string;
+    profilePicture: string | null;
+  };
+  createdAt: Date;
+  content: string;
+  //to check if user already liked, if true then .length > 0
+  likedBy: {
+    id: string;
+  }[];
+  _count: {
+    likedBy: number;
+  };
+};
+
+export type FollowerList = {
+  followers: {
+    follower: {
+      username: string;
+      profilePicture: string | null;
+    };
+  }[];
+};
+
+export type FollowingList = {
+  following: {
+    follower: {
+      username: string;
+      profilePicture: string | null;
+    };
+  }[];
+};

@@ -1,10 +1,12 @@
-import type { Post } from "../mocks/data";
+import { backendUrl } from "../stores/authStore";
+import type { Post } from "../types/types";
 
-export type PostData = Omit<Post, "id">;
-
-export default async function createPost(data: PostData) {
-  const res = await fetch(`/api/posts`, {
+export default async function createPost(data: {
+  content: string;
+}): Promise<Post> {
+  const res = await fetch(`/${backendUrl}/posts`, {
     method: "POST",
+    credentials: "include",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });

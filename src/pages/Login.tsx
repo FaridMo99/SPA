@@ -5,26 +5,12 @@ import { useNavigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Fieldset from "../components/auth/Fieldset";
 import Button from "../components/auth/Button";
-import loginSchema from "../schemas/loginSchema";
+import { loginSchema } from "../schemas/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import login, { type LoginFormData } from "../utils/login";
-import { getAllUsers } from "../utils/getUsers";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { type User } from "../mocks/data";
 
 function Login() {
-  const [loginError, setLoginError] = useState(false);
-  const [loginSuccess, setLoginSuccess] = useState(false);
-  const { data, isLoading } = useQuery<User[]>({
-    queryKey: ["getUser for login"],
-    queryFn: () => getAllUsers(),
-  });
-
-  const { mutate } = useMutation({
-    mutationKey: ["login"],
-    mutationFn: login,
-  });
-
   const navigation = useNavigate();
 
   const { formState, register, handleSubmit, reset } = useForm({
@@ -85,7 +71,10 @@ function Login() {
 
         <Button text="Login" type="submit" styles="font-bold" />
 
-        <Link to="/signup" className="text-green-300 dark:text-dark-green underline">
+        <Link
+          to="/signup"
+          className="text-green-300 dark:text-dark-green underline"
+        >
           Don’t have a account? Sign up.
         </Link>
       </form>

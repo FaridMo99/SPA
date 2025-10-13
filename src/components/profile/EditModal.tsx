@@ -6,7 +6,7 @@ import Label from "../auth/Label";
 import Button from "../auth/Button";
 import Input from "../auth/Input";
 import editUser, { type EditSchema } from "../../utils/editUser";
-import editSchema from "../../schemas/editSchema";
+import editSchema from "../../schemas/editUserSchema";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";

@@ -3,7 +3,7 @@ import FollowCard from "../components/profile/FollowCard";
 import CustomLoader from "../components/CustomLoader";
 import { useQuery } from "@tanstack/react-query";
 import { getUser } from "../utils/getUsers";
-import type { User } from "../mocks/data";
+import type { User } from "../types/types";
 
 function Follower() {
   const user = useAuth((state) => state.user) as User;

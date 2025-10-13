@@ -8,6 +8,8 @@ import Follower from "../pages/Follower";
 import Follow from "../pages/Follow";
 import Comments from "../pages/Comments";
 import ProfileLayout from "../layouts/ProfileLayout";
+import AuthLayout from "../layouts/AuthLayout";
+import MainLayout from "../layouts/MainLayout";
 import Users from "../pages/Users";
 import LoadingScreen from "../components/LoadingScreen";
 import {
@@ -15,10 +17,6 @@ import {
   authCheckPublic,
   initialAuthCheck,
 } from "../utils/authRedirect";
-import { Suspense, lazy } from "react";
-
-const LazyAuthLayout = lazy(() => import("../layouts/AuthLayout"));
-const LazyMainLayout = lazy(() => import("../layouts/MainLayout"));
 
 const route = createBrowserRouter([
   {
@@ -31,11 +29,7 @@ const route = createBrowserRouter([
         loader: initialAuthCheck,
       },
       {
-        element: (
-          <Suspense fallback={<LoadingScreen />}>
-            <LazyAuthLayout />
-          </Suspense>
-        ),
+        element: <AuthLayout />,
         loader: authCheckPublic,
         children: [
           {
@@ -49,11 +43,7 @@ const route = createBrowserRouter([
         ],
       },
       {
-        element: (
-          <Suspense fallback={<LoadingScreen />}>
-            <LazyMainLayout />
-          </Suspense>
-        ),
+        element: <MainLayout />,
         loader: authCheckPrivate,
         children: [
           {

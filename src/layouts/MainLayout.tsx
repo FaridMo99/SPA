@@ -16,11 +16,12 @@ function MainLayout() {
 
   return (
     <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange>
-      <Header avatar={user?.avatar ?? null} />
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+    >
+      <Header avatar={user?.profilePicture ?? null} />
       <Aside
         paths={[
           { href: "/home", name: "Home", icon: House },

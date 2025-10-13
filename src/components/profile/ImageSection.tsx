@@ -24,7 +24,7 @@ function ImageSection({
   following,
 }: ImageSectionProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const { theme, setTheme } = useTheme()
+  const { theme, setTheme } = useTheme();
   const nameStyles = "text-gray-600 font-bold mt-[11vh] flex";
 
   return (
@@ -40,9 +40,14 @@ function ImageSection({
               clickHandler={() => {
                 setTheme((pre) => (pre === "dark" ? "light" : "dark"));
               }}
-              text={theme === "dark" ? <Moon className="text-dark-green"/> : <Sun className="text-green-400"/>}
-            >
-            </Button>
+              text={
+                theme === "dark" ? (
+                  <Moon className="text-dark-green" />
+                ) : (
+                  <Sun className="text-green-400" />
+                )
+              }
+            ></Button>
             <Button
               styles="absolute top-15 right-2 md:px-8"
               text={<Settings />}

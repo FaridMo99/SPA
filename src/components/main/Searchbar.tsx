@@ -5,7 +5,7 @@ import { getAllUsers } from "../../utils/getUsers";
 import SearchList from "./SearchList";
 import useDebounce from "../../hooks/useDebounce";
 import { useNavigate } from "react-router-dom";
-import type { User } from "../../mocks/data";
+import type { User } from "../../types/types";
 
 function Searchbar() {
   const [search, setSearch] = useState<string>(() => {

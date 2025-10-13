@@ -1,9 +1,7 @@
 import { z } from "zod";
 
-const signupSchema = z
+export const signupSchema = z
   .object({
-    firstname: z.string().trim().nonempty("Field is required"),
-    lastname: z.string().trim().nonempty("Field is required"),
     username: z.string().nonempty("Field is required"),
     birthdate: z
       .string()
@@ -25,13 +23,27 @@ const signupSchema = z
       .email("Invalid email address")
       .nonempty("Field is required"),
     password: z.string().min(8, "Password must have atleast 8 Characters"),
-
     confirmPassword: z.string().nonempty("Field is required"),
-    bio: z.string().optional(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
     path: ["confirmPassword"],
   });
 
-export default signupSchema;
+export const loginSchema = z.object({
+  email: z.string().nonempty("Field is required"),
+  password: z.string().min(8).max(20),
+});
+
+export const editUserSchema = z
+  .object({
+    username: z.string().nonempty("Field is required"),
+    email: z
+      .string()
+      .email("Invalid email address")
+      .nonempty("Field is required"),
+    password: z.string().min(8, "Password must have atleast 8 Characters"),
+    bio: z.string().nonempty("Field is required"),
+    profilePicture: z.instanceof(File),
+  })
+  .partial();

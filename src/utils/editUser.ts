@@ -1,27 +1,62 @@
-import type { User } from "../mocks/data";
 import type z from "zod";
-import type editSchema from "../schemas/editSchema";
+import { backendUrl } from "../stores/authStore";
+import type { User } from "../types/types";
+import type { editUserSchema } from "../schemas/schemas";
 
-export type EditSchema = z.infer<typeof editSchema>;
-
-export default async function editUser({
-  data,
-  username,
-}: {
-  data: EditSchema;
-  username: string;
-}): Promise<User> {
-  const res = await fetch(`/api/users/${username}`, {
+export default async function editUser(
+  username: string,
+  fieldsToEdit: z.infer<typeof editUserSchema>,
+): Promise<User> {
+  const res = await fetch(`/${backendUrl}/users/${username}`, {
     method: "PATCH",
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(data),
+    body: JSON.stringify(fieldsToEdit),
   });
 
   if (!res.ok) {
-    throw new Error(`Request failed with status ${res.status}`);
+    throw new Error("Edit failed");
   }
 
-  return res.json();
+  return await res.json();
+}
+
+export async function follow(username: string): Promise<User> {
+  const res = await fetch(`/${backendUrl}/users/${username}/follow`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: username,
+  });
+
+  if (!res.ok) {
+    throw new Error(`Following failed`);
+  }
+  return await res.json();
+}
+
+export async function unfollow(username: string): Promise<User> {
+  const res = await fetch(`/${backendUrl}/users/${username}/follow`, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: username,
+  });
+
+  if (!res.ok) {
+    throw new Error(`Unfollowing failed`);
+  }
+  return await res.json();
+}
+
+export async function deleteUser(username: string): Promise<User> {
+  const response = await fetch(`/${backendUrl}/users/${username}`, {
+    credentials: "include",
+    method: "DELETE",
+  });
+  if (!response.ok) throw new Error(`User not found`);
+  const data = await response.json();
+  return data;
 }

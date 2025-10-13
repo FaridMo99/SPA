@@ -1,17 +1,13 @@
-import type { Comment, Post } from "../mocks/data";
+import { backendUrl } from "../stores/authStore";
+import type { Post, Comment } from "../types/types";
 
-export type CreateCommentType = Omit<Comment, "createdAt"> & { postId: string };
-
-export async function like(postId: string, username: string): Promise<Post> {
-  const response = await fetch(`/api/posts/${postId}`, {
-    method: "PATCH",
+export async function likePost(postId: string): Promise<Post> {
+  const response = await fetch(`/${backendUrl}/posts/${postId}/like`, {
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      action: "like",
-      username,
-    }),
+    credentials: "include",
   });
 
   if (!response.ok) {
@@ -21,27 +17,129 @@ export async function like(postId: string, username: string): Promise<Post> {
   return await response.json();
 }
 
-export async function comment({
-  postId,
-  username,
-  comment,
-  avatar,
-}: CreateCommentType): Promise<Post> {
-  const response = await fetch(`/api/posts/${postId}`, {
-    method: "PATCH",
+export async function dislikePost(postId: string): Promise<Post> {
+  const response = await fetch(`/${backendUrl}/posts/${postId}/like`, {
+    method: "DELETE",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      action: "comment",
-      username,
-      comment,
-      avatar,
-    }),
+    credentials: "include",
   });
 
   if (!response.ok) {
-    throw new Error("Failed to post comment");
+    throw new Error("Failed to dislike post");
+  }
+
+  return await response.json();
+}
+
+export async function createComment(
+  postId: string,
+  data: { content: string },
+): Promise<Comment> {
+  const response = await fetch(`/${backendUrl}/comments/${postId}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to comment on Post");
+  }
+
+  return await response.json();
+}
+
+export async function deleteComment(
+  postId: string,
+  commentId: string,
+): Promise<Comment> {
+  const response = await fetch(
+    `/${backendUrl}/comments/${postId}/${commentId}`,
+    {
+      method: "DELETE",
+      credentials: "include",
+    },
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to delete comment");
+  }
+
+  return await response.json();
+}
+
+export async function getAllCommentsByPostId(
+  postId: string,
+): Promise<Comment[] | []> {
+  const response = await fetch(`/${backendUrl}/comments/${postId}`, {
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throw new Error("No Comments found");
+  }
+
+  return await response.json();
+}
+
+export async function getSingleCommentByCommentIdAndPostId(
+  postId: string,
+  commentId: string,
+): Promise<Comment> {
+  const response = await fetch(
+    `/${backendUrl}/comments/${postId}/${commentId}`,
+    {
+      credentials: "include",
+    },
+  );
+
+  if (!response.ok) {
+    throw new Error("No Comment found");
+  }
+
+  return await response.json();
+}
+
+export async function likeComment(
+  postId: string,
+  commentId: string,
+): Promise<Comment> {
+  const response = await fetch(
+    `/${backendUrl}/comments/${postId}/${commentId}/like`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    },
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to like comment");
+  }
+
+  return await response.json();
+}
+
+export async function dislikeComment(
+  postId: string,
+  commentId: string,
+): Promise<Comment> {
+  const response = await fetch(
+    `/${backendUrl}/comments/${postId}/${commentId}/like`,
+    {
+      method: "DELETE",
+      credentials: "include",
+    },
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to dislike comment");
   }
 
   return await response.json();

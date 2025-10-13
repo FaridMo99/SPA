@@ -9,7 +9,7 @@ import SignUpStepTwo from "../components/auth/SignUpStepTwo";
 import SignUpStepThree from "../components/auth/SignUpStepThree";
 import { useNavigate, Link } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
-import signupSchema from "../schemas/signUpSchema";
+import { signupSchema } from "../schemas/schemas";
 import signup from "../utils/signup";
 import type { SignupFormData } from "../utils/signup";
 

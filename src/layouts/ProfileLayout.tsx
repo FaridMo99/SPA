@@ -2,7 +2,7 @@ import { Outlet } from "react-router-dom";
 import UserNavbar from "../components/profile/UserNavbar";
 import ImageSection from "../components/profile/ImageSection";
 import useAuth from "../stores/authStore";
-import type { User } from "../mocks/data";
+import type { User } from "../types/types";
 
 export type Link = {
   href: string;
