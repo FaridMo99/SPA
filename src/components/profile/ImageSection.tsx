@@ -5,11 +5,12 @@ import Button from "../auth/Button";
 import FollowButton from "./FollowButton";
 import UserImage from "../UserImage";
 import { useTheme } from "next-themes";
+import type { Avatar } from "../main/Header";
 
 type ImageSectionProps = {
   username: string;
-  img: string;
-  bio?: string;
+  profilePicture: Avatar;
+  bio: string | null;
   editable?: boolean;
   followers: number;
   following: number;
@@ -17,8 +18,8 @@ type ImageSectionProps = {
 
 function ImageSection({
   username,
-  img,
-  bio = "",
+  profilePicture,
+  bio,
   editable = false,
   followers,
   following,
@@ -47,7 +48,7 @@ function ImageSection({
                   <Sun className="text-green-400" />
                 )
               }
-            ></Button>
+            />
             <Button
               styles="absolute top-15 right-2 md:px-8"
               text={<Settings />}
@@ -60,7 +61,7 @@ function ImageSection({
           </div>
         )}
         <div className="flex w-full items-center pl-10 h-3/4">
-          <UserImage img={img} />
+          <UserImage img={profilePicture} />
           {!editable && (
             <div className="font-bold text-green-300 dark:text-dark-green flex justify-evenly items-center absolute top-9 left-22 w-1/2">
               Follower:{followers}

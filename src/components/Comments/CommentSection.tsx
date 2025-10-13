@@ -1,7 +1,7 @@
 import CommentCard from "./CommentCard";
-import type { Post } from "../../mocks/data";
+import { type Comment } from "../../types/types";
 
-function CommentSection({ comments }: Pick<Post, "comments">) {
+function CommentSection({ comments }: { comments: Comment[] | [] }) {
   return (
     <section className="w-full mb-16">
       <p className="text-green-300 dark:text-dark-green ml-3 font-bold text-xl -mt-3 mb-4">
@@ -12,7 +12,7 @@ function CommentSection({ comments }: Pick<Post, "comments">) {
           <p>No Comments found ...</p>
         ) : (
           comments.map((comment) => (
-            <CommentCard key={comment.createdAt} comment={comment} />
+            <CommentCard key={comment.id} comment={comment} />
           ))
         )}
       </div>

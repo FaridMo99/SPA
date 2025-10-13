@@ -27,6 +27,7 @@ export type Post = {
 };
 
 export type Comment = {
+  id:string
   user: {
     username: string;
     profilePicture: string | null;

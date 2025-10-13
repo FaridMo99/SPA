@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import CreatePostField from "../components/home/CreatePostField";
 import PostCard from "../components/home/PostCard";
-import { getPosts } from "../utils/getPosts";
+import { getPostsForFyp } from "../utils/getPosts";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import CustomLoader from "../components/CustomLoader";
 import SortDropdown from "../components/home/SortDropdown";
@@ -19,13 +19,7 @@ function Home() {
     isFetchingNextPage,
   } = useInfiniteQuery<Post[]>({
     queryKey: ["getAllPosts", sortValue],
-    queryFn: ({ pageParam = 1 }) =>
-      getPosts(`?page=${pageParam}&limit=10&sort=${sortValue}`),
-    getNextPageParam: (lastPage, allPages) =>
-      lastPage.length < 10 ? undefined : allPages.length + 1,
-    refetchOnMount: true,
-    initialPageParam: 1,
-    staleTime: 0,
+    queryFn: () => getPostsForFyp,
   });
 
   const loadMoreRef = useRef<null | HTMLDivElement>(null);

@@ -5,7 +5,7 @@ import Login from "../pages/Login";
 import SignUp from "../pages/SignUp";
 import Posts from "../pages/Posts";
 import Follower from "../pages/Follower";
-import Follow from "../pages/Follow";
+import Following from "../pages/Following";
 import Comments from "../pages/Comments";
 import ProfileLayout from "../layouts/ProfileLayout";
 import AuthLayout from "../layouts/AuthLayout";
@@ -72,8 +72,8 @@ const route = createBrowserRouter([
                 path: "follower",
               },
               {
-                element: <Follow />,
-                path: "follow",
+                element: <Following />,
+                path: "following",
               },
             ],
           },

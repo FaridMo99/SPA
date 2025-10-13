@@ -1,4 +1,4 @@
-export default function passedTime(date: string): string {
+export default function passedTime(date: Date): string {
   const now = new Date();
   const postDate = new Date(date);
   const seconds: number = Math.floor(

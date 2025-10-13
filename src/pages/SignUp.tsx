@@ -1,20 +1,16 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-import ProgressBar from "../components/auth/ProgressBar";
 import SuccessScreen from "../components/auth/SuccessScreen";
 import { CheckCircle2, Loader2 } from "lucide-react";
-import SignUpStepOne from "../components/auth/SignUpStepOne";
-import SignUpStepTwo from "../components/auth/SignUpStepTwo";
-import SignUpStepThree from "../components/auth/SignUpStepThree";
 import { useNavigate, Link } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { signupSchema } from "../schemas/schemas";
 import signup from "../utils/signup";
 import type { SignupFormData } from "../utils/signup";
+import Fieldset from "../components/auth/Fieldset";
+import Button from "../components/auth/Button";
 
 function SignUp() {
-  const [steps, setSteps] = useState<number>(1);
   const { register, handleSubmit, formState } = useForm<SignupFormData>({
     resolver: zodResolver(signupSchema),
     mode: "onChange",
@@ -45,38 +41,36 @@ function SignUp() {
         onSubmit={handleSubmit(submitHandler)}
         className="w-full h-full flex flex-col justify-evenly items-center"
       >
-        {steps === 1 && (
-          <SignUpStepOne
-            errors={errors}
-            register={register}
-            formState={formState}
-            setSteps={setSteps}
-          >
-            {" "}
-            <ProgressBar steps={steps} success={isSubmitSuccessful} />
-          </SignUpStepOne>
-        )}
-        {steps === 2 && (
-          <SignUpStepTwo
-            errors={errors}
-            register={register}
-            formState={formState}
-            setSteps={setSteps}
-          >
-            {" "}
-            <ProgressBar steps={steps} success={isSubmitSuccessful} />
-          </SignUpStepTwo>
-        )}
-        {steps === 3 && (
-          <SignUpStepThree
-            register={register}
-            setSteps={setSteps}
-            disableSubmit={mutation.isPending || mutation.isSuccess}
-          >
-            {" "}
-            <ProgressBar steps={steps} success={isSubmitSuccessful} />
-          </SignUpStepThree>
-        )}
+        <Fieldset
+          register={register}
+          id="username"
+          text="Username:"
+          type="text"
+        />
+
+        <Fieldset register={register} id="email" text="E-Mail:" type="email" />
+
+        <Fieldset
+          register={register}
+          id="birthdate"
+          text="Birthdate:"
+          type="date"
+        />
+
+        <Fieldset
+          register={register}
+          id="password"
+          text="Password:"
+          type="password"
+        />
+
+        <Fieldset
+          register={register}
+          id="confirmPassword"
+          text="Confirm Password:"
+          type="password"
+        />
+        <Button text="Signup" type="submit" styles="font-bold" />
       </form>
       <Link
         to="/login"

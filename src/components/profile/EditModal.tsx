@@ -5,12 +5,13 @@ import useAuth from "../../stores/authStore";
 import Label from "../auth/Label";
 import Button from "../auth/Button";
 import Input from "../auth/Input";
-import editUser, { type EditSchema } from "../../utils/editUser";
-import editSchema from "../../schemas/editUserSchema";
+import { editUserSchema } from "../../schemas/schemas";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import SuccessScreen from "../auth/SuccessScreen";
+import editUser from "../../utils/editUser";
+import type z from "zod";
 
 function EditModal({
   setIsOpen,
@@ -21,11 +22,11 @@ function EditModal({
   const safeUser = user!;
 
   const { handleSubmit, formState, register, watch } = useForm({
-    resolver: zodResolver(editSchema),
+    resolver: zodResolver(editUserSchema),
     defaultValues: {
       username: safeUser.username,
       bio: safeUser.bio,
-      avatar: safeUser.avatar,
+      avatar: safeUser.profilePicture,
     },
     mode: "onChange",
   });
@@ -42,7 +43,7 @@ function EditModal({
     },
   });
 
-  function submitHandler(formData: EditSchema) {
+  function submitHandler(formData: z.infer<typeof editUserSchema>) {
     mutation.mutate({ data: formData, username: safeUser.username });
   }
 

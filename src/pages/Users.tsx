@@ -1,6 +1,6 @@
 import ImageSection from "../components/profile/ImageSection";
 import PostCard from "../components/home/PostCard";
-import { getPostsByUserId } from "../utils/getPosts";
+import { getAllPostsByUsername } from "../utils/getPosts";
 import { getUser } from "../utils/getUsers";
 import UsersLoadingSkeleton from "../components/UsersLoadingSkeleton";
 import { useNavigate } from "react-router-dom";
@@ -28,7 +28,7 @@ function Users() {
   const { data: postData, isLoading: postDataIsLoading } = useQuery({
     queryKey: ["getPostData", username],
     queryFn: async () => {
-      if (username) return getPostsByUserId(username);
+      if (username) return getAllPostsByUsername(username);
     },
   });
 

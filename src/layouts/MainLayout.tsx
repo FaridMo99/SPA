@@ -5,6 +5,7 @@ import Aside from "../components/main/Aside";
 import { House, UserRound } from "lucide-react";
 import useAuth from "../stores/authStore";
 import { ThemeProvider } from "../components/ThemeProvider";
+import type { User } from "../types/types";
 
 function MainLayout() {
   const [asideOpen, setAsideOpen] = useState<boolean>(() => {
@@ -12,7 +13,8 @@ function MainLayout() {
     return stored !== null ? JSON.parse(stored) : true;
   });
 
-  const user = useAuth((state) => state.user);
+  //user is definitely known here since the loader would otherwise redirect
+  const user = useAuth((state) => state.user) as User;
 
   return (
     <ThemeProvider
@@ -21,7 +23,7 @@ function MainLayout() {
       enableSystem
       disableTransitionOnChange
     >
-      <Header avatar={user?.profilePicture ?? null} />
+      <Header avatar={user.profilePicture} />
       <Aside
         paths={[
           { href: "/home", name: "Home", icon: House },

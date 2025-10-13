@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import { Send } from "lucide-react";
-import { comment as commenting } from "../../utils/interactWithPost";
-import { useMutation } from "@tanstack/react-query";
-import useAuth from "../../stores/authStore";
-import { useQueryClient } from "@tanstack/react-query";
-import type { CreateCommentType } from "../../utils/interactWithPost";
+import { Loader2, Send } from "lucide-react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createComment } from "../../utils/interactWithPost";
+import toast from "react-hot-toast";
 
 const buttonStyles: string =
   "bg-green-300 text-white rounded-3xl p-2 mr-2 font-bold hover:bg-gray-300 hover:text-green-300 disabled:bg-gray-100 disabled:text-gray-400 disabled:hover:bg-gray-100 disabled:hover:text-gray-400 absolute right-1 bottom-1 dark:enabled:bg-dark-green enabled:hover:brightness-105";
@@ -12,29 +10,27 @@ const buttonStyles: string =
 const formStyles: string =
   "w-full outline-1 bg-gray-50 dark:outline-black outline-gray-300 fixed bottom-0 right-0 flex items-center justify-center py-2 px-4 dark:bg-dark-gray dark:brightness-120";
 
-function CreateComment({ commentId }: { commentId: string }) {
-  const queryClient = useQueryClient();
-  const [value, setValue] = useState<string>("");
-  const user = useAuth((state) => state.user);
 
-  const { mutate, isPending } = useMutation({
-    mutationKey: ["send comment", commentId],
-    mutationFn: ({ postId, username, comment, avatar }: CreateCommentType) =>
-      commenting({ postId, username, comment, avatar }),
+function CreateComment({ postId }: { postId: string }) {
+  const [value, setValue] = useState<string>("");
+  const queryClient = useQueryClient()
+  const { isPending, isIdle, mutate } = useMutation({
+    mutationKey: ["create comment", postId],
+    mutationFn: ({postId, content}:{postId:string,content:string}) => createComment(postId, {content}),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["get comment", commentId] });
-      setValue("");
+      queryClient.invalidateQueries({ queryKey: ["get comments", postId] });
+      toast.success("Comment successful!")
+      setValue("")
     },
-  });
+    onError: () => {
+      toast.error("Somethign went wrong...")
+    }
+  })
+
 
   function submitHandler(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    mutate({
-      postId: commentId,
-      username: user!.username,
-      comment: value.trim(),
-      avatar: user!.avatar,
-    });
+    mutate({postId, content:value})
   }
 
   return (
@@ -52,7 +48,8 @@ function CreateComment({ commentId }: { commentId: string }) {
         disabled={value.trim().length === 0 || isPending}
         aria-label="Send Comment"
       >
-        <Send />
+        {isIdle && <Send />}
+        {isPending && <Loader2 className="animation-spin"/>}
       </button>
     </form>
   );

@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { Trash2 } from "lucide-react";
 import Button from "../auth/Button";
 import PostCardIcons from "./PostCardIcons";
-import { like as likePost } from "../../utils/interactWithPost";
+import { likePost } from "../../utils/interactWithPost";
 import useAuth from "../../stores/authStore";
 import UserImage from "../UserImage";
 import type { Post } from "../../mocks/data";

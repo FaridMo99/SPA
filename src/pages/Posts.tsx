@@ -1,14 +1,14 @@
 import PostCard from "../components/home/PostCard";
 import useAuth from "../stores/authStore";
 import { useQuery } from "@tanstack/react-query";
-import { getPosts } from "../utils/getPosts";
+import { getAllPostsByUsername } from "../utils/getPosts";
 import CustomLoader from "../components/CustomLoader";
 
 function Posts() {
   const user = useAuth((state) => state.user);
   const { data, isLoading } = useQuery({
     queryKey: ["get User posts", user!.username],
-    queryFn: () => getPosts(`/${user!.username}`),
+    queryFn: () => getAllPostsByUsername(user?.username),
   });
 
   if (isLoading) return <CustomLoader />;

@@ -13,7 +13,6 @@ export type FieldsetProps<T extends FieldValues> = {
   type: string;
   register: UseFormRegister<T>;
   errors?: FieldErrors<T>;
-  optional?: boolean;
 };
 
 function Fieldset<T extends FieldValues>({
@@ -22,7 +21,6 @@ function Fieldset<T extends FieldValues>({
   type,
   register,
   errors,
-  optional = false,
 }: FieldsetProps<T>) {
   const fieldsetStyles = "flex flex-col w-[180px]";
 
@@ -30,9 +28,6 @@ function Fieldset<T extends FieldValues>({
     <fieldset className={fieldsetStyles}>
       <Label text={text} id={id} />
       <Input id={id} type={type} {...register(id)} />
-      {optional && (
-        <p className="text-gray-400 w-full flex justify-end">optional</p>
-      )}
       {errors?.[id] && (
         <p className="text-red-400">{errors[id].message as string}</p>
       )}

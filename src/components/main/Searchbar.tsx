@@ -1,11 +1,10 @@
 import React, { useState, useRef } from "react";
 import { Search } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { getAllUsers } from "../../utils/getUsers";
+import { searchUsers } from "../../utils/getUsers";
 import SearchList from "./SearchList";
 import useDebounce from "../../hooks/useDebounce";
 import { useNavigate } from "react-router-dom";
-import type { User } from "../../types/types";
 
 function Searchbar() {
   const [search, setSearch] = useState<string>(() => {
@@ -18,9 +17,9 @@ function Searchbar() {
   const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  const { data } = useQuery<User[]>({
+  const { data } = useQuery({
     queryKey: ["get users for searchbar", debouncedSearch],
-    queryFn: () => getAllUsers(`?search=${debouncedSearch}`),
+    queryFn: () => searchUsers(debouncedSearch),
     enabled: debouncedSearch.length > 0,
   });
 

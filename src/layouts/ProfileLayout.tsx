@@ -10,6 +10,7 @@ export type Link = {
 };
 
 function ProfileLayout() {
+  //user is definitely known here otherwiser loader would redirect
   const user = useAuth((state) => state.user) as User;
 
   const userLinks: Link[] = [
@@ -19,11 +20,11 @@ function ProfileLayout() {
     },
     {
       href: "/profile/follower",
-      name: `Follower(${user.followers.length})`,
+      name: `Follower(${user._count.followers})`,
     },
     {
       href: "/profile/follow",
-      name: `Follow(${user.following.length})`,
+      name: `Follow(${user._count.following})`,
     },
   ];
 
@@ -31,11 +32,11 @@ function ProfileLayout() {
     <>
       <ImageSection
         bio={user.bio}
-        img={user.avatar}
+        profilePicture={user.profilePicture}
         username={user.username}
         editable
-        followers={user.followers.length}
-        following={user.following.length}
+        followers={user._count.followers}
+        following={user._count.following}
       />
       <UserNavbar links={userLinks} />
       <Outlet />
