@@ -23,7 +23,7 @@ function ProfileLayout() {
       name: `Follower(${user._count.followers})`,
     },
     {
-      href: "/profile/follow",
+      href: "/profile/following",
       name: `Follow(${user._count.following})`,
     },
   ];

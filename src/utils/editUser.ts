@@ -7,7 +7,7 @@ export default async function editUser(
   username: string,
   fieldsToEdit: z.infer<typeof editUserSchema>,
 ): Promise<User> {
-  const res = await fetch(`/${backendUrl}/users/${username}`, {
+  const res = await fetch(`${backendUrl}/users/${username}`, {
     method: "PATCH",
     credentials: "include",
     headers: {
@@ -24,7 +24,7 @@ export default async function editUser(
 }
 
 export async function follow(username: string): Promise<User> {
-  const res = await fetch(`/${backendUrl}/users/${username}/follow`, {
+  const res = await fetch(`${backendUrl}/users/${username}/follow`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
@@ -38,7 +38,7 @@ export async function follow(username: string): Promise<User> {
 }
 
 export async function unfollow(username: string): Promise<User> {
-  const res = await fetch(`/${backendUrl}/users/${username}/follow`, {
+  const res = await fetch(`${backendUrl}/users/${username}/follow`, {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
@@ -52,7 +52,7 @@ export async function unfollow(username: string): Promise<User> {
 }
 
 export async function deleteUser(username: string): Promise<User> {
-  const response = await fetch(`/${backendUrl}/users/${username}`, {
+  const response = await fetch(`${backendUrl}/users/${username}`, {
     credentials: "include",
     method: "DELETE",
   });

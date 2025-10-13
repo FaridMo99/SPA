@@ -4,7 +4,7 @@ import type { Post } from "../types/types";
 export default async function createPost(data: {
   content: string;
 }): Promise<Post> {
-  const res = await fetch(`/${backendUrl}/posts`, {
+  const res = await fetch(`${backendUrl}/posts`, {
     method: "POST",
     credentials: "include",
     headers: { "Content-Type": "application/json" },

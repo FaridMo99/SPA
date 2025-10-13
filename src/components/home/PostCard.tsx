@@ -43,7 +43,7 @@ function PostCard({ postData, editable = false }: PostCardProps) {
       });
     },
     onSuccess: () => {
-      //add invalidating of fyp and fyp should show own posts
+      queryClient.invalidateQueries({ queryKey: ["get fyp posts"] });
       queryClient.invalidateQueries({
         queryKey: ["get User posts", user.username],
       });
@@ -62,7 +62,7 @@ function PostCard({ postData, editable = false }: PostCardProps) {
     mutationFn: () => deletePost(postData.id),
     mutationKey: ["delete post", postData.id],
     onSuccess: () => {
-      //also invalidate fyp queries to update ui
+      queryClient.invalidateQueries({ queryKey: ["get fyp posts"] });
       queryClient.invalidateQueries({
         queryKey: ["get User posts", user.username],
       });

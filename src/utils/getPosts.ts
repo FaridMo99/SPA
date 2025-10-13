@@ -4,7 +4,7 @@ import type { Post } from "../types/types";
 type Posts = Post[] | [];
 
 export async function getPostByPostId(postId: string): Promise<Post> {
-  const response = await fetch(`/${backendUrl}/posts/${postId}`, {
+  const response = await fetch(`${backendUrl}/posts/${postId}`, {
     credentials: "include",
   });
 
@@ -15,6 +15,7 @@ export async function getPostByPostId(postId: string): Promise<Post> {
 }
 
 export async function getAllPostsByUsername(name: string): Promise<Posts> {
+  console.log(backendUrl)
   const response = await fetch(`${backendUrl}/posts/${name}/posts`, {
     credentials: "include",
   });
@@ -34,9 +35,15 @@ export async function getAllPostsByFollow(): Promise<Posts> {
   return data;
 }
 
-export async function getPostsForFyp(): Promise<Posts> {
-  const response = await fetch(`${backendUrl}/posts/fyp`, {
-    credentials: "include",
+
+export async function getPostsForFyp(page: number,): Promise<Posts> {
+    const params = new URLSearchParams({
+      page: page.toString(),
+      limit: String(10),
+    });
+  
+  const response = await fetch(`${backendUrl}/posts/fyp?${params.toString()}`, {
+    credentials: "include"
   });
   if (!response.ok) throw new Error(`No Posts found`);
 

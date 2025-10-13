@@ -2,7 +2,7 @@ import { backendUrl } from "../stores/authStore";
 import type { Post } from "../types/types";
 
 export default async function deletePost(postId: string): Promise<Post> {
-  const res = await fetch(`/${backendUrl}/posts/${postId}`, {
+  const res = await fetch(`${backendUrl}/posts/${postId}`, {
     method: "DELETE",
     credentials: "include",
   });

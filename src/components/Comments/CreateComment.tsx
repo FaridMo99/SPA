@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Loader2, Send } from "lucide-react";
+import { Send } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createComment } from "../../utils/interactWithPost";
 import toast from "react-hot-toast";
+import CustomLoader from "../CustomLoader";
 
 const buttonStyles: string =
   "bg-green-300 text-white rounded-3xl p-2 mr-2 font-bold hover:bg-gray-300 hover:text-green-300 disabled:bg-gray-100 disabled:text-gray-400 disabled:hover:bg-gray-100 disabled:hover:text-gray-400 absolute right-1 bottom-1 dark:enabled:bg-dark-green enabled:hover:brightness-105";
@@ -48,7 +49,7 @@ function CreateComment({ postId }: { postId: string }) {
         aria-label="Send Comment"
       >
         {isIdle && <Send />}
-        {isPending && <Loader2 className="animate-spin" />}
+        {isPending && <CustomLoader />}
       </button>
     </form>
   );

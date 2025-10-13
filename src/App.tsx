@@ -9,7 +9,7 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <Toaster position="bottom-left" reverseOrder />
+      <Toaster position="bottom-right" />
       <RouterProvider router={route} />
     </QueryClientProvider>
   );

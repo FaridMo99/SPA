@@ -1,7 +1,5 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import SuccessScreen from "../components/auth/SuccessScreen";
-import { CheckCircle2, Loader2 } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { signupSchema } from "../schemas/schemas";
@@ -9,28 +7,36 @@ import signup from "../utils/signup";
 import type { SignupFormData } from "../utils/signup";
 import Fieldset from "../components/auth/Fieldset";
 import Button from "../components/auth/Button";
+import toast from "react-hot-toast";
+import CustomLoader from "../components/CustomLoader";
 
+
+//fix responsive issues when error messages trigger
 function SignUp() {
+  const navigate = useNavigate();
+
   const { register, handleSubmit, formState } = useForm<SignupFormData>({
     resolver: zodResolver(signupSchema),
-    mode: "onChange",
+    mode: "onSubmit",
   });
-  const { errors, isSubmitSuccessful } = formState;
-  const navigation = useNavigate();
+  const { errors } = formState;
 
-  const mutation = useMutation({
-    mutationKey: ["send User Data"],
+  const {mutate, isPending} = useMutation({
+    mutationKey: ["sign user up", formState],
     mutationFn: signup,
+    onSuccess: () => {
+      toast.success("Signup successful")
+      navigate("/home")
+    },
+    onError: (error) => {
+      toast.error(error.message)
+    }
   });
 
   function submitHandler(formData: SignupFormData) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { confirmPassword, ...submitData } = formData;
-    mutation.mutate(submitData, {
-      onSuccess: () => {
-        setTimeout(() => navigation("/home", { replace: true }), 800);
-      },
-    });
+    mutate(submitData);
   }
 
   return (
@@ -47,8 +53,14 @@ function SignUp() {
           text="Username:"
           type="text"
         />
+        {errors.username && (
+          <p className="text-red-400 text-center">{errors.username.message}</p>
+        )}
 
         <Fieldset register={register} id="email" text="E-Mail:" type="email" />
+        {errors.email && (
+          <p className="text-red-400 text-center">{errors.email.message}</p>
+        )}
 
         <Fieldset
           register={register}
@@ -56,6 +68,9 @@ function SignUp() {
           text="Birthdate:"
           type="date"
         />
+        {errors.birthdate && (
+          <p className="text-red-400 text-center">{errors.birthdate.message}</p>
+        )}
 
         <Fieldset
           register={register}
@@ -63,6 +78,9 @@ function SignUp() {
           text="Password:"
           type="password"
         />
+        {errors.password && (
+          <p className="text-red-400 text-center">{errors.password.message}</p>
+        )}
 
         <Fieldset
           register={register}
@@ -70,7 +88,16 @@ function SignUp() {
           text="Confirm Password:"
           type="password"
         />
-        <Button text="Signup" type="submit" styles="font-bold" />
+        {errors.confirmPassword && (
+          <p className="text-red-400 text-center">{errors.confirmPassword.message}</p>
+        )}
+
+        <Button
+          disabled={isPending}
+          text={isPending ? <CustomLoader /> : "Signup"}
+          type="submit"
+          styles="font-bold"
+        />
       </form>
       <Link
         to="/login"
@@ -78,15 +105,6 @@ function SignUp() {
       >
         Already have a Account? Log in.
       </Link>
-      {mutation.isPending && (
-        <SuccessScreen animation="animate-spin" Icon={Loader2} />
-      )}
-      {mutation.isSuccess && (
-        <SuccessScreen animation="animate-ping" Icon={CheckCircle2} />
-      )}
-      {mutation.isError && (
-        <p className="text-red-500">Submission failed, try again</p>
-      )}
     </>
   );
 }

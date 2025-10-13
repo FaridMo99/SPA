@@ -2,7 +2,7 @@ import { backendUrl } from "../stores/authStore";
 import type { User } from "../types/types";
 
 export async function getUser(username: string): Promise<User> {
-  const response = await fetch(`/${backendUrl}/users/${username}/followers`, {
+  const response = await fetch(`${backendUrl}/users/${username}/followers`, {
     credentials: "include",
   });
   if (!response.ok) throw new Error(`User not found`);
@@ -11,7 +11,7 @@ export async function getUser(username: string): Promise<User> {
 }
 
 export async function searchUsers(username: string): Promise<User[] | []> {
-  const response = await fetch(`/${backendUrl}/users/search/${username}`, {
+  const response = await fetch(`${backendUrl}/users/search/${username}`, {
     credentials: "include",
   });
   if (!response.ok) throw new Error(`User not found`);
@@ -20,7 +20,7 @@ export async function searchUsers(username: string): Promise<User[] | []> {
 }
 
 export async function getFollowers(username: string): Promise<User[] | []> {
-  const response = await fetch(`/${backendUrl}/users/${username}/followers`, {
+  const response = await fetch(`${backendUrl}/users/${username}/followers`, {
     credentials: "include",
   });
   if (!response.ok) throw new Error(`No User found`);
@@ -29,7 +29,7 @@ export async function getFollowers(username: string): Promise<User[] | []> {
 }
 
 export async function getFollowing(username: string): Promise<User[] | []> {
-  const response = await fetch(`/${backendUrl}/users/${username}/following`, {
+  const response = await fetch(`${backendUrl}/users/${username}/following`, {
     credentials: "include",
   });
   if (!response.ok) throw new Error(`No User found`);

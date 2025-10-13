@@ -17,6 +17,8 @@ import {
   authCheckPublic,
   initialAuthCheck,
 } from "../utils/authRedirect";
+import MessagesLayout from "../layouts/MessagesLayout";
+import Messages from "../pages/Messages";
 
 const route = createBrowserRouter([
   {
@@ -26,11 +28,11 @@ const route = createBrowserRouter([
     children: [
       {
         index: true,
-        loader: initialAuthCheck,
+        //loader: initialAuthCheck,
       },
       {
         element: <AuthLayout />,
-        loader: authCheckPublic,
+        //loader: authCheckPublic,
         children: [
           {
             element: <Login />,
@@ -44,7 +46,7 @@ const route = createBrowserRouter([
       },
       {
         element: <MainLayout />,
-        loader: authCheckPrivate,
+        //loader: authCheckPrivate,
         children: [
           {
             element: <Home />,
@@ -58,6 +60,16 @@ const route = createBrowserRouter([
             element: <Users />,
             path: ":username",
             errorElement: <Error userspage />,
+          },
+          {
+            element: <MessagesLayout />,
+            path: "/messages",
+            children: [
+              {
+                element: <Messages />,
+                path:":chatId"
+              }
+            ]
           },
           {
             element: <ProfileLayout />,

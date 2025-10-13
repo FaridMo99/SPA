@@ -2,7 +2,7 @@ import { backendUrl } from "../stores/authStore";
 import type { Post, Comment } from "../types/types";
 
 export async function likePost(postId: string): Promise<Post> {
-  const response = await fetch(`/${backendUrl}/posts/${postId}/like`, {
+  const response = await fetch(`${backendUrl}/posts/${postId}/like`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -18,7 +18,7 @@ export async function likePost(postId: string): Promise<Post> {
 }
 
 export async function dislikePost(postId: string): Promise<Post> {
-  const response = await fetch(`/${backendUrl}/posts/${postId}/like`, {
+  const response = await fetch(`${backendUrl}/posts/${postId}/like`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
@@ -37,7 +37,7 @@ export async function createComment(
   postId: string,
   data: { content: string },
 ): Promise<Comment> {
-  const response = await fetch(`/${backendUrl}/comments/${postId}`, {
+  const response = await fetch(`${backendUrl}/comments/${postId}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -58,7 +58,7 @@ export async function deleteComment(
   commentId: string,
 ): Promise<Comment> {
   const response = await fetch(
-    `/${backendUrl}/comments/${postId}/${commentId}`,
+    `${backendUrl}/comments/${postId}/${commentId}`,
     {
       method: "DELETE",
       credentials: "include",
@@ -75,7 +75,7 @@ export async function deleteComment(
 export async function getAllCommentsByPostId(
   postId: string,
 ): Promise<Comment[] | []> {
-  const response = await fetch(`/${backendUrl}/comments/${postId}`, {
+  const response = await fetch(`${backendUrl}/comments/${postId}`, {
     credentials: "include",
   });
 
@@ -91,7 +91,7 @@ export async function getSingleCommentByCommentIdAndPostId(
   commentId: string,
 ): Promise<Comment> {
   const response = await fetch(
-    `/${backendUrl}/comments/${postId}/${commentId}`,
+    `${backendUrl}/comments/${postId}/${commentId}`,
     {
       credentials: "include",
     },
@@ -109,7 +109,7 @@ export async function likeComment(
   commentId: string,
 ): Promise<Comment> {
   const response = await fetch(
-    `/${backendUrl}/comments/${postId}/${commentId}/like`,
+    `${backendUrl}/comments/${postId}/${commentId}/like`,
     {
       method: "POST",
       headers: {
@@ -131,7 +131,7 @@ export async function dislikeComment(
   commentId: string,
 ): Promise<Comment> {
   const response = await fetch(
-    `/${backendUrl}/comments/${postId}/${commentId}/like`,
+    `${backendUrl}/comments/${postId}/${commentId}/like`,
     {
       method: "DELETE",
       credentials: "include",

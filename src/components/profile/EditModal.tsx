@@ -9,7 +9,6 @@ import { editUserSchema } from "../../schemas/schemas";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import SuccessScreen from "../auth/SuccessScreen";
 import editUser from "../../utils/editUser";
 import type z from "zod";
 

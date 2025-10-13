@@ -16,12 +16,9 @@ export const signupSchema = z
         },
         {
           message: "You must be at least 18 years old",
-        },
+        }
       ),
-    email: z
-      .string()
-      .email("Invalid email address")
-      .nonempty("Field is required"),
+    email: z.string().email("Invalid E-Mail"),
     password: z.string().min(8, "Password must have atleast 8 Characters"),
     confirmPassword: z.string().nonempty("Field is required"),
   })
@@ -31,8 +28,8 @@ export const signupSchema = z
   });
 
 export const loginSchema = z.object({
-  email: z.string().nonempty("Field is required"),
-  password: z.string().min(8).max(20),
+  email: z.string().email("Invalid E-Mail"),
+  password: z.string().min(8, "Password must contain atleast 8 characters").max(20,"Password can contain max 20 characters"),
 });
 
 export const editUserSchema = z
@@ -40,7 +37,7 @@ export const editUserSchema = z
     username: z.string().nonempty("Field is required"),
     email: z
       .string()
-      .email("Invalid email address")
+      .email("Invalid E-Mail")
       .nonempty("Field is required"),
     password: z.string().min(8, "Password must have atleast 8 Characters"),
     bio: z.string().nonempty("Field is required"),

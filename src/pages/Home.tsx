@@ -2,25 +2,58 @@ import CreatePostField from "../components/home/CreatePostField";
 import PostCard from "../components/home/PostCard";
 import { getPostsForFyp } from "../utils/getPosts";
 import CustomLoader from "../components/CustomLoader";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInView } from "react-intersection-observer";
+import { useEffect } from "react";
+
+
+//features
+//on mobile pulling from upwards reloads, like twitter basically
+//two sections, fyp and follows(maybe extra layout for that)
+//fyp gives random posts with infinite scroll
 
 function Home() {
+  const { ref: loadMoreRef, inView } = useInView();
+
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    isError,
+    error,
+  } = useInfiniteQuery({
+    queryKey: ["get fyp posts"],
+    queryFn: ({ pageParam = 1 }) => getPostsForFyp(pageParam),
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.length > 0 ? allPages.length + 1 : undefined;
+    },
+    initialPageParam:1
+  });
+
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage, fetchNextPage]);
+
+  const posts = data?.pages.flat() || [];
+
   return (
     <>
       <CreatePostField />
-      <div className="absolute right-2 top-[36vh]"></div>
       <div className="w-full flex flex-col items-center">
         {isLoading && <CustomLoader styles="mt-[42vh]" />}
-        {allPosts.length === 0 && (
+        {!isError && posts.length === 0 && !isLoading && (
           <p className="text-green-300 font-bold">No Posts found...</p>
         )}
-        {allPosts.map((post) => (
+        {posts.map((post) => (
           <PostCard key={post.id} postData={post} />
         ))}
-
         {isFetchingNextPage && <CustomLoader styles="my-4" />}
         <div ref={loadMoreRef} className="h-10" />
-
-        {error && (
+        {isError && (
           <p className="text-red-500 font-bold text-2xl">{error.message}</p>
         )}
       </div>

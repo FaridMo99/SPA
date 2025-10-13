@@ -7,6 +7,10 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import type { Dispatch, SetStateAction } from "react";
+import { useMutation } from "@tanstack/react-query";
+import toast from "react-hot-toast";
+import useAuth from "../../stores/authStore";
+import { logout } from "../../utils/logout";
 
 type Path = {
   href: string;
@@ -21,7 +25,25 @@ export type AsideProps = {
 };
 
 function Aside({ paths, asideOpen, setAsideOpen }: AsideProps) {
+
   const navigate = useNavigate();
+  const {user, clearUser} = useAuth(state=>state)
+
+  const { isPending, mutate, isSuccess } = useMutation({
+    mutationKey: ["logout", user?.username],
+    mutationFn: logout,
+    onSuccess: () => {
+      toast.success("Logout successful!")
+      sessionStorage.removeItem("search");
+      sessionStorage.removeItem("aside");
+      clearUser()
+      navigate("/login");
+    },
+    onError: () => {
+      toast.error("Something went wrong")
+    }
+  })
+
   function clickHandler() {
     setAsideOpen((pre) => {
       const newVal = !pre;
@@ -29,12 +51,7 @@ function Aside({ paths, asideOpen, setAsideOpen }: AsideProps) {
       return newVal;
     });
   }
-  async function logoutHandler(): Promise<void> {
-    sessionStorage.removeItem("search");
-    sessionStorage.removeItem("aside");
-    sessionStorage.removeItem("username");
-    navigate("/login");
-  }
+
 
   return (
     <aside
@@ -67,7 +84,8 @@ function Aside({ paths, asideOpen, setAsideOpen }: AsideProps) {
         <button
           type="button"
           aria-label="log out"
-          onClick={logoutHandler}
+          disabled={isPending || isSuccess}
+          onClick={()=>mutate()}
           className="hover:bg-gray-300 dark:hover:bg-gray-600 p-2 rounded-2xl hover:cursor-pointer"
         >
           {asideOpen ? <p>Logout</p> : <LogOut />}
