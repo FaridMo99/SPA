@@ -10,27 +10,26 @@ const buttonStyles: string =
 const formStyles: string =
   "w-full outline-1 bg-gray-50 dark:outline-black outline-gray-300 fixed bottom-0 right-0 flex items-center justify-center py-2 px-4 dark:bg-dark-gray dark:brightness-120";
 
-
 function CreateComment({ postId }: { postId: string }) {
   const [value, setValue] = useState<string>("");
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
   const { isPending, isIdle, mutate } = useMutation({
     mutationKey: ["create comment", postId],
-    mutationFn: ({postId, content}:{postId:string,content:string}) => createComment(postId, {content}),
+    mutationFn: ({ postId, content }: { postId: string; content: string }) =>
+      createComment(postId, { content }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["get comments", postId] });
-      toast.success("Comment successful!")
-      setValue("")
+      toast.success("Comment successful!");
+      setValue("");
     },
     onError: () => {
-      toast.error("Somethign went wrong...")
-    }
-  })
-
+      toast.error("Somethign went wrong...");
+    },
+  });
 
   function submitHandler(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    mutate({postId, content:value})
+    mutate({ postId, content: value });
   }
 
   return (
@@ -49,7 +48,7 @@ function CreateComment({ postId }: { postId: string }) {
         aria-label="Send Comment"
       >
         {isIdle && <Send />}
-        {isPending && <Loader2 className="animation-spin"/>}
+        {isPending && <Loader2 className="animate-spin" />}
       </button>
     </form>
   );

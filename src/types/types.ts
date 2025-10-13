@@ -23,11 +23,12 @@ export type Post = {
   //for total like count
   _count: {
     likedBy: number;
+    comments:number
   };
 };
 
 export type Comment = {
-  id:string
+  id: string;
   user: {
     username: string;
     profilePicture: string | null;

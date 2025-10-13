@@ -7,6 +7,7 @@ type PostCardIconsProps = {
   iconClassName: string;
   text: number;
   onClick?: () => void;
+  disabled?: boolean;
 };
 
 function PostCardIcons({
@@ -16,6 +17,7 @@ function PostCardIcons({
   iconClassName,
   text,
   onClick,
+  disabled = false,
 }: PostCardIconsProps) {
   return (
     <button
@@ -23,6 +25,7 @@ function PostCardIcons({
       aria-label={ariaLabel}
       className="flex items-center"
       onClick={onClick}
+      disabled={disabled}
     >
       <Icon size={40} className={iconClassName} />
       <p className={pClassName}>{text}</p>

@@ -20,7 +20,12 @@ function Following() {
 
   return (
     <div className="w-full flex flex-col my-4 items-center">
-      <FollowSection isLoading={isLoading} isError={isError} followList={followerList} text="follows"/>
+      <FollowSection
+        isLoading={isLoading}
+        isError={isError}
+        followList={followerList}
+        text="follows"
+      />
     </div>
   );
 }

@@ -1,52 +1,13 @@
-import { useState, useEffect, useRef } from "react";
 import CreatePostField from "../components/home/CreatePostField";
 import PostCard from "../components/home/PostCard";
 import { getPostsForFyp } from "../utils/getPosts";
-import { useInfiniteQuery } from "@tanstack/react-query";
 import CustomLoader from "../components/CustomLoader";
-import SortDropdown from "../components/home/SortDropdown";
-import type { Post } from "../types/types";
 
 function Home() {
-  const [sortValue, setSortValue] = useState<string>("desc");
-
-  const {
-    data,
-    isLoading,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  } = useInfiniteQuery<Post[]>({
-    queryKey: ["getAllPosts", sortValue],
-    queryFn: () => getPostsForFyp,
-  });
-
-  const loadMoreRef = useRef<null | HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && hasNextPage) {
-          fetchNextPage();
-        }
-      },
-      { threshold: 1 },
-    );
-
-    if (loadMoreRef.current) observer.observe(loadMoreRef.current);
-
-    return () => observer.disconnect();
-  }, [fetchNextPage, hasNextPage]);
-
-  const allPosts = data?.pages.flat() || [];
-
   return (
     <>
       <CreatePostField />
-      <div className="absolute right-2 top-[36vh]">
-        <SortDropdown setSortValue={setSortValue} />
-      </div>
+      <div className="absolute right-2 top-[36vh]"></div>
       <div className="w-full flex flex-col items-center">
         {isLoading && <CustomLoader styles="mt-[42vh]" />}
         {allPosts.length === 0 && (

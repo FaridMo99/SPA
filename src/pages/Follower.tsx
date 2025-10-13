@@ -6,7 +6,11 @@ import FollowSection from "../components/profile/FollowSection";
 function Follower() {
   const user = useAuth((state) => state.user)!;
 
-  const { data: followingList, isLoading, isError,  } = useQuery({
+  const {
+    data: followingList,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ["getFollowers", user.username],
     queryFn: () => getFollowing(user.username),
   });
