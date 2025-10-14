@@ -1,3 +1,4 @@
+import { User } from "lucide-react";
 import type { Post } from "../../types/types";
 import passedTime from "../../utils/passedTime";
 import { Link } from "react-router-dom";
@@ -10,11 +11,15 @@ function PostCommentCard({ post }: { post: Post }) {
     >
       <div className="w-full h-1/4 flex items-center justify-between">
         <div className="w-1/2 flex items-center h-full">
-          <img
-            src={post.user.profilePicture ?? undefined /* solve better */}
-            alt={`${post.user.username} Avatar`}
-            className="mr-4 w-10 h-10 rounded-full"
-          />
+          {post.user.profilePicture ? (
+            <img
+              src={post.user.profilePicture}
+              alt={`${post.user.username} Avatar`}
+              className="mr-4 w-10 h-10 rounded-full"
+            />
+          ) : (
+            <User className="text-green-300 dark:text-dark-green mr-4 w-10 h-10 rounded-full" />
+          )}
           <Link className="hover:text-black/60" to={`/${post.user.username}`}>
             <h1>{post.user.username}</h1>
           </Link>

@@ -6,7 +6,6 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
 
-
 //features
 //on mobile pulling from upwards reloads, like twitter basically
 //two sections, fyp and follows(maybe extra layout for that)
@@ -29,7 +28,7 @@ function Home() {
     getNextPageParam: (lastPage, allPages) => {
       return lastPage.length > 0 ? allPages.length + 1 : undefined;
     },
-    initialPageParam:1
+    initialPageParam: 1,
   });
 
   useEffect(() => {

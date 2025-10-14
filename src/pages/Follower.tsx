@@ -1,18 +1,18 @@
 import useAuth from "../stores/authStore";
 import { useQuery } from "@tanstack/react-query";
-import { getFollowing } from "../utils/getUsers";
+import { getFollowers } from "../utils/getUsers";
 import FollowSection from "../components/profile/FollowSection";
 
 function Follower() {
   const user = useAuth((state) => state.user)!;
 
   const {
-    data: followingList,
+    data: followerList,
     isLoading,
     isError,
   } = useQuery({
     queryKey: ["getFollowers", user.username],
-    queryFn: () => getFollowing(user.username),
+    queryFn: () => getFollowers(user.username),
   });
 
   return (
@@ -20,8 +20,7 @@ function Follower() {
       <FollowSection
         isLoading={isLoading}
         isError={isError}
-        followList={followingList}
-        text="follower"
+        followList={followerList}
       />
     </div>
   );

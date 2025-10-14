@@ -64,8 +64,7 @@ function ImageSection({
           <UserImage img={profilePicture} />
           {!editable && (
             <div className="font-bold text-green-300 dark:text-dark-green flex justify-evenly items-center absolute top-9 left-22 w-1/2">
-              Follower:{followers}
-              <p></p>
+              <p>Follower:{followers}</p>
               <p>Following:{following}</p>
             </div>
           )}

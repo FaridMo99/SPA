@@ -15,7 +15,7 @@ export async function getPostByPostId(postId: string): Promise<Post> {
 }
 
 export async function getAllPostsByUsername(name: string): Promise<Posts> {
-  console.log(backendUrl)
+  console.log(backendUrl);
   const response = await fetch(`${backendUrl}/posts/${name}/posts`, {
     credentials: "include",
   });
@@ -35,15 +35,14 @@ export async function getAllPostsByFollow(): Promise<Posts> {
   return data;
 }
 
+export async function getPostsForFyp(page: number): Promise<Posts> {
+  const params = new URLSearchParams({
+    page: page.toString(),
+    limit: String(10),
+  });
 
-export async function getPostsForFyp(page: number,): Promise<Posts> {
-    const params = new URLSearchParams({
-      page: page.toString(),
-      limit: String(10),
-    });
-  
   const response = await fetch(`${backendUrl}/posts/fyp?${params.toString()}`, {
-    credentials: "include"
+    credentials: "include",
   });
   if (!response.ok) throw new Error(`No Posts found`);
 

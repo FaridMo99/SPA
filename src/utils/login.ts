@@ -9,11 +9,12 @@ export default async function login(data: LoginFormData): Promise<void> {
   const res = await fetch(`${backendUrl}/auth/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
+    credentials: "include",
     body: JSON.stringify(data),
   });
 
   if (!res.ok) {
-    const result = await res.json()
+    const result = await res.json();
     throw new Error(result.message);
   }
 

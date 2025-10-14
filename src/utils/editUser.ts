@@ -3,9 +3,11 @@ import { backendUrl } from "../stores/authStore";
 import type { User } from "../types/types";
 import type { editUserSchema } from "../schemas/schemas";
 
+export type EditFields = z.infer<typeof editUserSchema>;
+
 export default async function editUser(
   username: string,
-  fieldsToEdit: z.infer<typeof editUserSchema>,
+  fieldsToEdit: EditFields,
 ): Promise<User> {
   const res = await fetch(`${backendUrl}/users/${username}`, {
     method: "PATCH",
@@ -26,9 +28,7 @@ export default async function editUser(
 export async function follow(username: string): Promise<User> {
   const res = await fetch(`${backendUrl}/users/${username}/follow`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
     credentials: "include",
-    body: username,
   });
 
   if (!res.ok) {
@@ -40,10 +40,7 @@ export async function follow(username: string): Promise<User> {
 export async function unfollow(username: string): Promise<User> {
   const res = await fetch(`${backendUrl}/users/${username}/follow`, {
     method: "DELETE",
-    headers: { "Content-Type": "application/json" },
-    credentials: "include",
-    body: username,
-  });
+    credentials: "include",  });
 
   if (!res.ok) {
     throw new Error(`Unfollowing failed`);

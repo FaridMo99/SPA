@@ -4,7 +4,7 @@ import UserImage from "../UserImage";
 import type { User } from "../../types/types";
 
 type FollowCardType = {
-  followsData: User;
+  followsData: Omit<User, "bio" | "_count">;
   btn?: boolean;
 };
 

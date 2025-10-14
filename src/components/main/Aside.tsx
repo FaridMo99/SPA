@@ -25,24 +25,23 @@ export type AsideProps = {
 };
 
 function Aside({ paths, asideOpen, setAsideOpen }: AsideProps) {
-
   const navigate = useNavigate();
-  const {user, clearUser} = useAuth(state=>state)
+  const { user, clearUser } = useAuth((state) => state);
 
   const { isPending, mutate, isSuccess } = useMutation({
     mutationKey: ["logout", user?.username],
     mutationFn: logout,
     onSuccess: () => {
-      toast.success("Logout successful!")
+      toast.success("Logout successful!");
       sessionStorage.removeItem("search");
       sessionStorage.removeItem("aside");
-      clearUser()
+      clearUser();
       navigate("/login");
     },
     onError: () => {
-      toast.error("Something went wrong")
-    }
-  })
+      toast.error("Something went wrong");
+    },
+  });
 
   function clickHandler() {
     setAsideOpen((pre) => {
@@ -51,7 +50,6 @@ function Aside({ paths, asideOpen, setAsideOpen }: AsideProps) {
       return newVal;
     });
   }
-
 
   return (
     <aside
@@ -85,7 +83,7 @@ function Aside({ paths, asideOpen, setAsideOpen }: AsideProps) {
           type="button"
           aria-label="log out"
           disabled={isPending || isSuccess}
-          onClick={()=>mutate()}
+          onClick={() => mutate()}
           className="hover:bg-gray-300 dark:hover:bg-gray-600 p-2 rounded-2xl hover:cursor-pointer"
         >
           {asideOpen ? <p>Logout</p> : <LogOut />}

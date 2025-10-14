@@ -6,12 +6,13 @@ import UsersLoadingSkeleton from "../components/UsersLoadingSkeleton";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import useAuth from "../stores/authStore";
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
+import type { User } from "../types/types";
 
 function Users() {
   const navigate = useNavigate();
-  const user = useAuth((state) => state.user);
+  const user = useAuth((state) => state.user) as User;
   const { username } = useParams();
 
   const {
@@ -32,11 +33,11 @@ function Users() {
     },
   });
 
-  useEffect(() => {
-    if (username === user!.username) {
+  useLayoutEffect(() => {
+    if (username === user.username) {
       navigate("/profile");
     }
-  }, []);
+  }, [username, user, navigate]);
 
   if (userIsLoading || postDataIsLoading) return <UsersLoadingSkeleton />;
 
@@ -48,10 +49,10 @@ function Users() {
     <main className="flex flex-col">
       <ImageSection
         bio={userData.bio}
-        img={userData.avatar}
+        profilePicture={userData.profilePicture}
         username={userData.username}
-        followers={userData.followers.length}
-        following={userData.following.length}
+        followers={userData._count.followers}
+        following={userData._count.following}
       />
       <div className="w-full flex flex-col items-center mt-10">
         {postData?.map((element) => (

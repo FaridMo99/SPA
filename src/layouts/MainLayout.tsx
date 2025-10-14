@@ -4,38 +4,19 @@ import Header from "../components/main/Header";
 import Aside from "../components/main/Aside";
 import { House, MessagesSquare, UserRound } from "lucide-react";
 import useAuth from "../stores/authStore";
-import { ThemeProvider } from "../components/ThemeProvider";
 import type { User } from "../types/types";
 
-//add messages count over messages icon
+//add messages count over messages icon, update bright green text to dark in dark mode
 function MainLayout() {
   const [asideOpen, setAsideOpen] = useState<boolean>(() => {
     const stored = sessionStorage.getItem("aside");
     return stored !== null ? JSON.parse(stored) : true;
   });
 
-  const usr = {
-    username: "john",
-    profilePicture: null,
-    bio: null,
-    _count: {
-      followers: 12,
-      following: 11,
-    },
-  }; //remove after development
-
-  useAuth.getState().setUser(usr);//remove after development
-  
-  //user is definitely known here since the loader would otherwise redirect
   const user = useAuth((state) => state.user) as User;
-  
+
   return (
-    <ThemeProvider
-      attribute="class"
-      defaultTheme="system"
-      enableSystem
-      disableTransitionOnChange
-    >
+    <>
       <Header avatar={user.profilePicture} />
       <Aside
         paths={[
@@ -51,7 +32,7 @@ function MainLayout() {
       >
         <Outlet />
       </main>
-    </ThemeProvider>
+    </>
   );
 }
 

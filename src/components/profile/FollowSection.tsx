@@ -1,29 +1,56 @@
 import CustomLoader from "../CustomLoader";
 import FollowCard from "./FollowCard";
-import type { User } from "../../types/types";
+import type { FollowerList, FollowingList } from "../../types/types";
 
 type FollowSectionProps = {
   isLoading: boolean;
   isError: boolean;
-  followList: User[] | [] | undefined;
-  text: "follows" | "follower";
+  followList: FollowerList | FollowingList | undefined;
 };
+
+function isFollowerList(
+  list: FollowSectionProps["followList"]
+): list is FollowerList {
+  return !!list && "followers" in list;
+}
+
+function isFollowingList(
+  list: FollowSectionProps["followList"]
+): list is FollowingList {
+  return !!list && "following" in list;
+}
 
 function FollowSection({
   isLoading,
   isError,
   followList,
-  text,
 }: FollowSectionProps) {
   if (isLoading) return <CustomLoader />;
-  if (isError)
-    return <p className="font-bold text-red-500 mt-10">Something went wrong</p>;
-  if (followList?.length === 0)
-    return <p className="font-bold text-green-300 mt-10">You have 0 {text}</p>;
-  if (followList && followList.length > 0)
-    return followList.map((follower) => (
-      <FollowCard btn key={follower.username} followsData={follower} />
+
+  if (isError || !followList)
+    return (
+      <p className="font-bold text-red-500 mt-10">Something went wrong...</p>
+    );
+
+  if (isFollowerList(followList) && followList.followers.length === 0)
+    return (
+      <p className="font-bold text-green-300 mt-10">You have 0 followers</p>
+    );
+
+  if (isFollowingList(followList) && followList.following.length === 0)
+    return <p className="font-bold text-green-300 mt-10">You follow 0 users</p>;
+
+  if (isFollowerList(followList))
+    return followList.followers.map((f) => (
+      <FollowCard key={f.follower.username} followsData={f.follower} btn />
     ));
+
+  if (isFollowingList(followList))
+    return followList.following.map((f) => (
+      <FollowCard key={f.follower.username} followsData={f.follower} btn />
+    ));
+
+  return null;
 }
 
-export default FollowSection;
+export default FollowSection

@@ -16,7 +16,7 @@ export const signupSchema = z
         },
         {
           message: "You must be at least 18 years old",
-        }
+        },
       ),
     email: z.string().email("Invalid E-Mail"),
     password: z.string().min(8, "Password must have atleast 8 Characters"),
@@ -29,18 +29,23 @@ export const signupSchema = z
 
 export const loginSchema = z.object({
   email: z.string().email("Invalid E-Mail"),
-  password: z.string().min(8, "Password must contain atleast 8 characters").max(20,"Password can contain max 20 characters"),
+  password: z
+    .string()
+    .min(8, "Password must contain atleast 8 characters")
+    .max(20, "Password can contain max 20 characters"),
 });
 
 export const editUserSchema = z
   .object({
     username: z.string().nonempty("Field is required"),
-    email: z
-      .string()
-      .email("Invalid E-Mail")
-      .nonempty("Field is required"),
+    email: z.string().email("Invalid E-Mail").nonempty("Field is required"),
     password: z.string().min(8, "Password must have atleast 8 Characters"),
-    bio: z.string().nonempty("Field is required"),
-    profilePicture: z.instanceof(File),
+    bio: z.string(),
+    profilePicture: z
+      .instanceof(File, { message: "You must upload a file" })
+      .refine((file) => file.type.startsWith("image/"), {
+        message: "File must be an image",
+      })
+      .optional(),
   })
   .partial();

@@ -29,32 +29,43 @@ function PostCard({ postData, editable = false }: PostCardProps) {
   const { mutate: toggleLike, isPending: toggleIsPending } = useMutation({
     mutationKey: ["like post", postData.id],
     mutationFn: async () => {
-      if (!like) {
+      //has to be flipped because onMutate runs before this mutation function and therefore changes boolean logic too early
+      if (like) {
+        console.log("runs like");
         return await likePost(postData.id);
       }
-
-      return await dislikePost(postData.id);
+      if (!like) {
+        console.log("runs dislike");
+        return await dislikePost(postData.id);
+      }
     },
-    onMutate: () => {
-      setLike((prev) => {
-        const newLike = !prev;
-        setLikeCount((count) => (newLike ? count + 1 : count - 1));
-        return newLike;
+    onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey: ["get fyp posts"] });
+      await queryClient.cancelQueries({
+        queryKey: ["get User posts", user.username],
       });
+
+      const previousLike = like;
+      const previousCount = likeCount;
+
+      const newLike = !previousLike;
+      setLike(newLike);
+      setLikeCount(previousCount + (newLike ? 1 : -1));
+
+      return { previousLike, previousCount };
     },
-    onSuccess: () => {
+    onError: (err, variables, context) => {
+      if (context) {
+        setLike(context.previousLike);
+        setLikeCount(context.previousCount);
+      }
+      toast.error("Something went wrong...");
+    },
+    onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["get fyp posts"] });
       queryClient.invalidateQueries({
         queryKey: ["get User posts", user.username],
       });
-    },
-    onError: () => {
-      setLike((prev) => {
-        const newLike = !prev;
-        setLikeCount((count) => (newLike ? count + 1 : count - 1));
-        return newLike;
-      });
-      toast.error("Something went wrong...");
     },
   });
 

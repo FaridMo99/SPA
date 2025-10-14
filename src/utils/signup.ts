@@ -11,6 +11,7 @@ export default async function signup(
 ): Promise<void> {
   const res = await fetch(`${backendUrl}/auth/signup`, {
     method: "POST",
+    credentials: "include",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(formData),
   });

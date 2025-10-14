@@ -11,14 +11,16 @@ const buttonStyles =
 
 function CreatePostField() {
   const [text, setText] = useState<string>("");
-  const user = useAuth(state=>state.user) as User
+  const user = useAuth((state) => state.user) as User;
   const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation({
     mutationFn: (data: { content: string }) => createPost(data),
     mutationKey: ["create Post", text],
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey:["get fyp posts"] });
-      queryClient.invalidateQueries({queryKey: ["get User posts", user.username]});
+      queryClient.invalidateQueries({ queryKey: ["get fyp posts"] });
+      queryClient.invalidateQueries({
+        queryKey: ["get User posts", user.username],
+      });
       setText("");
       toast.success("Successfully posted");
     },
@@ -53,7 +55,7 @@ function CreatePostField() {
             className={buttonStyles}
             type="submit"
           >
-            {isPending ? <CustomLoader/> : "Post"}
+            {isPending ? <CustomLoader /> : "Post"}
           </button>
         </div>
       </form>

@@ -1,7 +1,7 @@
 import useAuth from "../stores/authStore";
 import { useQuery } from "@tanstack/react-query";
 import type { User } from "../types/types";
-import { getFollowers } from "../utils/getUsers";
+import { getFollowing } from "../utils/getUsers";
 import FollowSection from "../components/profile/FollowSection";
 
 //look how to solve all these as keywords
@@ -10,12 +10,12 @@ function Following() {
   const user = useAuth((state) => state.user) as User;
 
   const {
-    data: followerList,
+    data: followingList,
     isLoading,
     isError,
   } = useQuery({
     queryKey: ["getFollows", user.username],
-    queryFn: () => getFollowers(user.username),
+    queryFn: () => getFollowing(user.username),
   });
 
   return (
@@ -23,8 +23,7 @@ function Following() {
       <FollowSection
         isLoading={isLoading}
         isError={isError}
-        followList={followerList}
-        text="follows"
+        followList={followingList}
       />
     </div>
   );

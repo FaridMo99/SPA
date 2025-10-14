@@ -28,11 +28,11 @@ const route = createBrowserRouter([
     children: [
       {
         index: true,
-        //loader: initialAuthCheck,
+        loader: initialAuthCheck,
       },
       {
         element: <AuthLayout />,
-        //loader: authCheckPublic,
+        loader: authCheckPublic,
         children: [
           {
             element: <Login />,
@@ -46,7 +46,7 @@ const route = createBrowserRouter([
       },
       {
         element: <MainLayout />,
-        //loader: authCheckPrivate,
+        loader: authCheckPrivate,
         children: [
           {
             element: <Home />,
@@ -67,9 +67,9 @@ const route = createBrowserRouter([
             children: [
               {
                 element: <Messages />,
-                path:":chatId"
-              }
-            ]
+                path: ":chatId",
+              },
+            ],
           },
           {
             element: <ProfileLayout />,

@@ -1,3 +1,5 @@
+//import avatar type here and change profile picture type after colon to avatar and update everything
+
 export type User = {
   username: string;
   profilePicture: string | null;
@@ -20,10 +22,9 @@ export type Post = {
   likedBy: {
     id: string;
   }[];
-  //for total like count
   _count: {
     likedBy: number;
-    comments:number
+    comments: number;
   };
 };
 

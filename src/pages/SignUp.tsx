@@ -10,7 +10,6 @@ import Button from "../components/auth/Button";
 import toast from "react-hot-toast";
 import CustomLoader from "../components/CustomLoader";
 
-
 //fix responsive issues when error messages trigger
 function SignUp() {
   const navigate = useNavigate();
@@ -21,16 +20,16 @@ function SignUp() {
   });
   const { errors } = formState;
 
-  const {mutate, isPending} = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationKey: ["sign user up", formState],
     mutationFn: signup,
     onSuccess: () => {
-      toast.success("Signup successful")
-      navigate("/home")
+      toast.success("Signup successful");
+      navigate("/home");
     },
     onError: (error) => {
-      toast.error(error.message)
-    }
+      toast.error(error.message);
+    },
   });
 
   function submitHandler(formData: SignupFormData) {
@@ -89,7 +88,9 @@ function SignUp() {
           type="password"
         />
         {errors.confirmPassword && (
-          <p className="text-red-400 text-center">{errors.confirmPassword.message}</p>
+          <p className="text-red-400 text-center">
+            {errors.confirmPassword.message}
+          </p>
         )}
 
         <Button

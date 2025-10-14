@@ -9,11 +9,20 @@ import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import CustomLoader from "../components/CustomLoader";
 
-
 //check on all routes if custom loader breaks layouts
-function Login() {
-    const navigate = useNavigate();
+//dark mode disappears on login/signup after logging out and refresh and edit modal
+//no ui elements and functionality to like comments
+//delete account functionality missing
+//add delete comment functionality
+//add cascading when deleting stuff like user and etc.
+//after creating comment the submit button turns small af
+//follow button weird
+//add forgot password feature and then sends email to verify
+//add sending email on changing email or signing up with email, if changing email sent email should only be valid for 24 hours
+//make follower and following a list of followers and following as modal
 
+function Login() {
+  const navigate = useNavigate();
 
   const { formState, register, handleSubmit } = useForm({
     resolver: zodResolver(loginSchema),
@@ -21,63 +30,60 @@ function Login() {
   });
   const { errors } = formState;
 
-  const { mutate, isPending, } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationKey: ["logging user in", formState],
     mutationFn: login,
     onSuccess: () => {
-      toast.success("Successfully logged in!")
-      navigate("/home")
+      toast.success("Successfully logged in!");
+      navigate("/home");
     },
     onError: (error) => {
-      toast.error(error.message)
-    }
+      toast.error(error.message);
+    },
   });
 
-
-  function submitHandler(formData:LoginFormData) {
-    mutate(formData)
+  function submitHandler(formData: LoginFormData) {
+    mutate(formData);
   }
 
   return (
-    <>
-      <form
-        aria-label="Login"
-        noValidate
-        onSubmit={handleSubmit(submitHandler)}
-        className="w-full h-full flex flex-col justify-evenly rounded-2xl items-center dark:bg-dark-gray"
+    <form
+      aria-label="Login"
+      noValidate
+      onSubmit={handleSubmit(submitHandler)}
+      className="w-full h-full flex flex-col justify-evenly rounded-2xl items-center dark:bg-dark-gray"
+    >
+      <Fieldset register={register} id="email" text="E-Mail:" type="email" />
+
+      {errors.email && (
+        <p className="text-red-400 text-center">{errors.email.message}</p>
+      )}
+
+      <Fieldset
+        register={register}
+        id="password"
+        text="Password:"
+        type="password"
+      />
+
+      {errors.password && (
+        <p className="text-red-400 text-center">{errors.password.message}</p>
+      )}
+
+      <Button
+        disabled={isPending}
+        text={isPending ? <CustomLoader /> : "Login"}
+        type="submit"
+        styles="font-bold"
+      />
+
+      <Link
+        to="/signup"
+        className="text-green-300 dark:text-dark-green underline"
       >
-        <Fieldset register={register} id="email" text="E-Mail:" type="email" />
-
-        {errors.email && (
-          <p className="text-red-400 text-center">{errors.email.message}</p>
-        )}
-        
-        <Fieldset
-          register={register}
-          id="password"
-          text="Password:"
-          type="password"
-        />
-
-        {errors.password && (
-          <p className="text-red-400 text-center">{errors.password.message}</p>
-        )}
-
-        <Button
-          disabled={isPending}
-          text={isPending ? <CustomLoader /> : "Login"}
-          type="submit"
-          styles="font-bold"
-        />
-
-        <Link
-          to="/signup"
-          className="text-green-300 dark:text-dark-green underline"
-        >
-          Don’t have a account? Sign up.
-        </Link>
-      </form>
-    </>
+        Don’t have a account? Sign up.
+      </Link>
+    </form>
   );
 }
 
