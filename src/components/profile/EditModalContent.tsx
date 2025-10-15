@@ -41,6 +41,7 @@ function EditModalContent({ setIsOpen, user }: EditModalContentProps) {
     defaultValues: {
       username: user.username,
       bio: user.bio ?? "",
+      // @ts-expect-error remove that one later
       profilePicture: user.profilePicture,
     },
     mode: "onChange",

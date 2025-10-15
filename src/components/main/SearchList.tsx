@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Search } from "lucide-react";
-import type { User } from "../../mocks/data";
+import type { User } from "../../types/types";
+
 
 function SearchList({ items }: { items: User[] }) {
   const styles =
