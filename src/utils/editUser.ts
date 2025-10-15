@@ -30,6 +30,7 @@ export async function follow(username: string): Promise<User> {
     method: "POST",
     credentials: "include",
   });
+  console.log("hit follow");
 
   if (!res.ok) {
     throw new Error(`Following failed`);
@@ -40,8 +41,9 @@ export async function follow(username: string): Promise<User> {
 export async function unfollow(username: string): Promise<User> {
   const res = await fetch(`${backendUrl}/users/${username}/follow`, {
     method: "DELETE",
-    credentials: "include",  });
-
+    credentials: "include",
+  });
+  console.log("hit unfollow");
   if (!res.ok) {
     throw new Error(`Unfollowing failed`);
   }

@@ -1,15 +1,16 @@
 import CreatePostField from "../components/home/CreatePostField";
 import PostCard from "../components/home/PostCard";
 import { getPostsForFyp } from "../utils/getPosts";
-import CustomLoader from "../components/CustomLoader";
+import CustomLoader from "../components/ui/CustomLoader";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
+import NotFound from "../components/ui/NotFound";
+import ErrorText from "../components/ui/ErrorText";
 
 //features
 //on mobile pulling from upwards reloads, like twitter basically
 //two sections, fyp and follows(maybe extra layout for that)
-//fyp gives random posts with infinite scroll
 
 function Home() {
   const { ref: loadMoreRef, inView } = useInView();
@@ -45,16 +46,14 @@ function Home() {
       <div className="w-full flex flex-col items-center">
         {isLoading && <CustomLoader styles="mt-[42vh]" />}
         {!isError && posts.length === 0 && !isLoading && (
-          <p className="text-green-300 font-bold">No Posts found...</p>
+          <NotFound text="No Posts found..." />
         )}
         {posts.map((post) => (
           <PostCard key={post.id} postData={post} />
         ))}
         {isFetchingNextPage && <CustomLoader styles="my-4" />}
         <div ref={loadMoreRef} className="h-10" />
-        {isError && (
-          <p className="text-red-500 font-bold text-2xl">{error.message}</p>
-        )}
+        {isError && <ErrorText text={error.message} />}
       </div>
     </>
   );

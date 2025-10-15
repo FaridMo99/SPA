@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import FollowButton from "./FollowButton";
-import UserImage from "../UserImage";
+import UserImage from "../ui/UserImage";
 import type { User } from "../../types/types";
 
 type FollowCardType = {

@@ -56,7 +56,7 @@ export type FollowerList = {
 
 export type FollowingList = {
   following: {
-    follower: {
+    following: {
       username: string;
       profilePicture: string | null;
     };

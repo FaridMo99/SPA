@@ -1,5 +1,6 @@
 import CommentCard from "./CommentCard";
 import { type Comment } from "../../types/types";
+import NotFound from "../ui/NotFound";
 
 function CommentSection({ comments }: { comments: Comment[] | [] }) {
   return (
@@ -9,7 +10,7 @@ function CommentSection({ comments }: { comments: Comment[] | [] }) {
       </p>
       <div className="flex flex-col items-center">
         {comments.length === 0 || !comments ? (
-          <p>No Comments found ...</p>
+          <NotFound text="No Comments found ..." />
         ) : (
           comments.map((comment) => (
             <CommentCard key={comment.id} comment={comment} />

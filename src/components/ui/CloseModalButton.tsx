@@ -1,0 +1,22 @@
+import { X } from 'lucide-react';
+import React from 'react'
+
+type CloseModalButtonProps = {
+    ariaLable: string
+    clickHandler:()=>void;
+}
+
+function CloseModalButton({ariaLable,clickHandler}:CloseModalButtonProps) {
+  return (
+    <button
+      type="button"
+      className="absolute top-2 border-1 border-gray-300 text-gray-300 cursor-pointer rounded left-2"
+      aria-label={ariaLable}
+      onClick={clickHandler}
+    >
+      <X />
+    </button>
+  );
+}
+
+export default CloseModalButton

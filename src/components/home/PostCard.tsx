@@ -9,7 +9,7 @@ import Button from "../auth/Button";
 import PostCardIcons from "./PostCardIcons";
 import { dislikePost, likePost } from "../../utils/interactWithPost";
 import useAuth from "../../stores/authStore";
-import UserImage from "../UserImage";
+import UserImage from "../ui/UserImage";
 import type { Post, User } from "../../types/types";
 import toast from "react-hot-toast";
 

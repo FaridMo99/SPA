@@ -3,9 +3,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { follow, unfollow } from "../../utils/editUser";
 import useAuth from "../../stores/authStore";
 import type { User } from "../../types/types";
-import {  getFollowStatus } from "../../utils/getUsers";
-import CustomLoader from "../CustomLoader";
-
+import { getFollowStatus } from "../../utils/getUsers";
+import CustomLoader from "../ui/CustomLoader";
 
 function FollowButton({ name }: { name: string }) {
   const user = useAuth((state) => state.user) as User;
@@ -14,7 +13,7 @@ function FollowButton({ name }: { name: string }) {
   const queryClient = useQueryClient();
 
   const {
-    data:isFollowing,
+    data: isFollowing,
     isLoading,
     isError,
   } = useQuery({
@@ -36,11 +35,11 @@ function FollowButton({ name }: { name: string }) {
       queryClient.invalidateQueries({
         queryKey: ["get follow for button", name],
       });
-      fetchUser()
+      fetchUser();
     },
   });
 
-  if (isLoading || isError) return null
+  if (isLoading || isError) return null;
 
   return (
     <button
@@ -49,7 +48,7 @@ function FollowButton({ name }: { name: string }) {
       className="rounded px-2 py-1 bg-green-300 dark:bg-dark-green text-white font-bold absolute right-2 disabled:opacity-60"
       onClick={() => mutate()}
     >
-      {isPending && <CustomLoader/>}
+      {isPending && <CustomLoader styles="dark:text-white" />}
       {!isPending && isFollowing ? "Unfollow" : "Follow"}
     </button>
   );

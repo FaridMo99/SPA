@@ -11,7 +11,7 @@ import ProfileLayout from "../layouts/ProfileLayout";
 import AuthLayout from "../layouts/AuthLayout";
 import MainLayout from "../layouts/MainLayout";
 import Users from "../pages/Users";
-import LoadingScreen from "../components/LoadingScreen";
+import LoadingScreen from "../components/ui/LoadingScreen";
 import {
   authCheckPrivate,
   authCheckPublic,

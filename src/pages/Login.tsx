@@ -7,19 +7,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import login, { type LoginFormData } from "../utils/login";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import CustomLoader from "../components/CustomLoader";
+import CustomLoader from "../components/ui/CustomLoader";
 
-//check on all routes if custom loader breaks layouts
-//dark mode disappears on login/signup after logging out and refresh and edit modal
-//no ui elements and functionality to like comments
-//delete account functionality missing
-//add delete comment functionality
 //add cascading when deleting stuff like user and etc.
-//after creating comment the submit button turns small af
-//follow button weird
 //add forgot password feature and then sends email to verify
 //add sending email on changing email or signing up with email, if changing email sent email should only be valid for 24 hours
 //make follower and following a list of followers and following as modal
+//add file uploads for profile pic and posts add gif support
+//add reload on pull
+//fix ui issues
+//clean up code
+//implement testing(unit,component,integration)
 
 function Login() {
   const navigate = useNavigate();
@@ -56,7 +54,7 @@ function Login() {
       <Fieldset register={register} id="email" text="E-Mail:" type="email" />
 
       {errors.email && (
-        <p className="text-red-400 text-center">{errors.email.message}</p>
+        <p className="text-red-500 text-center">{errors.email.message}</p>
       )}
 
       <Fieldset
@@ -67,7 +65,7 @@ function Login() {
       />
 
       {errors.password && (
-        <p className="text-red-400 text-center">{errors.password.message}</p>
+        <p className="text-red-500 text-center">{errors.password.message}</p>
       )}
 
       <Button

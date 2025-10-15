@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import createPost from "../../utils/createPost";
 import toast from "react-hot-toast";
-import CustomLoader from "../CustomLoader";
+import CustomLoader from "../ui/CustomLoader";
 import useAuth from "../../stores/authStore";
 import type { User } from "../../types/types";
 

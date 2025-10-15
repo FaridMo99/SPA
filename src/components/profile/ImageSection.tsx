@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { Moon, Settings, Sun } from "lucide-react";
+import { Moon, Settings, Sun, Trash2 } from "lucide-react";
 import EditModal from "./EditModal";
 import Button from "../auth/Button";
 import FollowButton from "./FollowButton";
-import UserImage from "../UserImage";
+import UserImage from "../ui/UserImage";
 import { useTheme } from "next-themes";
 import type { Avatar } from "../main/Header";
+import DeleteAccountModal from "./DeleteAccountModal";
 
 type ImageSectionProps = {
   username: string;
@@ -25,6 +26,7 @@ function ImageSection({
   following,
 }: ImageSectionProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [deleteIsOpen, setDeleteIsOpen] = useState<boolean>(false);
   const { theme, setTheme } = useTheme();
   const nameStyles = "text-gray-600 font-bold mt-[11vh] flex";
 
@@ -54,6 +56,11 @@ function ImageSection({
               text={<Settings />}
               clickHandler={() => setIsOpen(true)}
             />
+            <Button
+              clickHandler={()=>setDeleteIsOpen(true)}
+              styles="text-red-500 absolute top-28 right-2 md:px-8"
+              text={<Trash2 />}
+            />
           </div>
         ) : (
           <div className="absolute font-bold top-8 right-4">
@@ -75,6 +82,7 @@ function ImageSection({
         </div>
       </section>
       {isOpen && <EditModal setIsOpen={setIsOpen} />}
+      {deleteIsOpen && <DeleteAccountModal username={username} setDeleteIsOpen={setDeleteIsOpen} />}
     </>
   );
 }

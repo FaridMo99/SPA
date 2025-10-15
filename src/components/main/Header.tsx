@@ -1,4 +1,4 @@
-import UserImage from "../UserImage";
+import UserImage from "../ui/UserImage";
 import Searchbar from "./Searchbar";
 import { Link } from "react-router-dom";
 

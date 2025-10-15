@@ -2,10 +2,11 @@ import { createPortal } from "react-dom";
 import useAuth from "../../stores/authStore";
 import { useQuery } from "@tanstack/react-query";
 import type { User } from "../../types/types";
-import CustomLoader from "../CustomLoader";
+import CustomLoader from "../ui/CustomLoader";
 import EditModalContent from "./EditModalContent";
 import { useEffect } from "react";
 import { getUser } from "../../utils/getUsers";
+import ErrorText from "../ui/ErrorText";
 
 function EditModal({
   setIsOpen,
@@ -43,19 +44,18 @@ function EditModal({
       }}
       className="w-screen h-screen fixed top-0 left-0 overflow-hidden bg-black/50 flex justify-center items-center z-500"
     >
-      {isLoading && <CustomLoader />}
+
+      {isLoading && <CustomLoader size={100} />}
       {(isError || !user) && (
         <div className="w-full h-full justify-center items-center">
-          <p className="text-xl text-red-600">
-            {error?.message || "Something went wrong..."}
-          </p>
+          <ErrorText text={error?.message || "Something went wrong..."} />
         </div>
       )}
       {user && !isError && (
         <EditModalContent user={user} setIsOpen={setIsOpen} />
       )}
     </div>,
-    document.querySelector("#userModal")!,
+    document.querySelector("#modal")!
   );
 }
 

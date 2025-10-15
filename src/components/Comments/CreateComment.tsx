@@ -3,7 +3,7 @@ import { Send } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createComment } from "../../utils/interactWithPost";
 import toast from "react-hot-toast";
-import CustomLoader from "../CustomLoader";
+import CustomLoader from "../ui/CustomLoader";
 
 const buttonStyles: string =
   "bg-green-300 text-white rounded-3xl p-2 mr-2 font-bold hover:bg-gray-300 hover:text-green-300 disabled:bg-gray-100 disabled:text-gray-400 disabled:hover:bg-gray-100 disabled:hover:text-gray-400 absolute right-1 bottom-1 dark:enabled:bg-dark-green enabled:hover:brightness-105";
@@ -14,7 +14,7 @@ const formStyles: string =
 function CreateComment({ postId }: { postId: string }) {
   const [value, setValue] = useState<string>("");
   const queryClient = useQueryClient();
-  const { isPending, isIdle, mutate } = useMutation({
+  const { isPending, mutate } = useMutation({
     mutationKey: ["create comment", postId],
     mutationFn: ({ postId, content }: { postId: string; content: string }) =>
       createComment(postId, { content }),
@@ -24,7 +24,7 @@ function CreateComment({ postId }: { postId: string }) {
       setValue("");
     },
     onError: () => {
-      toast.error("Somethign went wrong...");
+      toast.error("Something went wrong...");
     },
   });
 
@@ -48,8 +48,7 @@ function CreateComment({ postId }: { postId: string }) {
         disabled={value.trim().length === 0 || isPending}
         aria-label="Send Comment"
       >
-        {isIdle && <Send />}
-        {isPending && <CustomLoader />}
+        {isPending ? <CustomLoader /> : <Send />}
       </button>
     </form>
   );

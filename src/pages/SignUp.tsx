@@ -8,7 +8,7 @@ import type { SignupFormData } from "../utils/signup";
 import Fieldset from "../components/auth/Fieldset";
 import Button from "../components/auth/Button";
 import toast from "react-hot-toast";
-import CustomLoader from "../components/CustomLoader";
+import CustomLoader from "../components/ui/CustomLoader";
 
 //fix responsive issues when error messages trigger
 function SignUp() {
@@ -53,12 +53,12 @@ function SignUp() {
           type="text"
         />
         {errors.username && (
-          <p className="text-red-400 text-center">{errors.username.message}</p>
+          <p className="text-red-500 text-center">{errors.username.message}</p>
         )}
 
         <Fieldset register={register} id="email" text="E-Mail:" type="email" />
         {errors.email && (
-          <p className="text-red-400 text-center">{errors.email.message}</p>
+          <p className="text-red-500 text-center">{errors.email.message}</p>
         )}
 
         <Fieldset
@@ -68,7 +68,7 @@ function SignUp() {
           type="date"
         />
         {errors.birthdate && (
-          <p className="text-red-400 text-center">{errors.birthdate.message}</p>
+          <p className="text-red-500 text-center">{errors.birthdate.message}</p>
         )}
 
         <Fieldset
@@ -78,7 +78,7 @@ function SignUp() {
           type="password"
         />
         {errors.password && (
-          <p className="text-red-400 text-center">{errors.password.message}</p>
+          <p className="text-red-500 text-center">{errors.password.message}</p>
         )}
 
         <Fieldset
@@ -88,7 +88,7 @@ function SignUp() {
           type="password"
         />
         {errors.confirmPassword && (
-          <p className="text-red-400 text-center">
+          <p className="text-red-500 text-center">
             {errors.confirmPassword.message}
           </p>
         )}

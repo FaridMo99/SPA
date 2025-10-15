@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import LoadingScreen from "../components/LoadingScreen";
+import LoadingScreen from "../components/ui/LoadingScreen";
 import { getPostByPostId } from "../utils/getPosts";
 import { getAllCommentsByPostId } from "../utils/interactWithPost";
 import PostCommentCard from "../components/Comments/PostCommentCard";
@@ -22,7 +22,6 @@ function Comments() {
     },
   });
 
-  //maybe add streaming so when one first then only other loads
   if (postIsLoading || commentsIsLoading) return <LoadingScreen />;
   if (!post || !postId || !comments) throw new Error();
 

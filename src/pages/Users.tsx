@@ -2,13 +2,14 @@ import ImageSection from "../components/profile/ImageSection";
 import PostCard from "../components/home/PostCard";
 import { getAllPostsByUsername } from "../utils/getPosts";
 import { getUser } from "../utils/getUsers";
-import UsersLoadingSkeleton from "../components/UsersLoadingSkeleton";
+import UsersLoadingSkeleton from "../components/ui/UsersLoadingSkeleton";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import useAuth from "../stores/authStore";
 import { useLayoutEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import type { User } from "../types/types";
+import NotFound from "../components/ui/NotFound";
 
 function Users() {
   const navigate = useNavigate();
@@ -59,11 +60,7 @@ function Users() {
           <PostCard key={element.id} postData={element} />
         ))}
         {!postData ||
-          (postData.length === 0 && (
-            <p className="text-green-300  dark:text-dark-green font-bold">
-              No Posts found...
-            </p>
-          ))}
+          (postData.length === 0 && <NotFound text="No Posts found..." />)}
       </div>
     </main>
   );

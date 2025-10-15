@@ -112,9 +112,6 @@ export async function likeComment(
     `${backendUrl}/comments/${postId}/${commentId}/like`,
     {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
       credentials: "include",
     },
   );
