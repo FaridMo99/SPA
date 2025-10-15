@@ -12,7 +12,7 @@ import toast from "react-hot-toast";
 import type { User } from "../../types/types";
 import CustomLoader from "../ui/CustomLoader";
 import useAuth from "../../stores/authStore";
-import CloseModalButton from "../ui/CloseModalButton";
+import CloseModalButton from "./CloseModalButton";
 
 type EditModalContentProps = {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -52,55 +52,58 @@ function EditModalContent({ setIsOpen, user }: EditModalContentProps) {
   }
 
   return (
-      <form
-        noValidate
-        onSubmit={handleSubmit(submitHandler)}
-        className="w-1/2 relative h-[68vh] md:w-[38vw] dark:bg-dark-gray bg-white rounded-2xl outline-1 outline-gray-200 shadow-md shadow-black/20 z-51 flex flex-col justify-evenly items-center"
+    <form
+      noValidate
+      onSubmit={handleSubmit(submitHandler)}
+      className="w-1/2 relative h-[68vh] md:w-[38vw] dark:bg-dark-gray bg-white rounded-2xl outline-1 outline-gray-200 shadow-md shadow-black/20 z-51 flex flex-col justify-evenly items-center"
     >
-        <CloseModalButton clickHandler={()=>setIsOpen(false)} ariaLable="Close Edit"/>
-        <Fieldset
-          register={register}
-          id="username"
-          text="Username:"
-          type="text"
+      <CloseModalButton
+        clickHandler={() => setIsOpen(false)}
+        ariaLable="Close Edit"
+      />
+      <Fieldset
+        register={register}
+        id="username"
+        text="Username:"
+        type="text"
+      />
+      {errors.username && (
+        <p className="text-red-500 text-center">{errors.username.message}</p>
+      )}
+      <fieldset className="flex flex-col">
+        <Label text="Profile Picture:" id="profilePicture" />
+        <Input
+          type="file"
+          id="profilePicture"
+          {...register("profilePicture")}
+          accept="image/*"
         />
-        {errors.username && (
-          <p className="text-red-500 text-center">{errors.username.message}</p>
-        )}
-        <fieldset className="flex flex-col">
-          <Label text="Profile Picture:" id="profilePicture" />
-          <Input
-            type="file"
-            id="profilePicture"
-            {...register("profilePicture")}
-            accept="image/*"
-          />
-        </fieldset>
-        {errors.profilePicture && (
-          <p className="text-red-500 text-center">
-            {errors.profilePicture.message}
-          </p>
-        )}
-        <fieldset className="flex flex-col w-[180px]">
-          <Label id="bio" text="Bio:" />
-          <textarea
-            {...register("bio")}
-            rows={4}
-            id="bio"
-            className="border-2 border-gray-300 rounded-lg outline-0 focus:shadow-md pl-1"
-          />
-        </fieldset>
-        {errors.bio && (
-          <p className="text-red-500 text-center">{errors.bio.message}</p>
-        )}
-        <div className="flex justify-between items-center w-1/4">
-          <Button
-            type="submit"
-            text={isPending ? <CustomLoader /> : "Edit"}
-            disabled={isPending || !isDirty}
-          />
-        </div>
-      </form>
+      </fieldset>
+      {errors.profilePicture && (
+        <p className="text-red-500 text-center">
+          {errors.profilePicture.message}
+        </p>
+      )}
+      <fieldset className="flex flex-col w-[180px]">
+        <Label id="bio" text="Bio:" />
+        <textarea
+          {...register("bio")}
+          rows={4}
+          id="bio"
+          className="border-2 border-gray-300 rounded-lg outline-0 focus:shadow-md pl-1"
+        />
+      </fieldset>
+      {errors.bio && (
+        <p className="text-red-500 text-center">{errors.bio.message}</p>
+      )}
+      <div className="flex justify-between items-center w-1/4">
+        <Button
+          type="submit"
+          text={isPending ? <CustomLoader /> : "Edit"}
+          disabled={isPending || !isDirty}
+        />
+      </div>
+    </form>
   );
 }
 

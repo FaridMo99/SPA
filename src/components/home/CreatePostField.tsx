@@ -5,23 +5,26 @@ import toast from "react-hot-toast";
 import CustomLoader from "../ui/CustomLoader";
 import useAuth from "../../stores/authStore";
 import type { User } from "../../types/types";
+import { Paperclip } from "lucide-react";
+import AssetDropdown from "./AssetDropdown";
 
 const buttonStyles =
   "bg-green-300 text-white rounded-3xl p-2 w-18 mr-2 font-bold disabled:bg-gray-100 disabled:text-gray-400 dark:bg-dark-green dark:disabled:bg-gray-100 dark:disabled:text-gray-400 enabled:hover:brightness-110 dark:enabled:hover:brightness-110";
 
 function CreatePostField() {
-  const [text, setText] = useState<string>("");
+  const [input, setInput] = useState<string>("");
+  const [isAssetDropdownOpen,setIsAssetDropdownOpen] = useState<boolean>(false)
   const user = useAuth((state) => state.user) as User;
   const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation({
     mutationFn: (data: { content: string }) => createPost(data),
-    mutationKey: ["create Post", text],
+    mutationKey: ["create Post", input],
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["get fyp posts"] });
       queryClient.invalidateQueries({
         queryKey: ["get User posts", user.username],
       });
-      setText("");
+      setInput("");
       toast.success("Successfully posted");
     },
     onError: () => {
@@ -31,7 +34,8 @@ function CreatePostField() {
 
   function submitHandler(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    mutate({ content: text.trim() });
+    //only trim if type string
+    mutate({ content: input.trim() });
   }
 
   //add file upload and gif upload/preview here
@@ -42,16 +46,25 @@ function CreatePostField() {
     >
       <form onSubmit={submitHandler} className="w-full h-full">
         <textarea
-          value={text}
+          value={input}
           onChange={(e: React.ChangeEvent<HTMLTextAreaElement>): void => {
-            setText(e.target.value);
+            setInput(e.target.value);
           }}
           placeholder="Tell us..."
           className="bg-white w-full h-2/3 font-bold resize-none  dark:bg-dark-gray"
         />
         <div className="border-y-black/10 dark:border-black border-y-2 w-full h-1/3 -mt-1.5 flex items-center justify-end">
+            <button
+            aria-label="Select asset to post"
+            className={`${buttonStyles} flex justify-center items-center`}
+            onClick={() => setIsAssetDropdownOpen((pre) => !pre)}
+            type="button"
+            >
+              <Paperclip />
+            </button>
+            {isAssetDropdownOpen && <AssetDropdown />}
           <button
-            disabled={text.trim().length === 0 || isPending}
+            disabled={input.trim().length === 0 || isPending}
             className={buttonStyles}
             type="submit"
           >

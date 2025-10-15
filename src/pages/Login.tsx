@@ -9,12 +9,10 @@ import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import CustomLoader from "../components/ui/CustomLoader";
 
-//add cascading when deleting stuff like user and etc.
 //add forgot password feature and then sends email to verify
 //add sending email on changing email or signing up with email, if changing email sent email should only be valid for 24 hours
 //make follower and following a list of followers and following as modal
 //add file uploads for profile pic and posts add gif support
-//add reload on pull
 //fix ui issues
 //clean up code
 //implement testing(unit,component,integration)
