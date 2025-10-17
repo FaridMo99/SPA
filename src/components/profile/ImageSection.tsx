@@ -1,12 +1,11 @@
 import { useState } from "react";
-import { Moon, Settings, Sun, Trash2 } from "lucide-react";
 import EditModal from "./EditModal";
-import Button from "../auth/Button";
 import FollowButton from "./FollowButton";
 import UserImage from "../ui/UserImage";
-import { useTheme } from "next-themes";
 import type { Avatar } from "../main/Header";
 import DeleteAccountModal from "./DeleteAccountModal";
+import ImageSectionButtonSection from "./ImageSectionButtonSection";
+import ImageSectionFollowCountSection from "./ImageSectionFollowCountSection";
 
 type ImageSectionProps = {
   username: string;
@@ -27,7 +26,6 @@ function ImageSection({
 }: ImageSectionProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [deleteIsOpen, setDeleteIsOpen] = useState<boolean>(false);
-  const { theme, setTheme } = useTheme();
   const nameStyles = "text-gray-600 font-bold mt-[11vh] flex";
 
   return (
@@ -37,31 +35,7 @@ function ImageSection({
         className="w-full h-[40vh] flex flex-col items-center bg-gray-300 dark:bg-dark-gray relative"
       >
         {editable ? (
-          <div>
-            <Button
-              styles="absolute top-2 right-2 md:px-8"
-              clickHandler={() => {
-                setTheme((pre) => (pre === "dark" ? "light" : "dark"));
-              }}
-              text={
-                theme === "dark" ? (
-                  <Moon className="text-dark-green" />
-                ) : (
-                  <Sun className="text-green-400" />
-                )
-              }
-            />
-            <Button
-              styles="absolute top-15 right-2 md:px-8"
-              text={<Settings />}
-              clickHandler={() => setIsOpen(true)}
-            />
-            <Button
-              clickHandler={() => setDeleteIsOpen(true)}
-              styles="text-red-500 absolute top-28 right-2 md:px-8"
-              text={<Trash2 />}
-            />
-          </div>
+          <ImageSectionButtonSection  setIsOpen={setIsOpen} setDeleteIsOpen={setDeleteIsOpen}/> 
         ) : (
           <div className="absolute font-bold top-8 right-4">
             <FollowButton name={username} />
@@ -70,10 +44,7 @@ function ImageSection({
         <div className="flex w-full items-center pl-10 h-3/4">
           <UserImage img={profilePicture} />
           {!editable && (
-            <div className="font-bold text-green-300 dark:text-dark-green flex justify-evenly items-center absolute top-9 left-22 w-1/2">
-              <p>Follower:{followers}</p>
-              <p>Following:{following}</p>
-            </div>
+            <ImageSectionFollowCountSection followers={followers} following={following} username={username} />
           )}
           <p className={nameStyles}>@{username}</p>
         </div>

@@ -1,4 +1,3 @@
-import { createPortal } from "react-dom";
 import useAuth from "../../stores/authStore";
 import { useQuery } from "@tanstack/react-query";
 import type { User } from "../../types/types";
@@ -7,6 +6,7 @@ import EditModalContent from "./EditModalContent";
 import { useEffect } from "react";
 import { getUser } from "../../utils/getUsers";
 import ErrorText from "../ui/ErrorText";
+import ModalWrapper from "./ModalWrapper";
 
 function EditModal({
   setIsOpen,
@@ -33,28 +33,20 @@ function EditModal({
     }, 2000);
 
     return () => clearTimeout(timeoutId);
-  }, [isError]);
+  }, [isError, setIsOpen]);
 
-  return createPortal(
-    <div
-      onClick={(e) => {
-        if (e.currentTarget === e.target) {
-          setIsOpen(false);
-        }
-      }}
-      className="w-screen h-screen fixed top-0 left-0 overflow-hidden bg-black/50 flex justify-center items-center z-500"
-    >
-      {isLoading && <CustomLoader size={100} />}
-      {(isError || !user) && (
-        <div className="w-full h-full justify-center items-center">
-          <ErrorText text={error?.message || "Something went wrong..."} />
-        </div>
-      )}
-      {user && !isError && (
-        <EditModalContent user={user} setIsOpen={setIsOpen} />
-      )}
-    </div>,
-    document.querySelector("#modal")!,
+  return (
+    <ModalWrapper setIsOpen={setIsOpen}>
+        {isLoading && <CustomLoader size={100} />}
+        {(isError || !user) && (
+          <div className="w-full h-full justify-center items-center">
+            <ErrorText text={error?.message || "Something went wrong..."} />
+          </div>
+        )}
+        {user && !isError && (
+          <EditModalContent user={user} setIsOpen={setIsOpen} />
+        )}
+    </ModalWrapper>
   );
 }
 
