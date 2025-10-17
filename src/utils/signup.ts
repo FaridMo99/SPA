@@ -20,6 +20,24 @@ export default async function signup(
     const result = await res.json();
     throw new Error(result.message);
   }
+}
+
+export async function verifyUser(userId: string, token: string): Promise<User> {
+  const res = await fetch(
+    `${backendUrl}/auth/verify-user?token=${token}&userId=${userId}`,
+    {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token, userId }),
+    },
+  );
+
+  if (!res.ok) {
+    const result = await res.json();
+    throw new Error(result.message);
+  }
   const user: User = await res.json();
   useAuth.getState().setUser(user);
+  return user;
 }

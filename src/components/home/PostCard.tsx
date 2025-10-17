@@ -54,7 +54,7 @@ function PostCard({ postData, editable = false }: PostCardProps) {
 
       return { previousLike, previousCount };
     },
-    
+
     onError: (_err, _variables, context) => {
       if (context) {
         setLike(context.previousLike);

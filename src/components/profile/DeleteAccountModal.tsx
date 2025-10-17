@@ -56,7 +56,7 @@ function DeleteAccountModal({ username, setDeleteIsOpen }: DeleteAccountModal) {
         </div>
       </div>
     </div>,
-    document.querySelector("#deleteModal")!
+    document.querySelector("#deleteModal")!,
   );
 }
 

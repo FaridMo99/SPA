@@ -1,5 +1,25 @@
 import { z } from "zod";
 
+const emailSchema = z.string().email("Invalid E-Mail");
+const password = z
+  .string()
+  .min(8, "Password must have atleast 8 Characters")
+  .max(20, "Password can contain max 20 characters");
+
+export const changePasswordSchema = z
+  .object({
+    password,
+    confirmPassword: password,
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
+
+export const forgotPasswordSchema = z.object({
+  email: emailSchema,
+});
+
 export const signupSchema = z
   .object({
     username: z.string().nonempty("Field is required"),
@@ -18,9 +38,9 @@ export const signupSchema = z
           message: "You must be at least 18 years old",
         },
       ),
-    email: z.string().email("Invalid E-Mail"),
-    password: z.string().min(8, "Password must have atleast 8 Characters"),
-    confirmPassword: z.string().nonempty("Field is required"),
+    email: emailSchema,
+    password,
+    confirmPassword: password,
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
@@ -28,18 +48,15 @@ export const signupSchema = z
   });
 
 export const loginSchema = z.object({
-  email: z.string().email("Invalid E-Mail"),
-  password: z
-    .string()
-    .min(8, "Password must contain atleast 8 characters")
-    .max(20, "Password can contain max 20 characters"),
+  email: emailSchema,
+  password,
 });
 
 export const editUserSchema = z
   .object({
     username: z.string().nonempty("Field is required"),
-    email: z.string().email("Invalid E-Mail").nonempty("Field is required"),
-    password: z.string().min(8, "Password must have atleast 8 Characters"),
+    email: emailSchema.optional(),
+    password,
     bio: z.string(),
     profilePicture: z
       .instanceof(File, { message: "You must upload a file" })

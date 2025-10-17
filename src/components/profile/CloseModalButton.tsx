@@ -1,11 +1,11 @@
-import { X } from 'lucide-react';
+import { X } from "lucide-react";
 
 type CloseModalButtonProps = {
-    ariaLable: string
-    clickHandler:()=>void;
-}
+  ariaLable: string;
+  clickHandler: () => void;
+};
 
-function CloseModalButton({ariaLable,clickHandler}:CloseModalButtonProps) {
+function CloseModalButton({ ariaLable, clickHandler }: CloseModalButtonProps) {
   return (
     <button
       type="button"
@@ -18,4 +18,4 @@ function CloseModalButton({ariaLable,clickHandler}:CloseModalButtonProps) {
   );
 }
 
-export default CloseModalButton
+export default CloseModalButton;
