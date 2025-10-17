@@ -6,7 +6,6 @@ import { House, MessagesSquare, UserRound } from "lucide-react";
 import useAuth from "../stores/authStore";
 import type { User } from "../types/types";
 
-//add messages count over messages icon, update bright green text to dark in dark mode
 function MainLayout() {
   const [asideOpen, setAsideOpen] = useState<boolean>(() => {
     const stored = sessionStorage.getItem("aside");

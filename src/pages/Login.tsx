@@ -11,10 +11,11 @@ import CustomLoader from "../components/ui/CustomLoader";
 import AuthForm from "../components/auth/AuthForm";
 
 //add file uploads for profile pic and posts add gif support
+//add chat
+//add ci/cd
 //fix ui issues
 //clean up code
 //implement testing(unit,component,integration)
-//add lazy loading
 //email that gets sent throught backend doesnt give url string, maybe redis doesnt create or in email wrong set up
 
 function Login() {
@@ -29,10 +30,9 @@ function Login() {
   const { mutate, isPending } = useMutation({
     mutationKey: ["logging user in", formState],
     mutationFn: login,
-    onSuccess: (da) => {
+    onSuccess: () => {
       toast.success("Successfully logged in!");
       navigate("/home");
-      console.log(da)
     },
     onError: (error) => {
       toast.error(error.message);

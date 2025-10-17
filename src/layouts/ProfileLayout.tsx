@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import UserNavbar from "../components/profile/UserNavbar";
+import UserNavbar from "../components/profile/Navbar";
 import ImageSection from "../components/profile/ImageSection";
 import useAuth from "../stores/authStore";
 import type { User } from "../types/types";

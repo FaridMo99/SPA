@@ -1,11 +1,11 @@
 import { NavLink } from "react-router-dom";
 import type { Link } from "../../layouts/ProfileLayout";
 
-function UserNavbar({ links }: { links: Link[] }) {
+function Navbar({ links }: { links: Link[] }) {
   return (
     <nav
       aria-label="User navigation"
-      className="w-full h-10 bg-gray-400 flex justify-evenly items-center"
+      className="w-full h-10 bg-gray-400 dark:bg-neutral-500 flex justify-evenly items-center"
     >
       {links.map((link) => (
         <NavLink
@@ -23,4 +23,4 @@ function UserNavbar({ links }: { links: Link[] }) {
   );
 }
 
-export default UserNavbar;
+export default Navbar;

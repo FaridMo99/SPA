@@ -43,7 +43,7 @@ function CreatePostField() {
   return (
     <section
       aria-label="Create Post"
-      className="w-full h-[20vh] bg-white mb-16 dark:bg-dark-gray"
+      className="w-full h-[20vh] bg-white dark:bg-dark-gray"
     >
       <form onSubmit={submitHandler} className="w-full h-full">
         <textarea

@@ -1,4 +1,4 @@
-import { useTheme } from 'next-themes';
+import { useTheme } from "next-themes";
 import Button from "../auth/Button";
 import { Moon, Settings, Sun, Trash2 } from "lucide-react";
 
@@ -7,10 +7,11 @@ type ImageSectionButtonSectionProps = {
   setDeleteIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-
-
-function ImageSectionButtonSection({setIsOpen, setDeleteIsOpen}:ImageSectionButtonSectionProps) {
-      const { theme, setTheme } = useTheme();
+function ImageSectionButtonSection({
+  setIsOpen,
+  setDeleteIsOpen,
+}: ImageSectionButtonSectionProps) {
+  const { theme, setTheme } = useTheme();
 
   return (
     <div>
@@ -41,4 +42,4 @@ function ImageSectionButtonSection({setIsOpen, setDeleteIsOpen}:ImageSectionButt
   );
 }
 
-export default ImageSectionButtonSection
+export default ImageSectionButtonSection;
