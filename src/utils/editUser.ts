@@ -1,9 +1,15 @@
 import type z from "zod";
-import { backendUrl } from "../stores/authStore";
-import type { User } from "../types/types";
+import useAuth, { backendUrl } from "../stores/authStore";
+import type { ForgotPasswordSchema, User } from "../types/types";
 import type { editUserSchema } from "../schemas/schemas";
 
 export type EditFields = z.infer<typeof editUserSchema>;
+
+export type ChangePasswordArgs = {
+  password: string;
+  token: string;
+  userId: string;
+};
 
 export default async function editUser(
   username: string,
@@ -58,4 +64,29 @@ export async function deleteUser(username: string): Promise<User> {
   if (!response.ok) throw new Error(`User not found`);
   const data = await response.json();
   return data;
+}
+
+export async function forgotPassword(
+  email: ForgotPasswordSchema,
+): Promise<void> {
+  const response = await fetch(`${backendUrl}/auth/forgot-password`, {
+    credentials: "include",
+    method: "POST",
+    body: JSON.stringify(email),
+  });
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.message);
+}
+
+export async function changePassword(input: ChangePasswordArgs): Promise<User> {
+  const response = await fetch(`${backendUrl}/auth/change-password`, {
+    credentials: "include",
+    method: "PATCH",
+    body: JSON.stringify(input),
+  });
+  const res = await response.json();
+  if (!response.ok) throw new Error(res.message);
+  const user: User = await response.json();
+  useAuth.getState().setUser(user);
+  return user;
 }

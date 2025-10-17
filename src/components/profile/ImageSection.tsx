@@ -57,7 +57,7 @@ function ImageSection({
               clickHandler={() => setIsOpen(true)}
             />
             <Button
-              clickHandler={()=>setDeleteIsOpen(true)}
+              clickHandler={() => setDeleteIsOpen(true)}
               styles="text-red-500 absolute top-28 right-2 md:px-8"
               text={<Trash2 />}
             />
@@ -82,7 +82,12 @@ function ImageSection({
         </div>
       </section>
       {isOpen && <EditModal setIsOpen={setIsOpen} />}
-      {deleteIsOpen && <DeleteAccountModal username={username} setDeleteIsOpen={setDeleteIsOpen} />}
+      {deleteIsOpen && (
+        <DeleteAccountModal
+          username={username}
+          setDeleteIsOpen={setDeleteIsOpen}
+        />
+      )}
     </>
   );
 }

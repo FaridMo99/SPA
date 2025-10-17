@@ -19,6 +19,9 @@ import {
 } from "../utils/authRedirect";
 import MessagesLayout from "../layouts/MessagesLayout";
 import Messages from "../pages/Messages";
+import ForgotPassword from "../pages/ForgotPassword";
+import VerifySuccessScreen from "../pages/VerifySuccessScreen";
+import ChangePassword from "../pages/ChangePassword";
 
 const route = createBrowserRouter([
   {
@@ -41,6 +44,22 @@ const route = createBrowserRouter([
           {
             element: <SignUp />,
             path: "signup",
+          },
+          {
+            element: <ForgotPassword />,
+            path: "forgot-password",
+          },
+          {
+            element: <ChangePassword />,
+            path: "change-password",
+          },
+          {
+            element: <VerifySuccessScreen />,
+            path: "verify-user",
+          },
+          {
+            element: <ChangePassword />,
+            path: "change-password-edit",
           },
         ],
       },

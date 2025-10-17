@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { Search } from "lucide-react";
 import type { User } from "../../types/types";
 
-
 function SearchList({ items }: { items: User[] }) {
   const styles =
     "border-2 flex flex-col border-gray-300 border-t-0 absolute top-[7vh] w-[calc(80%+48px)] bg-gray-50 dark:bg-dark-gray dark:border-dark-green rounded-b-lg max-h-[20vh] overflow-y-auto z-499";

@@ -13,7 +13,8 @@ const buttonStyles =
 
 function CreatePostField() {
   const [input, setInput] = useState<string>("");
-  const [isAssetDropdownOpen,setIsAssetDropdownOpen] = useState<boolean>(false)
+  const [isAssetDropdownOpen, setIsAssetDropdownOpen] =
+    useState<boolean>(false);
   const user = useAuth((state) => state.user) as User;
   const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation({
@@ -54,15 +55,15 @@ function CreatePostField() {
           className="bg-white w-full h-2/3 font-bold resize-none  dark:bg-dark-gray"
         />
         <div className="border-y-black/10 dark:border-black border-y-2 w-full h-1/3 -mt-1.5 flex items-center justify-end">
-            <button
+          <button
             aria-label="Select asset to post"
             className={`${buttonStyles} flex justify-center items-center`}
             onClick={() => setIsAssetDropdownOpen((pre) => !pre)}
             type="button"
-            >
-              <Paperclip />
-            </button>
-            {isAssetDropdownOpen && <AssetDropdown />}
+          >
+            <Paperclip />
+          </button>
+          {isAssetDropdownOpen && <AssetDropdown />}
           <button
             disabled={input.trim().length === 0 || isPending}
             className={buttonStyles}

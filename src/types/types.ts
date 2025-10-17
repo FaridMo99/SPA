@@ -1,5 +1,11 @@
 //import avatar type here and change profile picture type after colon to avatar and update everything
 
+import type z from "zod";
+import type {
+  changePasswordSchema,
+  forgotPasswordSchema,
+} from "../schemas/schemas";
+
 export type User = {
   username: string;
   profilePicture: string | null;
@@ -62,3 +68,8 @@ export type FollowingList = {
     };
   }[];
 };
+
+//make this also for other schemas
+export type ForgotPasswordSchema = z.infer<typeof forgotPasswordSchema>;
+
+export type ChangePasswordSchema = z.infer<typeof changePasswordSchema>;
