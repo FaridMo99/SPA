@@ -10,7 +10,6 @@ import toast from "react-hot-toast";
 import CustomLoader from "../components/ui/CustomLoader";
 import AuthForm from "../components/auth/AuthForm";
 
-//make follower and following a list of followers and following as modal
 //add file uploads for profile pic and posts add gif support
 //fix ui issues
 //clean up code
@@ -30,9 +29,10 @@ function Login() {
   const { mutate, isPending } = useMutation({
     mutationKey: ["logging user in", formState],
     mutationFn: login,
-    onSuccess: () => {
+    onSuccess: (da) => {
       toast.success("Successfully logged in!");
       navigate("/home");
+      console.log(da)
     },
     onError: (error) => {
       toast.error(error.message);
