@@ -73,3 +73,5 @@ export type FollowingList = {
 export type ForgotPasswordSchema = z.infer<typeof forgotPasswordSchema>;
 
 export type ChangePasswordSchema = z.infer<typeof changePasswordSchema>;
+
+export type Posts = Post[] | [];

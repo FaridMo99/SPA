@@ -50,7 +50,8 @@ function DeleteAccountModal({ username, setDeleteIsOpen }: DeleteAccountModal) {
           />
         </div>
       </div>
-    </ModalWrapper >
-    )}
+    </ModalWrapper>
+  );
+}
 
 export default DeleteAccountModal;

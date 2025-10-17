@@ -20,7 +20,7 @@ function FollowersModal({ username, setIsOpen }: FollowModalProps) {
     isError,
   } = useQuery({
     queryKey: ["get followers", username],
-    queryFn:()=>getFollowers(username)
+    queryFn: () => getFollowers(username),
   });
 
   return (
@@ -34,8 +34,15 @@ function FollowersModal({ username, setIsOpen }: FollowModalProps) {
         {!isLoading && user && user?.followers.length > 0 && (
           <ul className="w-full h-full">
             {user?.followers.map((follower) => (
-              <Link to={`/${follower.follower.username}`} key={follower.follower.username} className="flex justify-between items-center w-full pl-20 pr-40 py-5 hover:bg-gray-500">
-                <UserImage styles="w-10 h-10 md:w-14 md:h-14" img={follower.follower.profilePicture}/>
+              <Link
+                to={`/${follower.follower.username}`}
+                key={follower.follower.username}
+                className="flex justify-between items-center w-full pl-20 pr-40 py-5 hover:bg-gray-500"
+              >
+                <UserImage
+                  styles="w-10 h-10 md:w-14 md:h-14"
+                  img={follower.follower.profilePicture}
+                />
                 {follower.follower.username}
               </Link>
             ))}

@@ -37,15 +37,15 @@ function EditModal({
 
   return (
     <ModalWrapper setIsOpen={setIsOpen}>
-        {isLoading && <CustomLoader size={100} />}
-        {(isError || !user) && (
-          <div className="w-full h-full justify-center items-center">
-            <ErrorText text={error?.message || "Something went wrong..."} />
-          </div>
-        )}
-        {user && !isError && (
-          <EditModalContent user={user} setIsOpen={setIsOpen} />
-        )}
+      {isLoading && <CustomLoader size={100} />}
+      {(isError || !user) && (
+        <div className="w-full h-full justify-center items-center">
+          <ErrorText text={error?.message || "Something went wrong..."} />
+        </div>
+      )}
+      {user && !isError && (
+        <EditModalContent user={user} setIsOpen={setIsOpen} />
+      )}
     </ModalWrapper>
   );
 }

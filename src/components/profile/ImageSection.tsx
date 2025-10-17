@@ -35,7 +35,10 @@ function ImageSection({
         className="w-full h-[40vh] flex flex-col items-center bg-gray-300 dark:bg-dark-gray relative"
       >
         {editable ? (
-          <ImageSectionButtonSection  setIsOpen={setIsOpen} setDeleteIsOpen={setDeleteIsOpen}/> 
+          <ImageSectionButtonSection
+            setIsOpen={setIsOpen}
+            setDeleteIsOpen={setDeleteIsOpen}
+          />
         ) : (
           <div className="absolute font-bold top-8 right-4">
             <FollowButton name={username} />
@@ -44,7 +47,11 @@ function ImageSection({
         <div className="flex w-full items-center pl-10 h-3/4">
           <UserImage img={profilePicture} />
           {!editable && (
-            <ImageSectionFollowCountSection followers={followers} following={following} username={username} />
+            <ImageSectionFollowCountSection
+              followers={followers}
+              following={following}
+              username={username}
+            />
           )}
           <p className={nameStyles}>@{username}</p>
         </div>

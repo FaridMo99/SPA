@@ -10,7 +10,6 @@ import Comments from "../pages/Comments";
 import ProfileLayout from "../layouts/ProfileLayout";
 import AuthLayout from "../layouts/AuthLayout";
 import MainLayout from "../layouts/MainLayout";
-import Users from "../pages/Users";
 import LoadingScreen from "../components/ui/LoadingScreen";
 import {
   authCheckPrivate,
@@ -19,9 +18,13 @@ import {
 } from "../utils/authRedirect";
 import MessagesLayout from "../layouts/MessagesLayout";
 import Messages from "../pages/Messages";
-import ForgotPassword from "../pages/ForgotPassword";
-import VerifySuccessScreen from "../pages/VerifySuccessScreen";
-import ChangePassword from "../pages/ChangePassword";
+import { lazy, Suspense } from "react";
+import HomeLayout from "../layouts/HomeLayout";
+import Follow from "../pages/Follow";
+const ChangePassword = lazy(() => import("../pages/ChangePassword"));
+const VerifySuccessScreen = lazy(() => import("../pages/VerifySuccessScreen"));
+const ForgotPassword = lazy(() => import("../pages/ForgotPassword"));
+const User = lazy(() => import("../pages/Users"));
 
 const route = createBrowserRouter([
   {
@@ -46,20 +49,28 @@ const route = createBrowserRouter([
             path: "signup",
           },
           {
-            element: <ForgotPassword />,
+            element: (
+              <Suspense fallback={<LoadingScreen />}>
+                <ForgotPassword />
+              </Suspense>
+            ),
             path: "forgot-password",
           },
           {
-            element: <ChangePassword />,
+            element: (
+              <Suspense fallback={<LoadingScreen />}>
+                <ChangePassword />
+              </Suspense>
+            ),
             path: "change-password",
           },
           {
-            element: <VerifySuccessScreen />,
+            element: (
+              <Suspense fallback={<LoadingScreen />}>
+                <VerifySuccessScreen />
+              </Suspense>
+            ),
             path: "verify-user",
-          },
-          {
-            element: <ChangePassword />,
-            path: "change-password-edit",
           },
         ],
       },
@@ -68,15 +79,29 @@ const route = createBrowserRouter([
         loader: authCheckPrivate,
         children: [
           {
-            element: <Home />,
+            element: <HomeLayout />,
             path: "home",
+            children: [
+              {
+                element: <Home />,
+                index: true,
+              },
+              {
+                element: <Follow />,
+                path: "follow",
+              },
+            ],
           },
           {
             element: <Comments />,
             path: "comments/:id",
           },
           {
-            element: <Users />,
+            element: (
+              <Suspense fallback={<LoadingScreen />}>
+                <User />
+              </Suspense>
+            ),
             path: ":username",
             errorElement: <Error userspage />,
           },
