@@ -21,7 +21,7 @@ function ModalWrapper({ setIsOpen, children }: ModalWrapperType) {
           setIsOpen(false);
         }
       }}
-      className="w-screen h-screen fixed top-0 left-0 overflow-hidden bg-black/50 flex justify-center items-center z-500"
+      className="w-screen h-screen fixed top-0 left-0 bg-black/50 flex justify-center items-center z-500"
     >
       {children}
     </section>,

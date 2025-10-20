@@ -5,6 +5,7 @@ type InputProps<T extends FieldValues> = {
   type: string;
 } & UseFormRegisterReturn &
   React.InputHTMLAttributes<HTMLInputElement>;
+
 function Input<T extends FieldValues>({
   type,
   id,

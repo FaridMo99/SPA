@@ -75,3 +75,48 @@ export type ForgotPasswordSchema = z.infer<typeof forgotPasswordSchema>;
 export type ChangePasswordSchema = z.infer<typeof changePasswordSchema>;
 
 export type Posts = Post[] | [];
+
+export type ChatMessagePreview = {
+  createdAt: Date;
+  content: string;
+  read: boolean;
+  sender: {
+    username: string;
+  };
+};
+
+type ChatUser = {
+  username: string;
+  profilePicture: string;
+};
+
+export type ChatPreview = {
+  id: string;
+  userOne: ChatUser;
+  userTwo: ChatUser;
+  messages: ChatMessagePreview[];
+};
+
+export type ChatList = ChatPreview[] | [];
+
+export type Message =
+  | {
+      createdAt: Date;
+      deleted: true;
+      content: null;
+      read: boolean;
+      sender: {
+        username: string;
+        profilePicture: string;
+      };
+    }
+  | {
+      createdAt: Date;
+      deleted: false;
+      content: string;
+      read: boolean;
+      sender: {
+        username: string;
+        profilePicture: string;
+      };
+    };

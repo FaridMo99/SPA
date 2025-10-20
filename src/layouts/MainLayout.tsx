@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import Header from "../components/main/Header";
 import Aside from "../components/main/Aside";
 import { House, MessagesSquare, UserRound } from "lucide-react";
 import useAuth from "../stores/authStore";
 import type { User } from "../types/types";
+import useSocket from "../stores/socketStore";
 
 function MainLayout() {
   const [asideOpen, setAsideOpen] = useState<boolean>(() => {
@@ -13,6 +14,15 @@ function MainLayout() {
   });
 
   const user = useAuth((state) => state.user) as User;
+  const { connect, disconnect } = useSocket((state) => state);
+
+  useEffect(() => {
+    connect();
+
+    return () => {
+      disconnect();
+    };
+  }, []);
 
   return (
     <>
