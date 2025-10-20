@@ -25,7 +25,7 @@ function FollowingsModal({ username, setIsOpen }: FollowingsModalProps) {
 
   return (
     <ModalWrapper setIsOpen={setIsOpen}>
-      <div className="w-1/2 relative h-[68vh] overflow-scroll md:w-[38vw] dark:bg-dark-gray bg-white rounded-2xl outline-1 outline-gray-200 shadow-md shadow-black/20 z-51 flex flex-col justify-evenly items-center">
+      <div className="w-1/2 relative h-[68vh] min-h-[20vh] max-h-[80vh] overflow-scroll md:w-[38vw] dark:bg-dark-gray bg-white rounded-2xl outline-1 outline-gray-200 shadow-md shadow-black/20 z-51 flex flex-col justify-evenly items-center">
         {isLoading && <CustomLoader size={100} />}
         {isError && <ErrorText text="Something went wrong" />}
         {!isLoading && user?.following.length === 0 && (
