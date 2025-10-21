@@ -1,4 +1,5 @@
 import { backendUrl } from "../stores/authStore";
+import useSocket from "../stores/socketStore";
 
 export async function logout(): Promise<void> {
   const res = await fetch(`${backendUrl}/auth/logout`, {
@@ -6,4 +7,5 @@ export async function logout(): Promise<void> {
     credentials: "include",
   });
   if (!res.ok) throw new Error(res.statusText);
+  useSocket.getState().disconnect();
 }

@@ -7,10 +7,12 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import type { Dispatch, SetStateAction } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import useAuth from "../../stores/authStore";
 import { logout } from "../../utils/logout";
+import { getAllUnreadMessagesCount } from "../../utils/chatHandlers";
+import useSocket from "../../stores/socketStore";
 
 type Path = {
   href: string;
@@ -27,6 +29,15 @@ export type AsideProps = {
 function Aside({ paths, asideOpen, setAsideOpen }: AsideProps) {
   const navigate = useNavigate();
   const { user, clearUser } = useAuth((state) => state);
+  const messagesReceived = useSocket((state) => state.messagesReceived);
+  const {
+    data: count,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["get unread message count", messagesReceived],
+    queryFn: getAllUnreadMessagesCount,
+  });
 
   const { isPending, mutate, isSuccess } = useMutation({
     mutationKey: ["logout", user?.username],
@@ -70,12 +81,20 @@ function Aside({ paths, asideOpen, setAsideOpen }: AsideProps) {
         {paths?.map((path) => (
           <NavLink
             className={({ isActive }) =>
-              `${isActive ? "text-green-300 dark:text-dark-green" : ""} hover:bg-gray-300 dark:hover:bg-gray-600 p-2 rounded-2xl`
+              `${isActive ? "text-green-300 dark:text-dark-green" : ""} hover:bg-gray-300 dark:hover:bg-gray-600 p-2 rounded-2xl relative`
             }
             to={path.href}
             key={path.href}
             aria-label={path.name}
           >
+            {path.name === "Messages" &&
+              !isLoading &&
+              !isError &&
+              count! > 0 && (
+                <p className="rounded-full bg-red-500 absolute -top-1 -right-1 flex justify-center items-center w-5 h-5">
+                  {count! > 99 ? "99+" : count}
+                </p>
+              )}
             {asideOpen ? path.name : <path.icon />}{" "}
           </NavLink>
         ))}
