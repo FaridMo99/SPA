@@ -1,8 +1,7 @@
 import { useParams } from "react-router-dom";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import toast from "react-hot-toast";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import MessageCommentForm from "../components/ui/MessageCommentForm";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getSingleChatMessagesByChatId } from "../utils/chatHandlers";
 import MessagesContainer from "../components/messages/MessagesContainer.tsx";
 import useSocket from "../stores/socketStore.tsx";
@@ -10,33 +9,34 @@ import CustomLoader from "../components/ui/CustomLoader.tsx";
 import ErrorText from "../components/ui/ErrorText.tsx";
 import NotFound from "../components/ui/NotFound.tsx";
 
-//inside chat should be scrollable and auto scroll to lowest(most recent messages)
 //add pagination/infinite scroll
-//add some listener to know when the message got received
-
 function Messages() {
   const { chatId } = useParams();
   const [message, setMessage] = useState<string>("");
   const queryClient = useQueryClient();
 
-  const { sendMessage, isConnecting } = useSocket((state) => state);
+  const { sendMessage, messagesReceived, messageSentSuccessful } = useSocket(
+    (state) => state,
+  );
 
-  //invalidate query to updae ui on successful message sending
   const {
     data: chat,
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ["get chat", chatId],
+    queryKey: ["get chat", chatId, messagesReceived, messageSentSuccessful],
     queryFn: () => getSingleChatMessagesByChatId(chatId ?? ""),
   });
+
+  useEffect(() => {
+    queryClient.invalidateQueries({ queryKey: ["get all chats"] });
+  }, [messageSentSuccessful, messagesReceived, queryClient]);
 
   function submitHandler(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     sendMessage({ message, chatId: chatId ?? "" });
+    setMessage("");
   }
-
-  //look how to handle send messages states like sending,pending,error,success
 
   return (
     <section className="w-full h-full">

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import ModalWrapper from "../profile/ModalWrapper";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import useDebounce from "../../hooks/useDebounce";
 import { searchUsers } from "../../utils/getUsers";
 import CustomLoader from "../ui/CustomLoader";
@@ -11,18 +11,19 @@ import { Plus } from "lucide-react";
 import { createChat } from "../../utils/chatHandlers";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import useSocket from "../../stores/socketStore";
 
 type AddChatModalProps = {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-//give button for creating chats here the proper functionality
-//the search shouldnt show already created chats user
-
 function AddChatModal({ setIsOpen }: AddChatModalProps) {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [search, setSearch] = useState<string>("");
   const debouncedSearch: string = useDebounce(search, 600);
+  const joinChat = useSocket((state) => state.joinChat);
+
   const {
     data: users,
     isLoading,
@@ -33,10 +34,16 @@ function AddChatModal({ setIsOpen }: AddChatModalProps) {
     enabled: debouncedSearch.trim().length > 0,
   });
   const { mutate } = useMutation({
-    mutationKey: ["create chat" /*look what identifier you put in */],
+    mutationKey: ["create chat"],
     mutationFn: (userTwoUsername: string) => createChat(userTwoUsername),
-    onSuccess: (chatId) => {
-      navigate(`/messages/${chatId}`);
+    onSuccess: (chat) => {
+      joinChat(chat.id);
+      if (!chat.alreadyExists) {
+        toast.success("Chat created");
+      }
+      navigate(`/messages/${chat.id}`);
+      setIsOpen(false);
+      queryClient.invalidateQueries({ queryKey: ["get all chats"] });
     },
     onError: (err) => {
       toast.error(err.message);
@@ -45,11 +52,11 @@ function AddChatModal({ setIsOpen }: AddChatModalProps) {
 
   return (
     <ModalWrapper setIsOpen={setIsOpen}>
-      <section className="w-1/2 relative min-h-[20vh] max-h-[80vh] md:w-[30vw] dark:bg-dark-gray bg-white rounded-2xl outline-1 outline-gray-200 shadow-md shadow-black/20 z-51 flex flex-col items-center">
+      <section className="w-1/2 relative min-h-[20vh] max-h-[80vh] md:w-[30vw] dark:bg-dark-gray bg-white rounded-2xl outline-1 outline-gray-200 shadow-md shadow-black/20 z-51 overflow-clip flex flex-col items-center">
         <input
           onChange={(e) => setSearch(e.target.value)}
           type="text"
-          className="dark:bg-neutral-900 bg-neutral-500 rounded-lg placeholder:pl-2 w-2/3 md:w-1/2 md:h-8 mt-6 mb-10"
+          className="dark:bg-neutral-900 focus:outline-green-400 dark:focus:outline-dark-green bg-neutral-500 rounded-lg placeholder:pl-2 w-2/3 md:w-1/2 md:h-8 mt-6 mb-10"
           placeholder="search..."
         />
         <ul className="w-full flex flex-col items-center justify-evenly overflow-scroll">

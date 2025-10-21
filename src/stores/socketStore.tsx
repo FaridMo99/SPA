@@ -1,70 +1,130 @@
 import { create } from "zustand";
-import { backendUrl } from "./authStore";
-import io from "socket.io-client";
+import useAuth, { backendUrl } from "./authStore";
+import io, { Socket } from "socket.io-client";
 
 type MessageInput = {
   message: string;
   chatId: string;
 };
 
-type MessageReceived = {
-  message: string;
-  sender: string;
-  profilePicture: string;
+export type MessageReceived = {
+  id: string;
+  createdAt: Date;
+  content: string;
+  deleted: boolean;
+  read: boolean;
+  sender: {
+    username: string;
+    profilePicture: string;
+  };
 };
 
 type SocketState = {
   messagesReceived: MessageReceived[];
+  socket: null | typeof Socket;
+  messageSentSuccessful: null | boolean;
   isConnected: boolean;
-  isConnecting: boolean;
   connect: () => void;
   connectError: string | null;
   disconnect: () => void;
   sendMessage: (input: MessageInput) => void;
+  joinChat: (chatId: string) => void;
+  leaveChat: (chatId: string) => void;
 };
 
-//property exists actually but library for some reason doesnt have it included
 interface BrowserOpts extends SocketIOClient.ConnectOpts {
-  withCredentials?: true;
+  withCredentials: boolean;
 }
 
-const socket = io(backendUrl, { withCredentials: true } as BrowserOpts);
-
-const useSocket = create<SocketState>((set) => ({
+const useSocket = create<SocketState>((set, get) => ({
   messagesReceived: [],
-  isConnected: socket.connected,
+  isConnected: false,
   connectError: null,
-  isConnecting: false,
+  messageSentSuccessful: null,
+  socket: null,
+
   connect: () => {
-    set({ isConnecting: true });
-    socket.off("connect");
-    socket.off("connect_error");
-    socket.off("disconnect");
-    socket.off("message");
+    if (get().socket) return;
 
-    socket.on("connect", () =>
-      set({ isConnected: true, connectError: null, isConnecting: false }),
-    );
-    socket.on("connect_error", (err: Error) =>
-      set({ connectError: err.message, isConnecting: false }),
-    );
-    socket.on("disconnect", () => set({ isConnected: false }));
+    const newSocket = io(backendUrl, {
+      withCredentials: true,
+      reconnection: true,
+    } as BrowserOpts);
 
-    socket.on("message", (message: MessageReceived) => {
-      set(({ messagesReceived }) => ({
-        messagesReceived: [...messagesReceived, message],
+    set({ socket: newSocket });
+
+    newSocket.on("connect", () => {
+      set({ isConnected: true, connectError: null });
+    });
+
+    newSocket.on("connect_error", (err: Error) => {
+      set({ isConnected: false, connectError: err.message });
+      console.error("Connection error:", err);
+    });
+
+    newSocket.on("disconnect", () => {
+      set({ isConnected: false });
+      console.log("Disconnected from WebSocket");
+    });
+
+    //auto joining new chat from other user
+    newSocket.on("newChat", (chatId: string) => {
+      const { joinChat } = get();
+      joinChat(chatId);
+    });
+
+    newSocket.on("message", (message: MessageReceived) => {
+      console.log("New message received:", message);
+      set((state) => ({
+        messagesReceived: [...state.messagesReceived, message],
       }));
     });
   },
 
   disconnect: () => {
-    socket.disconnect();
-    set({ isConnected: false });
+    const { socket } = get();
+    if (socket) {
+      socket.disconnect();
+      set({ isConnected: false, socket: null });
+    }
   },
 
   sendMessage: (msg) => {
-    console.log(msg);
-    socket.emit("message", msg);
+    const { socket, isConnected } = get();
+    if (!isConnected || !socket) {
+      return;
+    }
+
+    socket.emit(
+      "message",
+      msg,
+      (serverResponse: { status: "successful" | "failed" }) => {
+        if (serverResponse.status === "successful") {
+          set({ messageSentSuccessful: true });
+          setTimeout(() => {
+            set({ messageSentSuccessful: null });
+          }, 100);
+        } else {
+          set({ messageSentSuccessful: false });
+        }
+      },
+    );
+  },
+  //for after successful creation adding both users in real time to the chat room
+  joinChat: (chatId: string) => {
+    const { socket, isConnected } = get();
+    if (!isConnected || !socket) {
+      return;
+    }
+    socket.emit("joinChat", chatId);
+  },
+  //for deleting chat
+  leaveChat: (chatId: string) => {
+    const { socket, isConnected } = get();
+    if (!isConnected || !socket) {
+      return;
+    }
+    socket.emit("leaveChat", chatId);
   },
 }));
 

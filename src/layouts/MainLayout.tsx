@@ -6,6 +6,7 @@ import { House, MessagesSquare, UserRound } from "lucide-react";
 import useAuth from "../stores/authStore";
 import type { User } from "../types/types";
 import useSocket from "../stores/socketStore";
+import toast from "react-hot-toast";
 
 function MainLayout() {
   const [asideOpen, setAsideOpen] = useState<boolean>(() => {
@@ -14,15 +15,35 @@ function MainLayout() {
   });
 
   const user = useAuth((state) => state.user) as User;
-  const { connect, disconnect } = useSocket((state) => state);
+  const { connect, disconnect, isConnected, messagesReceived } = useSocket();
 
+  //useeffect for connecting to websockets
   useEffect(() => {
-    connect();
+    if (!isConnected) {
+      connect();
+    }
 
     return () => {
-      disconnect();
+      if (isConnected) {
+        disconnect();
+      }
     };
-  }, []);
+  }, [isConnected, connect, disconnect]);
+
+  //useeffect for toast notification for real time messages
+  useEffect(() => {
+    if (messagesReceived.length > 0) {
+      const latestMessage = messagesReceived[messagesReceived.length - 1];
+      if (
+        latestMessage.sender.username !== user.username &&
+        !latestMessage.read
+      ) {
+        toast.success(
+          `${latestMessage.sender.username}: ${latestMessage.content.slice(0, 20) + "..."}`,
+        );
+      }
+    }
+  }, [messagesReceived, user.username]);
 
   return (
     <>

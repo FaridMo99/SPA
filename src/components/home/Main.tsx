@@ -22,7 +22,7 @@ function Main({ fetchFunction }: MainProps) {
     isError,
     error,
   } = useInfiniteQuery({
-    queryKey: ["get posts", fetchFunction],
+    queryKey: ["get fyp posts"],
     queryFn: ({ pageParam = 1 }) => fetchFunction(pageParam),
     getNextPageParam: (lastPage, allPages) => {
       return lastPage.length > 0 ? allPages.length + 1 : undefined;

@@ -12,6 +12,7 @@ export type Chat = {
   deletedByUserTwo: boolean;
   deletedAtUserTwo: Date;
   messages: Message[] | [];
+  alreadyExists?: boolean;
 };
 
 export async function createChat(userTwoUsername: string): Promise<Chat> {
@@ -100,6 +101,15 @@ export async function getSingleChatMessagesByChatId(
   chatId: string,
 ): Promise<Chat> {
   const res = await fetch(`${backendUrl}/chats/${chatId}/messages`, {
+    credentials: "include",
+  });
+  if (!res.ok) throw new Error(await res.json());
+
+  return await res.json();
+}
+
+export async function getAllUnreadMessagesCount(): Promise<number> {
+  const res = await fetch(`${backendUrl}/chats/messages?read=false`, {
     credentials: "include",
   });
   if (!res.ok) throw new Error(await res.json());
