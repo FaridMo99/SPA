@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import useAuth, { backendUrl } from "./authStore";
+import { backendUrl } from "./authStore";
 import io, { Socket } from "socket.io-client";
 
 type MessageInput = {
@@ -24,10 +24,12 @@ type SocketState = {
   socket: null | typeof Socket;
   messageSentSuccessful: null | boolean;
   isConnected: boolean;
+  messageDeleted: null | boolean;
   connect: () => void;
   connectError: string | null;
   disconnect: () => void;
   sendMessage: (input: MessageInput) => void;
+  deleteMessage: (chatId: string, messageId: string) => void;
   joinChat: (chatId: string) => void;
   leaveChat: (chatId: string) => void;
 };
@@ -42,7 +44,7 @@ const useSocket = create<SocketState>((set, get) => ({
   connectError: null,
   messageSentSuccessful: null,
   socket: null,
-
+  messageDeleted: null,
   connect: () => {
     if (get().socket) return;
 
@@ -71,6 +73,11 @@ const useSocket = create<SocketState>((set, get) => ({
     newSocket.on("newChat", (chatId: string) => {
       const { joinChat } = get();
       joinChat(chatId);
+    });
+
+    //false doesnt really make sense but i need to toggle for reactive updates
+    newSocket.on("messageDeleted", () => {
+      set((state) => ({ messageDeleted: !state.messageDeleted }));
     });
 
     newSocket.on("message", (message: MessageReceived) => {
@@ -110,6 +117,7 @@ const useSocket = create<SocketState>((set, get) => ({
       },
     );
   },
+
   //for after successful creation adding both users in real time to the chat room
   joinChat: (chatId: string) => {
     const { socket, isConnected } = get();
@@ -117,6 +125,13 @@ const useSocket = create<SocketState>((set, get) => ({
       return;
     }
     socket.emit("joinChat", chatId);
+  },
+  deleteMessage: (chatId, messageId) => {
+    const { socket, isConnected } = get();
+    if (!isConnected || !socket) {
+      return;
+    }
+    socket.emit("deleteMessage", { chatId, messageId });
   },
   //for deleting chat
   leaveChat: (chatId: string) => {

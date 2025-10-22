@@ -8,7 +8,13 @@ import MessageField from "./MessageField";
 //logic for deleted true and content null to just notify it got deleted
 //logic for deleting message
 
-function MessagesContainer({ messages }: { messages: Message[] | [] }) {
+function MessagesContainer({
+  messages,
+  chatId,
+}: {
+  messages: Message[] | [];
+  chatId: string;
+}) {
   const { username } = useAuth((state) => state.user) as User;
   const viewEndRef = useRef<null | HTMLDivElement>(null);
 
@@ -23,6 +29,8 @@ function MessagesContainer({ messages }: { messages: Message[] | [] }) {
         <MessageField
           key={message.createdAt.toString()}
           profilePicture={message.sender.profilePicture}
+          messageId={message.id}
+          chatId={chatId}
           content={message.content}
           createdAt={message.createdAt}
           username={message.sender.username}

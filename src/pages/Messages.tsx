@@ -1,21 +1,21 @@
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import MessageCommentForm from "../components/ui/MessageCommentForm";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { getSingleChatMessagesByChatId } from "../utils/chatHandlers";
 import MessagesContainer from "../components/messages/MessagesContainer.tsx";
 import useSocket from "../stores/socketStore.tsx";
 import CustomLoader from "../components/ui/CustomLoader.tsx";
 import ErrorText from "../components/ui/ErrorText.tsx";
 import NotFound from "../components/ui/NotFound.tsx";
+import CreateMessage from "../components/messages/CreateMessage.tsx";
 
 //add pagination/infinite scroll
 function Messages() {
+  const location = useLocation();
   const { chatId } = useParams();
-  const [message, setMessage] = useState<string>("");
   const queryClient = useQueryClient();
 
-  const { sendMessage, messagesReceived, messageSentSuccessful } = useSocket(
+  const { messagesReceived, messageSentSuccessful } = useSocket(
     (state) => state,
   );
 
@@ -30,13 +30,10 @@ function Messages() {
 
   useEffect(() => {
     queryClient.invalidateQueries({ queryKey: ["get all chats"] });
-  }, [messageSentSuccessful, messagesReceived, queryClient]);
-
-  function submitHandler(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    sendMessage({ message, chatId: chatId ?? "" });
-    setMessage("");
-  }
+    queryClient.invalidateQueries({
+      queryKey: ["get unread message count", messagesReceived],
+    });
+  }, [messageSentSuccessful, messagesReceived, queryClient, location]);
 
   return (
     <section className="w-full h-full">
@@ -47,17 +44,10 @@ function Messages() {
           <NotFound text="No Messages sent yet" />
         )}
         {chat && chat.messages.length > 0 && (
-          <MessagesContainer messages={chat.messages} />
+          <MessagesContainer messages={chat.messages} chatId={chatId ?? ""} />
         )}
       </div>
-      <MessageCommentForm
-        placeholder="Send Message"
-        ariaLabel="send message"
-        value={message}
-        setValue={setMessage}
-        submitHandler={submitHandler}
-        isPending={false}
-      />
+      <CreateMessage chatId={chatId ?? ""} />
     </section>
   );
 }
