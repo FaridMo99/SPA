@@ -27,6 +27,7 @@ function MessagesContainer({
     <ul className="w-full h-full overflow-scroll flex flex-col items-center mb-10">
       {messages.map((message) => (
         <MessageField
+          type={message.type}
           key={message.createdAt.toString()}
           profilePicture={message.sender.profilePicture}
           messageId={message.id}

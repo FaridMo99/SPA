@@ -6,6 +6,8 @@ import type {
   forgotPasswordSchema,
 } from "../schemas/schemas";
 
+export type ContentType = "GIF" | "TEXT";
+
 export type User = {
   username: string;
   profilePicture: string | null;
@@ -42,6 +44,7 @@ export type Comment = {
   };
   createdAt: Date;
   content: string;
+  type: ContentType;
   //to check if user already liked, if true then .length > 0
   likedBy: {
     id: string;
@@ -82,6 +85,7 @@ export type ChatMessagePreview =
       content: null;
       deleted: true;
       read: boolean;
+      type: ContentType;
       sender: {
         username: string;
       };
@@ -91,6 +95,7 @@ export type ChatMessagePreview =
       content: string;
       deleted: false;
       read: boolean;
+      type: ContentType;
       sender: {
         username: string;
       };
@@ -121,6 +126,7 @@ export type Message =
       deleted: true;
       content: null;
       read: boolean;
+      type: ContentType;
       sender: {
         username: string;
         profilePicture: string;
@@ -132,6 +138,7 @@ export type Message =
       deleted: false;
       content: string;
       read: boolean;
+      type: ContentType;
       sender: {
         username: string;
         profilePicture: string;

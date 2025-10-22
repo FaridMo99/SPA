@@ -5,6 +5,7 @@ import { Trash2 } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 import useSocket from "../../stores/socketStore";
 import { useEffect } from "react";
+import type { ContentType } from "../../types/types";
 
 type MessageFieldProps = {
   profilePicture: Avatar;
@@ -14,6 +15,7 @@ type MessageFieldProps = {
   isOwn: boolean;
   messageId: string;
   chatId: string;
+  type: ContentType;
 };
 
 function MessageField({
@@ -24,6 +26,7 @@ function MessageField({
   isOwn,
   messageId,
   chatId,
+  type,
 }: MessageFieldProps) {
   const queryClient = useQueryClient();
   const { deleteMessage, messageDeleted } = useSocket((state) => state);
@@ -59,9 +62,19 @@ function MessageField({
         )}
 
         <p>
-          {content ?? (
-            <i className="text-gray-400">User deleted this message</i>
-          )}
+          {(() => {
+            if (!content)
+              return <i className="text-gray-400">User deleted this message</i>;
+
+            switch (type) {
+              case "TEXT":
+                return content;
+              case "GIF":
+                return <img src={content} alt="GIF content" />;
+              default:
+                return null;
+            }
+          })()}
         </p>
 
         <p
