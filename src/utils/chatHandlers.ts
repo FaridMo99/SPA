@@ -72,20 +72,16 @@ export async function deleteMessage(
   return await res.json();
 }
 
-//should only delete for the user that deleted it like just kicking a flag thats deleted true for him and then doesnt render anymore
-export async function deleteChat(chatId: string): Promise<{ chatId: string }> {
-  const res = await fetch(`${backendUrl}/etc./${chatId}`, {
+export async function deleteChat(chatId: string) {
+  const res = await fetch(`${backendUrl}/chats/${chatId}`, {
     method: "DELETE",
     credentials: "include",
-    headers: { "Content-Type": "application/json" },
   });
 
   if (!res.ok) {
     const err = await res.json();
     throw new Error(err.message);
   }
-
-  return await res.json();
 }
 
 export async function getAllUserChats(): Promise<ChatList> {

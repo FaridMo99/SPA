@@ -1,7 +1,3 @@
-//green dot when new message or counter
-//chats should also be able to send gifs text and emojis
-//logic for deleting chats
-
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import AddChatModal from "./AddChatModal";
@@ -11,16 +7,18 @@ import CustomLoader from "../ui/CustomLoader";
 import ErrorText from "../ui/ErrorText";
 import ChatPreview from "./ChatPreview";
 import useAuth from "../../stores/authStore";
+import useSocket from "../../stores/socketStore";
 
 function ChatNavbar() {
   const user = useAuth((state) => state.user)!;
   const [isAddChatModalOpen, setIsAddChatModalOpen] = useState<boolean>(false);
+  const { messagesReceived, messageDeleted } = useSocket((state) => state);
   const {
     data: chats,
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ["get all chats"],
+    queryKey: ["get all chats", messagesReceived, messageDeleted],
     queryFn: getAllUserChats,
   });
 
@@ -42,6 +40,7 @@ function ChatNavbar() {
         chats.map((chat) => (
           <ChatPreview
             key={chat.id}
+            countUnreadMessages={chat._count.messages}
             chatId={chat.id}
             profilePicture={
               chat.userOne.username === user.username

@@ -1,6 +1,10 @@
 import UserImage from "../ui/UserImage";
 import passedTime from "../../utils/passedTime";
 import type { Avatar } from "../main/Header";
+import { Trash2 } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
+import useSocket from "../../stores/socketStore";
+import { useEffect } from "react";
 
 type MessageFieldProps = {
   profilePicture: Avatar;
@@ -8,6 +12,8 @@ type MessageFieldProps = {
   createdAt: Date;
   username: string;
   isOwn: boolean;
+  messageId: string;
+  chatId: string;
 };
 
 function MessageField({
@@ -16,10 +22,23 @@ function MessageField({
   createdAt,
   username,
   isOwn,
+  messageId,
+  chatId,
 }: MessageFieldProps) {
+  const queryClient = useQueryClient();
+  const { deleteMessage, messageDeleted } = useSocket((state) => state);
+
+  useEffect(() => {
+    queryClient.invalidateQueries({ queryKey: ["get chat", chatId] });
+  }, [messageDeleted, chatId, queryClient]);
+
+  function deleteHandler() {
+    deleteMessage(chatId, messageId);
+  }
+
   return (
     <li
-      className={`flex w-full items-end gap-2 my-2 ${
+      className={`flex w-full relative items-end gap-2 my-2 ${
         isOwn ? "justify-end" : "justify-start"
       }`}
     >
@@ -55,6 +74,16 @@ function MessageField({
       </div>
 
       {isOwn && <UserImage img={profilePicture} styles="w-10 h-10" />}
+      {content && isOwn && (
+        <button
+          type="button"
+          className="absolute -top-2 right-0 disabled:text-neutral-500"
+          aria-label="delete message"
+          onClick={deleteHandler}
+        >
+          <Trash2 size={20} />
+        </button>
+      )}
     </li>
   );
 }

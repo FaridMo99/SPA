@@ -1,6 +1,7 @@
 import { Send } from "lucide-react";
 import CustomLoader from "./CustomLoader";
-import type { FormEvent } from "react";
+import { useEffect, type FormEvent } from "react";
+import { useLocation } from "react-router-dom";
 
 type MessageCommentFormProps = {
   value: string;
@@ -25,6 +26,12 @@ function MessageCommentForm({
   ariaLabel,
   placeholder,
 }: MessageCommentFormProps) {
+  const location = useLocation();
+
+  useEffect(() => {
+    setValue("");
+  }, [location]);
+
   return (
     <form onSubmit={submitHandler} className={formStyles}>
       <input
