@@ -5,6 +5,7 @@ import io, { Socket } from "socket.io-client";
 type MessageInput = {
   message: string;
   chatId: string;
+  type?: "GIF" | "TEXT";
 };
 
 export type MessageReceived = {

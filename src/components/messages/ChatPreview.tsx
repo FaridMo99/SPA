@@ -9,6 +9,7 @@ import CloseModalButton from "../profile/CloseModalButton";
 import Button from "../auth/Button";
 import CustomLoader from "../ui/CustomLoader";
 import toast from "react-hot-toast";
+import { ImageIcon } from "lucide-react";
 
 type ChatPreviewTypes = {
   profilePicture: Avatar;
@@ -17,6 +18,7 @@ type ChatPreviewTypes = {
   senderMostRecentMessage: string;
   chatId: string;
   countUnreadMessages: number;
+  mostRecentMessageType: "GIF" | "TEXT" | "";
 };
 
 function ChatPreview({
@@ -26,6 +28,7 @@ function ChatPreview({
   senderMostRecentMessage,
   chatId,
   countUnreadMessages,
+  mostRecentMessageType,
 }: ChatPreviewTypes) {
   const [isDeleteOpen, setDeleteOpen] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -73,7 +76,14 @@ function ChatPreview({
             <span
               className={`truncate flex-grow ${!mostRecentMessage ? "text-neutral-500 italic" : ""}`}
             >
-              {mostRecentMessage ?? "Not Found"}
+              {!mostRecentMessage && "Not Found"}
+              {mostRecentMessage &&
+                mostRecentMessageType &&
+                mostRecentMessageType === "GIF" && <ImageIcon />}
+              {mostRecentMessage &&
+                mostRecentMessageType &&
+                mostRecentMessageType === "TEXT" &&
+                mostRecentMessage}
             </span>
           </p>
         </div>

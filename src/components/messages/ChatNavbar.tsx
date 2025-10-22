@@ -22,6 +22,7 @@ function ChatNavbar() {
     queryFn: getAllUserChats,
   });
 
+  console.log(chats);
   return (
     <nav className="min-h-[85vh] max-h-[85vh] overflow-y-auto w-[13vw] border-r-2 p-2 border-r-green-300 dark:border-r-dark-green bg-gray-50 dark:bg-dark-gray z-10 flex flex-col items-center">
       <button
@@ -40,6 +41,9 @@ function ChatNavbar() {
         chats.map((chat) => (
           <ChatPreview
             key={chat.id}
+            mostRecentMessageType={
+              chat.messages.length > 0 ? chat.messages[0].type : ""
+            }
             countUnreadMessages={chat._count.messages}
             chatId={chat.id}
             profilePicture={

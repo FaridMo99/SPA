@@ -57,9 +57,12 @@ function CommentCard({ comment }: { comment: Comment }) {
         <Link to={`/${comment.user.username}`}>
           <p className="text-gray-500 font-bold">@{comment.user.username}</p>
         </Link>
-        <p className="text-gray-700 dark:text-white ml-4 font-medium whitespace-normal break-words">
-          {comment.content}
-        </p>
+        {comment.type === "GIF" && <img src={comment.content} />}
+        {comment.type === "TEXT" && (
+          <p className="text-gray-700 dark:text-white ml-4 font-medium whitespace-normal break-words">
+            {comment.content}
+          </p>
+        )}
         <p className="text-gray-300 absolute top-0 right-0 text-xs">
           {passedTime(comment.createdAt)}
         </p>

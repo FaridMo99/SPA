@@ -35,7 +35,7 @@ export async function dislikePost(postId: string): Promise<Post> {
 
 export async function createComment(
   postId: string,
-  data: { content: string },
+  data: { content: string; contentType?: "GIF" | "TEXT" },
 ): Promise<Comment> {
   const response = await fetch(`${backendUrl}/comments/${postId}`, {
     method: "POST",
