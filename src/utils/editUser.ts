@@ -15,20 +15,31 @@ export default async function editUser(
   username: string,
   fieldsToEdit: EditFields,
 ): Promise<User> {
+  let body: BodyInit;
+  const headers: HeadersInit = {};
+
+  if (fieldsToEdit.profilePicture) {
+    const formData = new FormData();
+    formData.append("profilePicture", fieldsToEdit.profilePicture);
+    if (fieldsToEdit.bio) formData.append("bio", fieldsToEdit.bio);
+    body = formData;
+  } else {
+    body = JSON.stringify(fieldsToEdit);
+    headers["Content-Type"] = "application/json";
+  }
+
   const res = await fetch(`${backendUrl}/users/${username}`, {
     method: "PATCH",
     credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(fieldsToEdit),
+    headers,
+    body,
   });
 
   if (!res.ok) {
     throw new Error("Edit failed");
   }
 
-  return await res.json();
+  return res.json();
 }
 
 export async function follow(username: string): Promise<User> {
