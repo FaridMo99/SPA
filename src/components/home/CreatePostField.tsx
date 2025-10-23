@@ -1,31 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import createPost from "../../utils/createPost";
+import { createPost, createPostImage } from "../../utils/createPost";
 import toast from "react-hot-toast";
-import CustomLoader from "../ui/CustomLoader";
 import useAuth from "../../stores/authStore";
 import type { User } from "../../types/types";
-import { Paperclip } from "lucide-react";
-import AssetDropdown from "./AssetDropdown";
-
-const buttonStyles =
-  "bg-green-300 text-white rounded-3xl p-2 w-18 mr-2 font-bold disabled:bg-gray-100 disabled:text-gray-400 dark:bg-dark-green dark:disabled:bg-gray-100 dark:disabled:text-gray-400 enabled:hover:brightness-110 dark:enabled:hover:brightness-110";
+import { imageSchema } from "../../schemas/schemas";
+import ImagePreview from "./ImagePreview";
+import ButtonSection from "./ButtonSection";
 
 function CreatePostField() {
-  const [input, setInput] = useState<string>("");
-  const [isAssetDropdownOpen, setIsAssetDropdownOpen] =
-    useState<boolean>(false);
+  const fileRef = useRef<null | HTMLInputElement>(null);
+  const [textInput, setTextInput] = useState<string>("");
+  const [fileInput, setFileInput] = useState<File | null>(null);
+  const [preview, setPreview] = useState<string>("");
   const user = useAuth((state) => state.user) as User;
   const queryClient = useQueryClient();
-  const { mutate, isPending } = useMutation({
+
+  //text mutation
+  const { mutate: textSubmit, isPending } = useMutation({
     mutationFn: (data: { content: string }) => createPost(data),
-    mutationKey: ["create Post", input],
+    mutationKey: ["create Post", textInput],
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["get fyp posts"] });
       queryClient.invalidateQueries({
         queryKey: ["get User posts", user.username],
       });
-      setInput("");
+      setTextInput("");
       toast.success("Successfully posted");
     },
     onError: () => {
@@ -33,45 +33,102 @@ function CreatePostField() {
     },
   });
 
+  //file mutation
+  const { mutate: fileSubmit, isPending: fileIsPending } = useMutation({
+    mutationFn: createPostImage,
+    mutationKey: ["create Post", fileInput],
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["get fyp posts"] });
+      queryClient.invalidateQueries({
+        queryKey: ["get User posts", user.username],
+      });
+      setFileInput(null);
+      setPreview("");
+      toast.success("Successfully posted");
+    },
+    onError: (err) => {
+      toast.error(err.message);
+    },
+  });
+
   function submitHandler(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    //only trim if type string
-    mutate({ content: input.trim() });
+
+    if (textInput && !fileInput) {
+      textSubmit({ content: textInput.trim() });
+    }
+
+    if (!textInput && fileInput) {
+      fileSubmit(fileInput);
+    }
   }
 
-  //add file upload and gif upload/preview here
+  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const result = imageSchema.safeParse(file);
+
+    if (!result.success) {
+      toast.error(result.error.errors[0].message);
+      return;
+    }
+
+    setFileInput(file);
+    setPreview(URL.createObjectURL(file));
+  }
+
+  //cleanup effect for object urls to avoid memory leaks
+  useEffect(() => {
+    if (!preview) {
+      return;
+    }
+    return () => URL.revokeObjectURL(preview);
+  }, [preview]);
+
   return (
     <section
       aria-label="Create Post"
-      className="w-full h-[20vh] bg-white dark:bg-dark-gray"
+      className="w-full min-h-[20vh] bg-white dark:bg-dark-gray"
     >
-      <form onSubmit={submitHandler} className="w-full h-full">
-        <textarea
-          value={input}
-          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>): void => {
-            setInput(e.target.value);
-          }}
-          placeholder="Tell us..."
-          className="bg-white w-full h-2/3 font-bold resize-none  dark:bg-dark-gray"
+      <form
+        onSubmit={submitHandler}
+        className="w-full h-full flex flex-col justify-center in-checked:"
+      >
+        {!preview && (
+          <textarea
+            value={textInput}
+            disabled={fileInput !== null}
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>): void => {
+              setTextInput(e.target.value);
+            }}
+            rows={5}
+            placeholder={fileInput ? "" : "Tell us..."}
+            className="bg-white w-full font-bold resize-none  dark:bg-dark-gray"
+          />
+        )}
+        <input
+          ref={fileRef}
+          accept="image/*"
+          type="file"
+          onChange={handleFileChange}
+          className="hidden"
         />
-        <div className="border-y-black/10 dark:border-black border-y-2 w-full h-1/3 -mt-1.5 flex items-center justify-end">
-          <button
-            aria-label="Select asset to post"
-            className={`${buttonStyles} flex justify-center items-center`}
-            onClick={() => setIsAssetDropdownOpen((pre) => !pre)}
-            type="button"
-          >
-            <Paperclip />
-          </button>
-          {isAssetDropdownOpen && <AssetDropdown />}
-          <button
-            disabled={input.trim().length === 0 || isPending}
-            className={buttonStyles}
-            type="submit"
-          >
-            {isPending ? <CustomLoader /> : "Post"}
-          </button>
-        </div>
+        {preview && (
+          <ImagePreview
+            setFileInput={setFileInput}
+            setPreview={setPreview}
+            preview={preview}
+            fileRef={fileRef}
+          />
+        )}
+        <ButtonSection
+          isPending={isPending}
+          fileIsPending={fileIsPending}
+          textInput={textInput}
+          fileInput={fileInput}
+          fileRef={fileRef}
+        />
       </form>
     </section>
   );

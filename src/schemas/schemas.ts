@@ -66,3 +66,18 @@ export const editUserSchema = z
       .optional(),
   })
   .partial();
+
+const maxSize = 5 * 1024 * 1024;
+const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+
+export const imageSchema = z
+  .instanceof(File)
+  .refine((file) => file.size <= maxSize, {
+    message: "File size must be less than 5 MB",
+  })
+  .refine((file) => allowedTypes.includes(file.type), {
+    message: "Only JPEG, JPG, PNG, and WebP images are allowed",
+  })
+  .refine((file) => file.name.length <= 255, {
+    message: "File name is too long",
+  });

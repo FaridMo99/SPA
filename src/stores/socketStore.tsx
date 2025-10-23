@@ -14,6 +14,7 @@ export type MessageReceived = {
   content: string;
   deleted: boolean;
   read: boolean;
+  type: "GIF" | "TEXT";
   sender: {
     username: string;
     profilePicture: string;
