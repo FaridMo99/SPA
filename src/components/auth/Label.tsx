@@ -7,10 +7,8 @@ export default function Label<T extends FieldValues>({
   text,
   id,
 }: LabelProps<T>) {
-  const labelStyles = "font-bold";
-
   return (
-    <label className={labelStyles} htmlFor={id}>
+    <label className="font-bold" htmlFor={id}>
       {text}
     </label>
   );

@@ -1,5 +1,22 @@
 import { z } from "zod";
 
+const maxSize = 5 * 1024 * 1024;
+const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+
+export const imageSchema = z
+  .instanceof(File, {
+    message: "Only JPEG, JPG, PNG, and WebP images are allowed",
+  })
+  .refine((file) => file.size <= maxSize, {
+    message: "File size must be less than 5 MB",
+  })
+  .refine((file) => allowedTypes.includes(file.type), {
+    message: "Only JPEG, JPG, PNG, and WebP images are allowed",
+  })
+  .refine((file) => file.name.length <= 255, {
+    message: "File name is too long",
+  });
+
 const emailSchema = z.string().email("Invalid E-Mail");
 const password = z
   .string()
@@ -55,29 +72,7 @@ export const loginSchema = z.object({
 export const editUserSchema = z
   .object({
     username: z.string().nonempty("Field is required"),
-    email: emailSchema.optional(),
-    password,
     bio: z.string(),
-    profilePicture: z
-      .instanceof(File, { message: "You must upload a file" })
-      .refine((file) => file.type.startsWith("image/"), {
-        message: "File must be an image",
-      })
-      .optional(),
+    profilePicture: imageSchema.optional(),
   })
   .partial();
-
-const maxSize = 5 * 1024 * 1024;
-const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
-
-export const imageSchema = z
-  .instanceof(File)
-  .refine((file) => file.size <= maxSize, {
-    message: "File size must be less than 5 MB",
-  })
-  .refine((file) => allowedTypes.includes(file.type), {
-    message: "Only JPEG, JPG, PNG, and WebP images are allowed",
-  })
-  .refine((file) => file.name.length <= 255, {
-    message: "File name is too long",
-  });

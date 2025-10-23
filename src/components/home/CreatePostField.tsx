@@ -109,10 +109,12 @@ function CreatePostField() {
         )}
         <input
           ref={fileRef}
+          name="profilePicture"
           accept="image/*"
           type="file"
           onChange={handleFileChange}
           className="hidden"
+          id="profilePicture"
         />
         {preview && (
           <ImagePreview

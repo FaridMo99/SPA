@@ -16,7 +16,7 @@ function UserImage({
         <img
           src={img}
           alt="User Avatar"
-          className="w-full h-full object-cover"
+          className="w-16 h-16 md:w-20 md:h-20 object-cover"
         />
       ) : (
         <User size={60} className="text-green-300 dark:text-dark-green" />

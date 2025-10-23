@@ -20,6 +20,7 @@ export async function createPostImage(file: File): Promise<File> {
   const formData = new FormData();
   formData.append("image", file);
 
+  console.log(formData);
   const res = await fetch(`${backendUrl}/posts`, {
     method: "POST",
     credentials: "include",
