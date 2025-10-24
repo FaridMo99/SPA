@@ -26,6 +26,7 @@ export type Post = {
   id: string;
   createdAt: Date;
   content: string;
+  type: "TEXT" | "IMAGE";
   //to check if user already liked, if true then .length > 0
   likedBy: {
     id: string;

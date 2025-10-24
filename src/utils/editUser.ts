@@ -22,6 +22,8 @@ export default async function editUser(
     const formData = new FormData();
     formData.append("profilePicture", fieldsToEdit.profilePicture);
     if (fieldsToEdit.bio) formData.append("bio", fieldsToEdit.bio);
+    if (fieldsToEdit.username)
+      formData.append("username", fieldsToEdit.username);
     body = formData;
   } else {
     body = JSON.stringify(fieldsToEdit);
@@ -83,6 +85,7 @@ export async function forgotPassword(
   const response = await fetch(`${backendUrl}/auth/forgot-password`, {
     credentials: "include",
     method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(email),
   });
   const data = await response.json();
@@ -90,14 +93,19 @@ export async function forgotPassword(
 }
 
 export async function changePassword(input: ChangePasswordArgs): Promise<User> {
+  console.log("run change password");
   const response = await fetch(`${backendUrl}/auth/change-password`, {
     credentials: "include",
+    headers: { "Content-Type": "application/json" },
     method: "PATCH",
     body: JSON.stringify(input),
   });
   const res = await response.json();
+
   if (!response.ok) throw new Error(res.message);
-  const user: User = await response.json();
+
+  const user: User = res;
   useAuth.getState().setUser(user);
+
   return user;
 }

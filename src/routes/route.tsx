@@ -70,7 +70,7 @@ const route = createBrowserRouter([
                 <VerifySuccessScreen />
               </Suspense>
             ),
-            path: "verify-user",
+            path: "verify-success",
           },
         ],
       },
