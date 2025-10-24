@@ -141,7 +141,7 @@ function EditModalContent({ setIsOpen, user }: EditModalContentProps) {
         <Button
           type="submit"
           text={isPending ? <CustomLoader /> : "Edit"}
-          disabled={isPending || !isDirty}
+          disabled={isPending || (!isDirty && !preview)}
         />
       </div>
     </form>

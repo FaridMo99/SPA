@@ -26,7 +26,11 @@ function PostCommentCard({ post }: { post: Post }) {
         </div>
         <p className="text-gray-300 mr-2">{passedTime(post.createdAt)}</p>
       </div>
-      <p className="h-1/2 w-4/5">{post.content}</p>
+      {post.type === "IMAGE" ? (
+        <img src={post.content} />
+      ) : (
+        <p className="h-1/2 w-4/5">{post.content}</p>
+      )}
     </section>
   );
 }

@@ -48,6 +48,7 @@ function ChangePassword() {
   }, [token, userId, navigate]);
 
   function submitHandler(formData: ChangePasswordSchema) {
+    console.log("runs submit handler");
     const { password } = formData;
     mutate(password);
   }
@@ -78,7 +79,7 @@ function ChangePassword() {
           {errors.confirmPassword.message}
         </p>
       )}
-      <Button text={isPending ? <CustomLoader /> : "Change"} />
+      <Button type="submit" text={isPending ? <CustomLoader /> : "Change"} />
     </AuthForm>
   );
 }

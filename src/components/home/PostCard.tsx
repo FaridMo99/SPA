@@ -102,7 +102,11 @@ function PostCard({ postData, editable = false }: PostCardProps) {
         </div>
         <p className="text-gray-300 mr-2">{passedTime(postData.createdAt)}</p>
       </div>
-      <p className="h-1/2 w-4/5">{postData.content}</p>
+      {postData.type === "IMAGE" ? (
+        <img crossOrigin="use-credentials" src={postData.content} />
+      ) : (
+        <p className="h-1/2 w-4/5">{postData.content}</p>
+      )}
       <div className="h-1/4 w-full flex items-center justify-evenly">
         <PostCardIcons
           Icon={Heart}
