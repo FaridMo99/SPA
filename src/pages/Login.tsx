@@ -10,12 +10,10 @@ import toast from "react-hot-toast";
 import CustomLoader from "../components/ui/CustomLoader";
 import AuthForm from "../components/auth/AuthForm";
 
-//add file uploads for profile pic and posts add gif support and sanitize uploads at front and backend
 //add ci/cd
 //fix ui issues
 //clean up code
 //add testing(unit,component,integration)
-//email that gets sent throught backend doesnt give url string, maybe redis doesnt create or in email wrong set up
 //look if every time you use .map you also gave a key
 
 function Login() {
