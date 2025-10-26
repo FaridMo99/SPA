@@ -2,7 +2,7 @@ import { create } from "zustand";
 import type { User } from "../types/types";
 
 export const backendUrl = import.meta.env.VITE_BACKEND_URL;
-export const websocketUrl = import.meta.env.VITE_ENV === "dev" ? backendUrl : import.meta.env.WEBSOCKET_URL
+
 
 type AuthState = {
   user: User | null;
