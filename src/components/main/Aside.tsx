@@ -64,7 +64,7 @@ function Aside({ paths, asideOpen, setAsideOpen }: AsideProps) {
 
   return (
     <aside
-      className={`h-[85vh] ${asideOpen ? "w-[20vw]" : "w-[10vw]"} fixed top-[15vh] left-0 border-r-2 border-r-green-300 dark:border-r-dark-green bg-gray-50 dark:bg-dark-gray z-10`}
+      className={`h-[85vh] ${asideOpen ? "md:w-[15vw] w-[25vw]" : "md:w-[10vw] w-[15vw]"} fixed top-[15vh] left-0 border-r-2 border-r-green-300 dark:border-r-dark-green bg-gray-50 dark:bg-dark-gray z-10`}
     >
       <nav
         aria-label="Page Navigation"

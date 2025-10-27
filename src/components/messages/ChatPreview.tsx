@@ -63,8 +63,12 @@ function ChatPreview({
      ${isActive ? "bg-neutral-300 dark:bg-neutral-900" : ""}`
         }
       >
-        <UserImage img={profilePicture} styles="w-10 h-10 mr-2 flex-shrink-0" />
-
+        <div className="md:block hidden">
+          <UserImage
+            img={profilePicture}
+            styles="w-10 h-10 mr-2 flex-shrink-0"
+          />
+        </div>
         <div className="flex flex-col h-full min-w-0 justify-evenly py-1">
           <p className="text-green-400 dark:text-dark-green font-bold truncate w-full mb-1 flex-shrink-0">
             @{oppositeUserUsername}
@@ -100,8 +104,10 @@ function ChatPreview({
               ariaLable="Close Delete Dialog"
             />
             <div className="w-1/2 relative h-[20vh] md:w-[30vw] dark:bg-dark-gray bg-white rounded-2xl outline-1 outline-gray-200 shadow-md shadow-black/20 z-51 flex flex-col justify-evenly items-center">
-              <p>Are you sure you want to delete the Chat?</p>
-              <div className="flex justify-between items-center w-1/4">
+              <p className="text-center">
+                Are you sure you want to delete the Chat?
+              </p>
+              <div className="flex justify-center items-center w-full">
                 <Button
                   type="button"
                   disabled={isPending}
@@ -109,6 +115,7 @@ function ChatPreview({
                   clickHandler={() => setDeleteOpen(false)}
                 />
                 <Button
+                  styles="ml-4"
                   type="button"
                   disabled={isPending}
                   text={isPending ? <CustomLoader /> : "Yes"}

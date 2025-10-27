@@ -16,7 +16,7 @@ import useAuth from "../../stores/authStore";
 import CustomLoader from "../ui/CustomLoader";
 
 const thumbStyles =
-  "dark:text-dark-green absolute -bottom-8 right-0 flex justify-between items-center dark:hover:text-white text-green-300 hover:text-white";
+  "dark:text-dark-green flex justify-between items-center dark:hover:text-white mr-2 text-green-300 hover:text-white";
 
 function CommentCard({ comment }: { comment: Comment }) {
   const { id: postId } = useParams();
@@ -51,56 +51,67 @@ function CommentCard({ comment }: { comment: Comment }) {
   );
 
   return (
-    <section className="w-[90%] bg-gray-50 border dark:bg-dark-gray dark:border-dark-green border-gray-300 flex items-start relative rounded-sm mb-2 font-bold p-2">
-      <UserImage styles=" mt-1" img={comment.user.profilePicture} />
-      <div className=" w-9/10 relative">
+    <section className="w-[90%] bg-gray-50 border dark:bg-dark-gray dark:border-dark-green border-gray-300 flex justify-center items-center rounded-sm mb-2 font-bold p-2">
+      <UserImage
+        styles="self-start flex-shrink-0 w-10 h-10 md:w-16 md:h-16"
+        img={comment.user.profilePicture}
+      />
+      <div className="w-11/12 h-full relative flex flex-col justify-center">
         <Link to={`/${comment.user.username}`}>
-          <p className="text-gray-500 font-bold">@{comment.user.username}</p>
+          <p className="text-gray-500 font-bold ml-2">
+            @{comment.user.username}
+          </p>
         </Link>
-        {comment.type === "GIF" && <img src={comment.content} />}
+        {comment.type === "GIF" && (
+          <img
+            className="md:w-60 md:h-60 w-30 h-30 ml-4"
+            src={comment.content}
+          />
+        )}
         {comment.type === "TEXT" && (
-          <p className="text-gray-700 dark:text-white ml-4 font-medium whitespace-normal break-words">
+          <p className="text-gray-700 dark:text-white ml-4 font-medium whitespace-normal break-all">
             {comment.content}
           </p>
         )}
         <p className="text-gray-300 absolute top-0 right-0 text-xs">
           {passedTime(comment.createdAt)}
         </p>
-
-        {comment.likedBy.length > 0 ? (
-          <button
-            aria-label="dislike comment"
-            onClick={() => likeCommentMutate()}
-            className={thumbStyles}
-          >
-            <ThumbsDown className="mr-2" />
-            <p>{comment._count.likedBy}</p>
-          </button>
-        ) : (
-          <button
-            disabled={likePending}
-            aria-label="like comment"
-            onClick={() => likeCommentMutate()}
-            className={thumbStyles}
-          >
-            <ThumbsUp className="mr-2" />
-            <p>{comment._count.likedBy}</p>
-          </button>
-        )}
-        {comment.user.username === user?.username && (
-          <Button
-            disabled={deletePending}
-            clickHandler={deleteCommentMutate}
-            styles="absolute -bottom-16 -right-16 z-10"
-            text={
-              deletePending ? (
-                <CustomLoader />
-              ) : (
-                <Trash2 className="text-red-500" />
-              )
-            }
-          />
-        )}
+        <div className="flex w-full justify-end items-center">
+          {comment.likedBy.length > 0 ? (
+            <button
+              aria-label="dislike comment"
+              onClick={() => likeCommentMutate()}
+              className={thumbStyles}
+            >
+              <ThumbsDown />
+              <p>{comment._count.likedBy}</p>
+            </button>
+          ) : (
+            <button
+              disabled={likePending}
+              aria-label="like comment"
+              onClick={() => likeCommentMutate()}
+              className={thumbStyles}
+            >
+              <ThumbsUp />
+              <p>{comment._count.likedBy}</p>
+            </button>
+          )}
+          {comment.user.username === user?.username && (
+            <Button
+              disabled={deletePending}
+              clickHandler={deleteCommentMutate}
+              styles="z-4"
+              text={
+                deletePending ? (
+                  <CustomLoader />
+                ) : (
+                  <Trash2 className="text-red-500" />
+                )
+              }
+            />
+          )}
+        </div>
       </div>
     </section>
   );

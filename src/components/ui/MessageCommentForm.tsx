@@ -17,9 +17,6 @@ type MessageCommentFormProps = {
 const buttonStyles: string =
   "bg-green-300 text-white rounded-3xl p-2 mr-2 font-bold hover:bg-gray-300 hover:text-green-300 disabled:bg-gray-100 disabled:text-gray-400 disabled:hover:bg-gray-100 disabled:hover:text-gray-400 ml-2 dark:enabled:bg-dark-green enabled:hover:brightness-105";
 
-const formStyles: string =
-  "w-full outline-1 bg-gray-50 dark:outline-black outline-gray-300 fixed bottom-0 right-0 flex items-center justify-center py-2 px-4 dark:bg-dark-gray dark:brightness-120";
-
 function MessageCommentForm({
   value,
   setValue,
@@ -30,6 +27,8 @@ function MessageCommentForm({
 }: MessageCommentFormProps) {
   const location = useLocation();
   const [isGifSelectionOpen, setIsGifSelectionOpen] = useState<boolean>(false);
+
+  const formStyles: string = `w-full outline-1 bg-gray-50 z-5 dark:outline-black outline-gray-300 fixed bottom-0 right-0 flex items-center ${placeholder === "Send Message" ? "justify-end" : "justify-center"} md:justify-center py-2 px-4 dark:bg-dark-gray dark:brightness-120`;
 
   useEffect(() => {
     setValue("");

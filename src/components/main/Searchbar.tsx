@@ -35,7 +35,7 @@ function Searchbar() {
   return (
     <form
       onSubmit={searchHandler}
-      className="w-2/3 h-2/3 flex justify-center items-center relative z-4"
+      className="w-2/3 h-2/3 flex self-end md:self-center justify-center items-center relative z-4"
     >
       <input
         ref={inputRef}

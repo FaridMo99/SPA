@@ -11,7 +11,7 @@ function Input<T extends FieldValues>({
   id,
   ...inputProps
 }: InputProps<T>) {
-  const inputStyles = `border-2 border-gray-300 rounded-lg outline-0 focus:shadow-md pl-1 ${type === "file" ? "w-[180px]" : ""}`;
+  const inputStyles = `border-2 border-gray-300 w-full rounded-lg outline-0 focus:shadow-md pl-1 ${type === "file" ? "w-[180px]" : ""}`;
 
   return <input className={inputStyles} type={type} id={id} {...inputProps} />;
 }

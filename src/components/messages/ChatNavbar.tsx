@@ -22,9 +22,8 @@ function ChatNavbar() {
     queryFn: getAllUserChats,
   });
 
-  console.log(chats);
   return (
-    <nav className="min-h-[85vh] max-h-[85vh] overflow-y-auto w-[13vw] border-r-2 p-2 border-r-green-300 dark:border-r-dark-green bg-gray-50 dark:bg-dark-gray z-10 flex flex-col items-center">
+    <nav className="min-h-[85vh] max-h-[85vh] overflow-y-auto md:w-[13vw] w-[25vw] overflow-hidden border-r-2 p-2 border-r-green-300 dark:border-r-dark-green bg-gray-50 dark:bg-dark-gray z-10 flex flex-col items-center">
       <button
         onClick={() => setIsAddChatModalOpen(true)}
         title="Add Chat"

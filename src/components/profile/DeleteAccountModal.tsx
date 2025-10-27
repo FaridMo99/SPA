@@ -31,19 +31,20 @@ function DeleteAccountModal({ username, setDeleteIsOpen }: DeleteAccountModal) {
 
   return (
     <ModalWrapper setIsOpen={setDeleteIsOpen}>
-      <div className="w-1/2 relative h-[20vh] md:w-[30vw] dark:bg-dark-gray bg-white rounded-2xl outline-1 outline-gray-200 shadow-md shadow-black/20 z-51 flex flex-col justify-evenly items-center">
+      <div className="w-1/2 relative h-[20vh] pt-2 md:w-[30vw] dark:bg-dark-gray bg-white rounded-2xl outline-1 outline-gray-200 shadow-md shadow-black/20 z-51 flex flex-col justify-evenly items-center">
         <CloseModalButton
           clickHandler={() => setDeleteIsOpen(false)}
           ariaLable="Close Delete Dialog"
         />
         <p>Are you sure you want to delete your Account?</p>
-        <div className="flex justify-between items-center w-1/4">
+        <div className="flex justify-center items-center w-full">
           <Button
             disabled={isPending}
             text="No"
             clickHandler={() => setDeleteIsOpen(false)}
           />
           <Button
+            styles="ml-2"
             disabled={isPending}
             text={isPending ? <CustomLoader /> : "Yes"}
             clickHandler={() => mutate()}

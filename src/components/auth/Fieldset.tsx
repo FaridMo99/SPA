@@ -22,7 +22,7 @@ function Fieldset<T extends FieldValues>({
   register,
   errors,
 }: FieldsetProps<T>) {
-  const fieldsetStyles = "flex flex-col w-[180px]";
+  const fieldsetStyles = "flex flex-col w-2/3 md:w-1/3";
 
   return (
     <fieldset className={fieldsetStyles}>

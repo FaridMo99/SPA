@@ -15,7 +15,7 @@ function ImagePreview({
   preview,
 }: ImagePreviewProps) {
   return (
-    <div className="my-2 w-full flex justify-center relative">
+    <div className="my-2 w-full h-2/3 flex justify-center relative">
       <CloseModalButton
         ariaLable="remove image"
         clickHandler={() => {
@@ -24,11 +24,7 @@ function ImagePreview({
           if (fileRef.current) fileRef.current.value = "";
         }}
       />
-      <img
-        src={preview}
-        alt="Preview"
-        className="max-h-40 w-auto object-contain rounded-lg"
-      />
+      <img src={preview} alt="Preview" className="rounded-lg" />
     </div>
   );
 }

@@ -59,7 +59,7 @@ function MainLayout() {
         setAsideOpen={setAsideOpen}
       />
       <main
-        className={`${asideOpen ? "w-[80vw] ml-[20vw]" : "w-[90vw] ml-[10vw]"} mt-[15vh]`}
+        className={`${asideOpen ? "w-[75vw] md:w-[85vw] ml-[25vw] md:ml-[15vw]" : "md:w-[90vw] w-[85vw] md:ml-[10vw] ml-[15vw]"} mt-[15vh]`}
       >
         <Outlet />
       </main>

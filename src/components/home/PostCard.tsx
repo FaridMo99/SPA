@@ -88,24 +88,33 @@ function PostCard({ postData, editable = false }: PostCardProps) {
   return (
     <section
       aria-label={`Post from ${postData.user.username}`}
-      className="w-4/5 relative bg-gray-50 dark:bg-dark-gray dark:outline-dark-green outline-2 outline-gray-300 mb-8 rounded-2xl flex flex-col items-center font-bold"
+      className="w-4/5 relative p-2 bg-gray-50 dark:bg-dark-gray dark:outline-dark-green outline-2 outline-gray-300 mb-8 rounded-2xl flex flex-col items-center font-bold"
     >
       <div className="w-full h-1/4 flex items-center justify-between">
         <div className="w-1/2 flex items-center h-full">
-          <UserImage img={postData.user.profilePicture} />
+          <UserImage
+            styles="flex-shrink-0 w-10 h-10 md:w-16 md:h-16"
+            img={postData.user.profilePicture}
+          />
           <Link
-            className="hover:text-black/60 absolute left-20"
+            className="hover:text-black/60 ml-2  min-w-0"
             to={`/${postData.user.username}`}
           >
-            <h1>@{postData.user.username}</h1>
+            <h1 className="w-full overflow-hidden text-ellipsis whitespace-nowrap">
+              @{postData.user.username}
+            </h1>
           </Link>
         </div>
         <p className="text-gray-300 mr-2">{passedTime(postData.createdAt)}</p>
       </div>
       {postData.type === "IMAGE" ? (
-        <img crossOrigin="use-credentials" src={postData.content} />
+        <img
+          className="p-4"
+          crossOrigin="use-credentials"
+          src={postData.content}
+        />
       ) : (
-        <p className="h-1/2 w-4/5">{postData.content}</p>
+        <p className="h-1/2 w-4/5 break-all">{postData.content}</p>
       )}
       <div className="h-1/4 w-full flex items-center justify-evenly">
         <PostCardIcons

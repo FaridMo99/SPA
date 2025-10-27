@@ -89,11 +89,11 @@ function CreatePostField() {
   return (
     <section
       aria-label="Create Post"
-      className="w-full min-h-[20vh] bg-white dark:bg-dark-gray"
+      className="w-full h-[20vh] bg-white dark:bg-dark-gray flex justify-center items-center"
     >
       <form
         onSubmit={submitHandler}
-        className="w-full h-full flex flex-col justify-center in-checked:"
+        className="w-full h-full flex flex-col justify-center"
       >
         {!preview && (
           <textarea
@@ -104,7 +104,7 @@ function CreatePostField() {
             }}
             rows={5}
             placeholder={fileInput ? "" : "Tell us..."}
-            className="bg-white w-full font-bold resize-none  dark:bg-dark-gray"
+            className="bg-white w-full font-bold resize-none h-2/3  dark:bg-dark-gray"
           />
         )}
         <input

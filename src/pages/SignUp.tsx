@@ -95,7 +95,7 @@ function SignUp() {
       />
       <Link
         to="/login"
-        className="text-green-300 underline dark:text-dark-green"
+        className="text-green-300 underline dark:text-dark-green text-center"
       >
         Already have a Account? Log in.
       </Link>

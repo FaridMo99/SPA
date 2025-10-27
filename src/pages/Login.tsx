@@ -67,13 +67,13 @@ function Login() {
       <div className="flex flex-col justify-evenly items-center h-1/5">
         <Link
           to="/forgot-password"
-          className="text-green-300 dark:text-dark-green underline"
+          className="text-green-300 dark:text-dark-green underline text-center"
         >
           Forgot Password?
         </Link>
         <Link
           to="/signup"
-          className="text-green-300 dark:text-dark-green underline"
+          className="text-green-300 dark:text-dark-green underline text-center"
         >
           Don’t have a account? Sign up.
         </Link>

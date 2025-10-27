@@ -52,14 +52,14 @@ function AddChatModal({ setIsOpen }: AddChatModalProps) {
 
   return (
     <ModalWrapper setIsOpen={setIsOpen}>
-      <section className="w-1/2 relative min-h-[20vh] max-h-[80vh] md:w-[30vw] dark:bg-dark-gray bg-white rounded-2xl outline-1 outline-gray-200 shadow-md shadow-black/20 z-51 overflow-clip flex flex-col items-center">
+      <section className="w-1/2 relative max-h-[80vh] md:w-[30vw] dark:bg-dark-gray bg-white rounded-2xl outline-1 outline-gray-200 shadow-md shadow-black/20 z-51 overflow-clip flex flex-col justify-between items-center">
         <input
           onChange={(e) => setSearch(e.target.value)}
           type="text"
           className="dark:bg-neutral-900 focus:outline-green-400 dark:focus:outline-dark-green bg-neutral-500 rounded-lg placeholder:pl-2 w-2/3 md:w-1/2 md:h-8 mt-6 mb-10"
           placeholder="search..."
         />
-        <ul className="w-full flex flex-col items-center justify-evenly overflow-scroll">
+        <ul className="w-full flex flex-col items-center justify-evenly overflow-scroll mb-2">
           {isLoading && <CustomLoader size={40} />}
           {isError && <ErrorText text="Something went wrong..." />}
           {!isLoading && !isError && users?.length === 0 && (
@@ -72,7 +72,7 @@ function AddChatModal({ setIsOpen }: AddChatModalProps) {
             users?.map((user) => (
               <li
                 key={user.username}
-                className="w-full flex justify-between items-center px-10 py-5 hover:bg-gray-500"
+                className="w-full flex justify-around items-center py-2 hover:bg-gray-500"
               >
                 <UserImage
                   styles="w-8 h-8 md:w-10 md:h-10"

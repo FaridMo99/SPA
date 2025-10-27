@@ -61,7 +61,7 @@ function MessageField({
           </p>
         )}
 
-        <p>
+        <p className="max-w-20 md:max-w-40 break-all">
           {(() => {
             if (!content)
               return <i className="text-gray-400">User deleted this message</i>;

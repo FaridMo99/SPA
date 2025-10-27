@@ -84,7 +84,7 @@ function EditModalContent({ setIsOpen, user }: EditModalContentProps) {
     <form
       noValidate
       onSubmit={handleSubmit(submitHandler)}
-      className="w-1/2 relative h-[68vh] md:w-[38vw] dark:bg-dark-gray bg-white rounded-2xl outline-1 outline-gray-200 shadow-md shadow-black/20 z-51 flex flex-col justify-evenly items-center"
+      className="w-1/2 relative md:h-[68vh] h-[55vh] py-6 md:w-[38vw] dark:bg-dark-gray bg-white rounded-2xl outline-1 outline-gray-200 shadow-md shadow-black/20 z-51 flex flex-col justify-evenly items-center"
     >
       <CloseModalButton
         clickHandler={() => setIsOpen(false)}
@@ -99,7 +99,7 @@ function EditModalContent({ setIsOpen, user }: EditModalContentProps) {
       {errors.username && (
         <p className="text-red-500 text-center">{errors.username.message}</p>
       )}
-      <fieldset className="flex flex-col w-[180px]">
+      <fieldset className="flex flex-col w-2/3 md:w-1/3">
         <Label text="Profile Picture:" id="profilePicture" />
         <div
           onClick={() => fileRef.current?.click()}
@@ -125,13 +125,13 @@ function EditModalContent({ setIsOpen, user }: EditModalContentProps) {
           {errors.profilePicture.message}
         </p>
       )}
-      <fieldset className="flex flex-col w-[180px]">
+      <fieldset className="flex flex-col w-2/3 md:w-1/3">
         <Label id="bio" text="Bio:" />
         <textarea
           {...register("bio")}
           rows={4}
           id="bio"
-          className="border-2 border-gray-300 rounded-lg outline-0 focus:shadow-md pl-1"
+          className="border-2 border-gray-300 w-full rounded-lg outline-0 focus:shadow-md pl-1"
         />
       </fieldset>
       {errors.bio && (

@@ -3,7 +3,6 @@ import type { User } from "../types/types";
 
 export const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-
 type AuthState = {
   user: User | null;
   authenticated: boolean;
