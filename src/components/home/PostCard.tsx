@@ -109,6 +109,7 @@ function PostCard({ postData, editable = false }: PostCardProps) {
       </div>
       {postData.type === "IMAGE" ? (
         <img
+          alt={`${postData.content} from ${postData.user.username}`}
           className="p-4"
           crossOrigin="use-credentials"
           src={postData.content}
@@ -142,7 +143,7 @@ function PostCard({ postData, editable = false }: PostCardProps) {
       {editable && (
         <Button
           clickHandler={deletePostFn}
-          aria-label="Delete Post"
+          ariaLabel="Delete Post"
           disabled={deletePostIsPending}
           styles="absolute -bottom-4 -right-3"
           text={<Trash2 className="text-red-500" />}

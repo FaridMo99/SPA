@@ -24,22 +24,24 @@ function MessagesContainer({
 
   //profile picture for whatever reason type only string instead of string/null,check in backend why exactly
   return (
-    <ul className="w-full h-full overflow-scroll flex flex-col items-center mb-10">
-      {messages.map((message) => (
-        <MessageField
-          type={message.type}
-          key={message.createdAt.toString()}
-          profilePicture={message.sender.profilePicture}
-          messageId={message.id}
-          chatId={chatId}
-          content={message.content}
-          createdAt={message.createdAt}
-          username={message.sender.username}
-          isOwn={message.sender.username === username ? true : false}
-        />
-      ))}
+    <div className="w-full h-full overflow-scroll flex flex-col items-center mb-10">
+      <ul className="w-full h-full ">
+        {messages.map((message) => (
+          <MessageField
+            type={message.type}
+            key={message.createdAt.toString()}
+            profilePicture={message.sender.profilePicture}
+            messageId={message.id}
+            chatId={chatId}
+            content={message.content}
+            createdAt={message.createdAt}
+            username={message.sender.username}
+            isOwn={message.sender.username === username ? true : false}
+          />
+        ))}
+      </ul>
       <div ref={viewEndRef} />
-    </ul>
+    </div>
   );
 }
 

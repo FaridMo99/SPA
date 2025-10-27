@@ -16,6 +16,7 @@ function ImageSectionButtonSection({
   return (
     <div>
       <Button
+        ariaLabel="toggle theme"
         styles="absolute top-2 right-2 md:px-8"
         clickHandler={() => {
           setTheme((pre) => (pre === "dark" ? "light" : "dark"));
@@ -29,11 +30,13 @@ function ImageSectionButtonSection({
         }
       />
       <Button
+        ariaLabel="edit account"
         styles="absolute top-15 right-2 md:px-8"
         text={<Settings />}
         clickHandler={() => setIsOpen(true)}
       />
       <Button
+        ariaLabel="delete account"
         clickHandler={() => setDeleteIsOpen(true)}
         styles="text-red-500 absolute top-28 right-2 md:px-8"
         text={<Trash2 />}

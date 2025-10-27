@@ -61,6 +61,7 @@ function Searchbar() {
       />
       <button
         type="submit"
+        aria-label="search users"
         className={`h-1/2 bg-gray-600 rounded-r-lg px-3 flex items-center justify-center z-500 disabled:opacity-60 ${debouncedSearch.length > 0 && isFocused ? " rounded-b-none" : ""}`}
         disabled={!data || data.length === 0}
       >

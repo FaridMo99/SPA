@@ -99,6 +99,7 @@ function CommentCard({ comment }: { comment: Comment }) {
           )}
           {comment.user.username === user?.username && (
             <Button
+              ariaLabel="delete comment"
               disabled={deletePending}
               clickHandler={deleteCommentMutate}
               styles="z-4"
