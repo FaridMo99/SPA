@@ -15,7 +15,6 @@ function UserImage({
       {img ? (
         <img
           src={img}
-          crossOrigin="use-credentials"
           alt="User Avatar"
           className="w-16 h-16 md:w-20 md:h-20 object-cover"
         />

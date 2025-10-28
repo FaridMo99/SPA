@@ -111,7 +111,6 @@ function PostCard({ postData, editable = false }: PostCardProps) {
         <img
           alt={`${postData.content} from ${postData.user.username}`}
           className="p-4"
-          crossOrigin="use-credentials"
           src={postData.content}
         />
       ) : (

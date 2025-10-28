@@ -25,7 +25,7 @@ function PostCommentCard({ post }: { post: Post }) {
         <p className="text-gray-300 mr-2">{passedTime(post.createdAt)}</p>
       </div>
       {post.type === "IMAGE" ? (
-        <img crossOrigin="use-credentials" alt={post.content} className="p-4" src={post.content} />
+        <img alt={post.content} className="p-4" src={post.content} />
       ) : (
         <p className="h-1/2 w-4/5 break-all">{post.content}</p>
       )}
