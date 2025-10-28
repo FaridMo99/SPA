@@ -37,15 +37,16 @@ function ChatPreview({
   const { mutate, isPending } = useMutation({
     mutationFn: () => deleteChat(chatId),
     mutationKey: ["delete chat", chatId],
-    onSuccess: () => {
+    onSuccess: (chat) => {
+      console.log(chat)
       queryClient.invalidateQueries({ queryKey: ["get all chats"] });
       navigate("/messages");
       toast.success("Deleted Chat successfully!");
       setDeleteOpen(false);
       console.log("success");
     },
-    onError: () => {
-      toast.error("Something went wrong...");
+    onError: (err) => {
+      toast.error(err.message);
     },
   });
 

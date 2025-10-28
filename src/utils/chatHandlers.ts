@@ -60,7 +60,7 @@ export async function deleteMessage(
   return await res.json();
 }
 
-export async function deleteChat(chatId: string) {
+export async function deleteChat(chatId: string):Promise<{id:string}> {
   const res = await fetch(`${backendUrl}/chats/${chatId}`, {
     method: "DELETE",
     credentials: "include",
@@ -68,8 +68,11 @@ export async function deleteChat(chatId: string) {
 
   if (!res.ok) {
     const err = await res.json();
+    console.log(err)
     throw new Error(err.message);
   }
+
+  return await res.json()
 }
 
 export async function getAllUserChats(): Promise<ChatList> {

@@ -33,7 +33,6 @@ type SocketState = {
   sendMessage: (input: MessageInput) => void;
   deleteMessage: (chatId: string, messageId: string) => void;
   joinChat: (chatId: string) => void;
-  leaveChat: (chatId: string) => void;
 };
 
 interface BrowserOpts extends SocketIOClient.ConnectOpts {
@@ -72,7 +71,7 @@ const useSocket = create<SocketState>((set, get) => ({
     });
 
     //auto joining new chat from other user
-    newSocket.on("newChat", (chatId: string) => {
+    newSocket.on("joinChat", (chatId: string) => {
       const { joinChat } = get();
       joinChat(chatId);
     });
@@ -134,15 +133,7 @@ const useSocket = create<SocketState>((set, get) => ({
       return;
     }
     socket.emit("deleteMessage", { chatId, messageId });
-  },
-  //for deleting chat
-  leaveChat: (chatId: string) => {
-    const { socket, isConnected } = get();
-    if (!isConnected || !socket) {
-      return;
-    }
-    socket.emit("leaveChat", chatId);
-  },
+  }
 }));
 
 export default useSocket;
