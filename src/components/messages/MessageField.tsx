@@ -1,11 +1,10 @@
 import UserImage from "../ui/UserImage";
 import passedTime from "../../utils/passedTime";
-import type { Avatar } from "../main/Header";
 import { Trash2 } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 import useSocket from "../../stores/socketStore";
 import { useEffect } from "react";
-import type { ContentType } from "../../types/types";
+import type { Avatar, ContentType } from "../../types/types";
 
 type MessageFieldProps = {
   profilePicture: Avatar;

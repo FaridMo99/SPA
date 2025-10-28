@@ -1,5 +1,5 @@
 import { User } from "lucide-react";
-import type { Avatar } from "../main/Header";
+import type { Avatar } from "../../types/types";
 
 function UserImage({
   img,

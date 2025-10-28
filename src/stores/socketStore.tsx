@@ -109,10 +109,10 @@ const useSocket = create<SocketState>((set, get) => ({
       msg,
       (serverResponse: { status: "successful" | "failed" }) => {
         if (serverResponse.status === "successful") {
-          set({ messageSentSuccessful: true });
-          setTimeout(() => {
-            set({ messageSentSuccessful: null });
-          }, 100);
+          //false doesnt really make sense but i need to toggle for reactive updates
+          set((state) => ({
+            messageSentSuccessful: !state.messageSentSuccessful,
+          }));
         } else {
           set({ messageSentSuccessful: false });
         }
@@ -146,3 +146,4 @@ const useSocket = create<SocketState>((set, get) => ({
 }));
 
 export default useSocket;
+

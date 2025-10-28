@@ -6,6 +6,8 @@ import type {
   forgotPasswordSchema,
 } from "../schemas/schemas";
 
+export type Avatar = string | null;
+
 export type ContentType = "GIF" | "TEXT";
 
 export type User = {
@@ -21,7 +23,7 @@ export type User = {
 export type Post = {
   user: {
     username: string;
-    profilePicture: string | null;
+    profilePicture: Avatar
   };
   id: string;
   createdAt: Date;
@@ -41,7 +43,7 @@ export type Comment = {
   id: string;
   user: {
     username: string;
-    profilePicture: string | null;
+    profilePicture: Avatar
   };
   createdAt: Date;
   content: string;
@@ -59,7 +61,7 @@ export type FollowerList = {
   followers: {
     follower: {
       username: string;
-      profilePicture: string | null;
+      profilePicture: Avatar
     };
   }[];
 };
@@ -68,12 +70,11 @@ export type FollowingList = {
   following: {
     following: {
       username: string;
-      profilePicture: string | null;
+      profilePicture: Avatar
     };
   }[];
 };
 
-//make this also for other schemas
 export type ForgotPasswordSchema = z.infer<typeof forgotPasswordSchema>;
 
 export type ChangePasswordSchema = z.infer<typeof changePasswordSchema>;
@@ -145,3 +146,11 @@ export type Message =
         profilePicture: string;
       };
     };
+
+
+
+export type Chat = {
+  id: string;
+  messages: Message[] | [];
+  alreadyExists?: boolean;
+};

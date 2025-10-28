@@ -9,14 +9,14 @@ import ErrorText from "../components/ui/ErrorText.tsx";
 import NotFound from "../components/ui/NotFound.tsx";
 import CreateMessage from "../components/messages/CreateMessage.tsx";
 
-//add pagination/infinite scroll
+
 function Messages() {
-  const location = useLocation();
   const { chatId } = useParams();
+  const location = useLocation();
   const queryClient = useQueryClient();
 
-  const { messagesReceived, messageSentSuccessful } = useSocket(
-    (state) => state,
+  const { messagesReceived, messageSentSuccessful, messageDeleted } = useSocket(
+    (state) => state
   );
 
   const {
@@ -24,16 +24,30 @@ function Messages() {
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ["get chat", chatId, messagesReceived, messageSentSuccessful],
+    queryKey: ["get chat", chatId],
     queryFn: () => getSingleChatMessagesByChatId(chatId ?? ""),
   });
 
   useEffect(() => {
-    queryClient.invalidateQueries({ queryKey: ["get all chats"] });
+    if (messagesReceived || messageSentSuccessful) {
+      queryClient.invalidateQueries({
+        queryKey: ["get chat", chatId],
+      });
+    }
+    queryClient.invalidateQueries({
+      queryKey: ["get all chats", messagesReceived, messageDeleted],
+    });
     queryClient.invalidateQueries({
       queryKey: ["get unread message count", messagesReceived],
     });
-  }, [messageSentSuccessful, messagesReceived, queryClient, location]);
+  }, [
+    messagesReceived,
+    messageSentSuccessful,
+    messageDeleted,
+    chatId,
+    queryClient,
+    location
+  ]);
 
   return (
     <section className="w-full h-full">

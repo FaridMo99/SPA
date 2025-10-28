@@ -38,7 +38,6 @@ function MainLayout() {
         latestMessage.sender.username !== user.username &&
         !latestMessage.read
       ) {
-        console.log(latestMessage);
         toast.success(
           `${latestMessage.sender.username}: ${latestMessage.type === "TEXT" ? latestMessage.content.slice(0, 20) + "..." : "GIF"}`,
         );

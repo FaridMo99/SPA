@@ -2,10 +2,10 @@ import { useState } from "react";
 import EditModal from "./EditModal";
 import FollowButton from "./FollowButton";
 import UserImage from "../ui/UserImage";
-import type { Avatar } from "../main/Header";
 import DeleteAccountModal from "./DeleteAccountModal";
 import ImageSectionButtonSection from "./ImageSectionButtonSection";
 import ImageSectionFollowCountSection from "./ImageSectionFollowCountSection";
+import type { Avatar } from "../../types/types";
 
 type ImageSectionProps = {
   username: string;

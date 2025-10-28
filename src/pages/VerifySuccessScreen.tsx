@@ -5,8 +5,6 @@ import { verifyUser } from "../utils/signup";
 import CustomLoader from "../components/ui/CustomLoader";
 import toast from "react-hot-toast";
 
-//make it so if user exists in db but just verifed false, he can request new email
-//add delete user after 24 hours logic
 function VerifySuccessScreen() {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");

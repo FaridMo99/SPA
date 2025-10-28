@@ -1,21 +1,9 @@
 import { backendUrl } from "../stores/authStore";
-import type { ChatList, Message } from "../types/types";
+import type { ChatList, Chat } from "../types/types";
 
-//change this later this just provisiorically
-export type Chat = {
-  id: string;
-  createdAt: Date;
-  userOneId: string;
-  userTwoId: string;
-  deletedByUserOne: boolean;
-  deletedAtUserOne: Date;
-  deletedByUserTwo: boolean;
-  deletedAtUserTwo: Date;
-  messages: Message[] | [];
-  alreadyExists?: boolean;
-};
 
-export async function createChat(userTwoUsername: string): Promise<Chat> {
+
+export async function createChat(userTwoUsername: string): Promise<Omit<Chat, "messages">> {
   const res = await fetch(`${backendUrl}/chats`, {
     method: "POST",
     credentials: "include",
@@ -30,7 +18,7 @@ export async function createChat(userTwoUsername: string): Promise<Chat> {
   return await res.json();
 }
 
-//should also be able to send gifs but no images
+
 //not needed i think since websockets send message not http
 /*export async function sendMessage(
   message: string,

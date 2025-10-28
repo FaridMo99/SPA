@@ -1,5 +1,4 @@
 import UserImage from "../ui/UserImage";
-import type { Avatar } from "../main/Header";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteChat } from "../../utils/chatHandlers";
@@ -10,6 +9,7 @@ import Button from "../auth/Button";
 import CustomLoader from "../ui/CustomLoader";
 import toast from "react-hot-toast";
 import { ImageIcon } from "lucide-react";
+import type { Avatar } from "../../types/types";
 
 type ChatPreviewTypes = {
   profilePicture: Avatar;

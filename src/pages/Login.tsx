@@ -10,12 +10,6 @@ import toast from "react-hot-toast";
 import CustomLoader from "../components/ui/CustomLoader";
 import AuthForm from "../components/auth/AuthForm";
 
-//add ci/cd
-//fix ui issues
-//clean up code
-//add testing(unit,component,integration)
-//look if every time you use .map you also gave a key
-
 function Login() {
   const navigate = useNavigate();
 

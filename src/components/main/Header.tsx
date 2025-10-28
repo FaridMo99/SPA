@@ -1,10 +1,11 @@
+import type { Avatar } from "../../types/types";
 import UserImage from "../ui/UserImage";
 import Searchbar from "./Searchbar";
 import { Link } from "react-router-dom";
 
-export type Avatar = string | null;
 
-function Header({ avatar }: { avatar: Avatar }) {
+
+function Header({ avatar }: { avatar: Avatar}) {
   return (
     <header className="w-full h-[15vh] border-green-300 dark:border-dark-green border-b-2 flex items-center justify-between fixed top-0 right-0 bg-gray-50 dark:bg-dark-gray z-498">
       <div className="w-full h-full flex items-center">
