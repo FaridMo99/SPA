@@ -52,6 +52,13 @@ function EditModalContent({ setIsOpen, user }: EditModalContentProps) {
   const { errors, isDirty } = formState;
 
   function submitHandler(formData: EditFields) {
+  (Object.keys(formData) as Array<keyof EditFields>).forEach((key) => {
+    const value = formData[key];
+
+    if (typeof value === "string" && key !== "profilePicture") {
+      formData[key] = value.trim()
+    }
+  });
     if (fileInput) {
       formData.profilePicture = fileInput;
     }

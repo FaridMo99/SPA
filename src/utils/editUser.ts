@@ -11,10 +11,7 @@ export type ChangePasswordArgs = {
   userId: string;
 };
 
-export default async function editUser(
-  username: string,
-  fieldsToEdit: EditFields,
-): Promise<User> {
+export default async function editUser(username: string, fieldsToEdit: EditFields): Promise<User> {
   let body: BodyInit;
   const headers: HeadersInit = {};
 

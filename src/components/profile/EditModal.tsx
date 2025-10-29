@@ -38,8 +38,8 @@ function EditModal({
   return (
     <ModalWrapper setIsOpen={setIsOpen}>
       {isLoading && <CustomLoader size={100} />}
-      {(isError || !user) && (
-        <div className="w-full h-full justify-center items-center">
+      {isError && (
+        <div className="w-full h-full flex justify-center items-center">
           <ErrorText text={error?.message || "Something went wrong..."} />
         </div>
       )}

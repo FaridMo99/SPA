@@ -33,6 +33,11 @@ function SignUp() {
   });
 
   function submitHandler(formData: SignupFormData) {
+
+    (Object.keys(formData)as Array<keyof SignupFormData>).forEach(key => {
+          formData[key].trim()
+    })
+
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { confirmPassword, ...submitData } = formData;
     mutate(submitData);
