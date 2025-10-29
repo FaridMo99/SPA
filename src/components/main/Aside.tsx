@@ -43,11 +43,11 @@ function Aside({ paths, asideOpen, setAsideOpen }: AsideProps) {
     mutationKey: ["logout", user?.username],
     mutationFn: logout,
     onSuccess: () => {
+      navigate("/login");
       toast.success("Logout successful!");
       sessionStorage.removeItem("search");
-      sessionStorage.removeItem("aside");
+      localStorage.removeItem("aside");
       clearUser();
-      navigate("/login");
     },
     onError: () => {
       toast.error("Something went wrong");
@@ -57,7 +57,7 @@ function Aside({ paths, asideOpen, setAsideOpen }: AsideProps) {
   function clickHandler() {
     setAsideOpen((pre) => {
       const newVal = !pre;
-      sessionStorage.setItem("aside", JSON.stringify(newVal));
+      localStorage.setItem("aside", JSON.stringify(newVal));
       return newVal;
     });
   }
