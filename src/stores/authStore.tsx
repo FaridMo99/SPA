@@ -2,8 +2,6 @@ import { create } from "zustand";
 import type { User } from "../types/types";
 
 export const backendUrl = import.meta.env.VITE_BACKEND_URL;
-export const externalBackendUrl = import.meta.env.VITE_BACKEND_EXTERNAL_URL;
-export const ENV = import.meta.env.VITE_ENV;
 
 type AuthState = {
   user: User | null;

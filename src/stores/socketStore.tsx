@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import io, { Socket } from "socket.io-client";
-import { backendUrl, ENV, externalBackendUrl } from "./authStore";
+import { backendUrl } from "./authStore";
 
 type MessageInput = {
   message: string;
@@ -50,10 +50,9 @@ const useSocket = create<SocketState>((set, get) => ({
   connect: () => {
     if (get().socket) return;
 
-    const newSocket = io(ENV !== "dev" ? externalBackendUrl : backendUrl, {
+    const newSocket = io(backendUrl, {
       withCredentials: true,
       reconnection: true,
-      transports: ["websocket"],
     } as BrowserOpts);
 
     set({ socket: newSocket });
