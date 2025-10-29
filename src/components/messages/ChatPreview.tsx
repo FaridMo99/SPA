@@ -129,6 +129,7 @@ function ChatPreview({
       </NavLink>
       {!isDeleteOpen && (
         <button
+          tabIndex={0}
           aria-label="open delete"
           type="button"
           className="absolute top-0 w-6 h-4 flex justify-center items-center right-2 font-bold text-neutral-500 hover:text-neutral-700 z-100"

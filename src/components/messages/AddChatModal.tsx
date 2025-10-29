@@ -82,6 +82,7 @@ function AddChatModal({ setIsOpen }: AddChatModalProps) {
                   {user.username}
                 </Link>
                 <button
+                  tabIndex={0}
                   onClick={() => mutate(user.username)}
                   className="dark:bg-neutral-700 bg-neutral-400 rounded-full p-2 hover:brightness-110 cursor-pointer"
                 >

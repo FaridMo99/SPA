@@ -39,6 +39,7 @@ function Aside({ paths, asideOpen, setAsideOpen }: AsideProps) {
     queryFn: getAllUnreadMessagesCount,
   });
 
+  //onsuccess navigate, clear user
   const { isPending, mutate, isSuccess } = useMutation({
     mutationKey: ["logout", user?.username],
     mutationFn: logout,
@@ -71,6 +72,7 @@ function Aside({ paths, asideOpen, setAsideOpen }: AsideProps) {
         className="w-full h-full flex flex-col relative justify-evenly items-center font-bold"
       >
         <button
+          tabIndex={0}
           aria-label={asideOpen ? "Collapse sidebar" : "Expand sidebar"}
           onClick={clickHandler}
           className="absolute top-6 hover:bg-gray-300 p-2 rounded-2xl text-green-300 dark:text-dark-green dark:hover:bg-gray-600 hover:cursor-pointer"
@@ -99,6 +101,7 @@ function Aside({ paths, asideOpen, setAsideOpen }: AsideProps) {
           </NavLink>
         ))}
         <button
+          tabIndex={0}
           type="button"
           aria-label="log out"
           disabled={isPending || isSuccess}

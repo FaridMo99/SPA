@@ -130,6 +130,12 @@ function GifModal({ setOpen }: GifModalProps) {
         <div className="p-2 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
           {gifs.map((gif, index) => (
             <img
+              onKeyDown={e => {
+                if (e.key === "Enter") {
+                  submitGifHandler(gif.url)
+                }
+              }}
+              tabIndex={0}
               onClick={() => submitGifHandler(gif.url)}
               key={index}
               src={gif.url}

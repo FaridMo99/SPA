@@ -43,6 +43,7 @@ function FollowButton({ name }: { name: string }) {
 
   return (
     <button
+      tabIndex={0}
       type="button"
       disabled={isPending}
       className="rounded px-2 py-1 bg-green-300 dark:bg-dark-green text-white font-bold absolute right-2 disabled:opacity-60"

@@ -79,6 +79,7 @@ function CommentCard({ comment }: { comment: Comment }) {
         <div className="flex w-full justify-end items-center">
           {comment.likedBy.length > 0 ? (
             <button
+              tabIndex={0}
               aria-label="dislike comment"
               onClick={() => likeCommentMutate()}
               className={thumbStyles}
@@ -87,7 +88,8 @@ function CommentCard({ comment }: { comment: Comment }) {
               <p>{comment._count.likedBy}</p>
             </button>
           ) : (
-            <button
+              <button
+                tabIndex={0}
               disabled={likePending}
               aria-label="like comment"
               onClick={() => likeCommentMutate()}

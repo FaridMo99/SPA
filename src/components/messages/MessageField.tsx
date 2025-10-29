@@ -88,6 +88,7 @@ function MessageField({
       {isOwn && <UserImage img={profilePicture} styles="w-10 h-10" />}
       {content && isOwn && (
         <button
+          tabIndex={0}
           type="button"
           className="absolute -top-2 right-0 disabled:text-neutral-500"
           aria-label="delete message"

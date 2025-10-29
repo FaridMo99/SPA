@@ -4,21 +4,24 @@ import Header from "../components/main/Header";
 import Aside from "../components/main/Aside";
 import { House, MessagesSquare, UserRound } from "lucide-react";
 import useAuth from "../stores/authStore";
-import type { User } from "../types/types";
 import useSocket from "../stores/socketStore";
 import toast from "react-hot-toast";
 
+
+
 function MainLayout() {
+
   const [asideOpen, setAsideOpen] = useState<boolean>(() => {
     const stored = sessionStorage.getItem("aside");
     return stored !== null ? JSON.parse(stored) : true;
   });
 
-  const user = useAuth((state) => state.user) as User;
+  const user = useAuth(state => state.user);
   const { connect, disconnect, isConnected, messagesReceived } = useSocket();
-
+  
   //useeffect for connecting to websockets
   useEffect(() => {
+
     if (!isConnected) {
       connect();
     }
@@ -28,22 +31,26 @@ function MainLayout() {
         disconnect();
       }
     };
-  }, [isConnected, connect, disconnect]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
 
   //useeffect for toast notification for real time messages
   useEffect(() => {
+    
     if (messagesReceived.length > 0) {
+
       const latestMessage = messagesReceived[messagesReceived.length - 1];
-      if (
-        latestMessage.sender.username !== user.username &&
-        !latestMessage.read
-      ) {
-        toast.success(
-          `${latestMessage.sender.username}: ${latestMessage.type === "TEXT" ? latestMessage.content.slice(0, 20) + "..." : "GIF"}`,
-        );
+
+      if (latestMessage.sender.username !== user?.username && !latestMessage.read) {
+        toast.success(`${latestMessage.sender.username}: ${latestMessage.type === "TEXT" ? latestMessage.content.slice(0, 20) + "..." : "GIF"}`);
       }
     }
-  }, [messagesReceived, user.username]);
+  }, [messagesReceived, user?.username]);
+
+
+  if (!user) return null
+  
 
   return (
     <>

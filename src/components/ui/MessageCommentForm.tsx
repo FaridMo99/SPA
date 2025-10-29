@@ -45,6 +45,7 @@ function MessageCommentForm({
           onChange={(e) => setValue(e.target.value)}
         />
         <button
+          tabIndex={0}
           className={buttonStyles}
           onClick={() => setIsGifSelectionOpen(true)}
           type="button"
@@ -54,6 +55,7 @@ function MessageCommentForm({
           {isPending ? <CustomLoader /> : <ImagePlus />}
         </button>
         <button
+          tabIndex={0}
           className={buttonStyles}
           type="submit"
           disabled={value.trim().length === 0 || isPending}
