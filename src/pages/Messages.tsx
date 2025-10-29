@@ -1,14 +1,13 @@
 import { useLocation, useParams } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { getSingleChatMessagesByChatId } from "../utils/chatHandlers";
+import { getSingleChatMessagesByChatId } from "../utils/chatHandlers.ts";
 import MessagesContainer from "../components/messages/MessagesContainer.tsx";
 import useSocket from "../stores/socketStore.tsx";
 import CustomLoader from "../components/ui/CustomLoader.tsx";
 import ErrorText from "../components/ui/ErrorText.tsx";
 import NotFound from "../components/ui/NotFound.tsx";
 import CreateMessage from "../components/messages/CreateMessage.tsx";
-
 
 function Messages() {
   const { chatId } = useParams();

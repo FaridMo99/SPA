@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import ModalWrapper from "../profile/ModalWrapper";
-import CustomLoader from "../ui/CustomLoader";
-import ErrorText from "../ui/ErrorText";
-import NotFound from "../ui/NotFound";
+import CustomLoader from "./CustomLoader";
+import ErrorText from "./ErrorText";
+import NotFound from "./NotFound";
 import {
   useInfiniteQuery,
   useMutation,
@@ -130,9 +130,9 @@ function GifModal({ setOpen }: GifModalProps) {
         <div className="p-2 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
           {gifs.map((gif, index) => (
             <img
-              onKeyDown={e => {
+              onKeyDown={(e) => {
                 if (e.key === "Enter") {
-                  submitGifHandler(gif.url)
+                  submitGifHandler(gif.url);
                 }
               }}
               tabIndex={0}
